@@ -48,7 +48,6 @@ const userController = {
   },
 
   registerUser: async (req, res) => {
-    console.log("registe",req.body)
 
     try {
       const salt = await bcrypt.genSalt(10);
@@ -76,7 +75,7 @@ const userController = {
       res.status(500).json(err);
     }
   },
-
+  
   getInfoUsers: async (req,res) =>{
       try {
         const user = await User.findOne({ id: req.query.query })
@@ -88,37 +87,38 @@ const userController = {
   },
 
   loginUser: async (req, res) => {
-    console.log(req,"body")
+    console.log(req.body.username,"body")
     try {
       const user = await User.findOne({ username: req.body.username });
-   
+      console.log(user,"user")
       if (!user) {
-        res.status(404).json("Tai khoản không tồn tại");
+        let mess = {mess: "Tai khoản không tồn tại"}
+        res.status(404).json(mess);
+       
+      }else{
+        const validPassword = await bcrypt.compare(
+          req.body.password,
+          user.password
+        );
+        console.log(validPassword)
+        if (!validPassword) {
+          let mess = {mess: "Mật khẩu không chính xác"}
+          res.status(404).json(mess);
+        }
+        if (user && validPassword) {
+          let mess = "Đăng nhập thành công";
+          const accessToken = authController.generateAccessToken(user);
+          const refreshToken = authController.generateRefreshToken(user);
+          res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure:false,
+            path: "/",
+            sameSite: "strict",
+          });
+          const { password, ...others } = user._doc;
+          res.status(200).json({ ...others, accessToken, refreshToken ,mess});
+        }
       }
-      const validPassword = await bcrypt.compare(
-        req.body.password,
-        user.password
-      );
-
-      console.log(validPassword)
-      if (!validPassword) {
-        res.status(404).json("sai password");
-      }
-      if (user && validPassword) {
-        const accessToken = authController.generateAccessToken(user);
-        const refreshToken = authController.generateRefreshToken(user);
-
-        res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure:false,
-          path: "/",
-          sameSite: "strict",
-        });
-        const { password, ...others } = user._doc;
-        res.status(200).json({ ...others, accessToken, refreshToken });
-
-      }
-      
     } catch (err) {
       res.status(500).json(err);
     }

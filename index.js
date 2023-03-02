@@ -6,6 +6,7 @@ var dotenv = require("dotenv");
 dotenv.config();
 var userRoute = require("./routes/user");
 var bodyParser = require("body-parser");
+const cors = require('cors');
 app.use(bodyParser.urlencoded({
     extended: true
   }));
@@ -15,6 +16,8 @@ app.use(bodyParser.urlencoded({
 
 // app.set("view engine", "ejs");
 // app.set("views", "./views");
+
+
 
 
 mongoose.set('strictQuery', true)
