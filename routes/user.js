@@ -12,7 +12,7 @@ const {
 
 
 router.get("/all", userController.getAllUsers);
-router.get("/info",verifyToken, userController.getInfoUsers);
+router.get("/info", userController.getInfoUsers);
 router.delete("/:id", userController.deleteUser);
 router.post("/regiter", userController.registerUser)
 router.get("/loginbyzalo",userController.zaloAuth)

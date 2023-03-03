@@ -28,6 +28,7 @@ mongoose.connect((process.env.MOGODB_URL), () => {}).then( console.log("Connecte
 
 app.get("/",async function(request, response)  {
     const user = await User.find();
+    
     response.send(user)
 });
 
