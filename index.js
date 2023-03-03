@@ -12,18 +12,10 @@ app.use(bodyParser.urlencoded({
   }));
   app.use(bodyParser.json())
 
-// app.use(express.static("public"));
 
-// app.set("view engine", "ejs");
-// app.set("views", "./views");
-
-
-
-
+console.log(process.env.MOGODB_URL)
 mongoose.set('strictQuery', true)
-mongoose.connect((process.env.MOGODB_URL), () => {}).then( console.log("Connected to By vi nghiem"));
-
-// app.use(express.json());
+mongoose.connect((process.env.MOGODB_URL), () => {console.log("vlc")}).then( console.log("Connected to By vi nghiemw"));
 
 app.get("/", function(request, response)  {
     response.send("aksjdkjaskjdaslkjdlkjkh")
