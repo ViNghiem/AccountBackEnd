@@ -3,6 +3,7 @@ var express = require("express");
 var app = express();
 var mongoose = require("mongoose");
 var dotenv = require("dotenv");
+const User = require("./model/UserModel");
 dotenv.config();
 var userRoute = require("./routes/user");
 var bodyParser = require("body-parser");
@@ -21,14 +22,13 @@ app.use(bodyParser.urlencoded({
 
 
 mongoose.set('strictQuery', true)
-mongoose.connect((process.env.MOGODB_URL), () => {
-    console.log("Connected to By vi nghiem");
-});
+mongoose.connect((process.env.MOGODB_URL), () => {}).then( console.log("Connected to By vi nghiem"));
 
-app.use(express.json());
+// app.use(express.json());
 
-app.get("/", function(request, response)  {
-    response.send("aksjdkjaskjdaslkjdlkjkh")
+app.get("/",async function(request, response)  {
+    const user = await User.find();
+    response.send(user)
 });
 
 app.use("/user", userRoute);
