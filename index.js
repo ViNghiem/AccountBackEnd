@@ -3,7 +3,6 @@ var express = require("express");
 var app = express();
 var mongoose = require("mongoose");
 var dotenv = require("dotenv");
-const User = require("./model/UserModel");
 dotenv.config();
 var userRoute = require("./routes/user");
 var bodyParser = require("body-parser");
@@ -26,10 +25,8 @@ mongoose.connect((process.env.MOGODB_URL), () => {}).then( console.log("Connecte
 
 // app.use(express.json());
 
-app.get("/",async function(request, response)  {
-    const user = await User.find();
-    
-    response.send(user)
+app.get("/", function(request, response)  {
+    response.send("aksjdkjaskjdaslkjdlkjkh")
 });
 
 app.use("/user", userRoute);

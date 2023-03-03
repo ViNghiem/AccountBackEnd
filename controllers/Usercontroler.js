@@ -77,10 +77,10 @@ const userController = {
   },
   
   getInfoUsers: async (req,res) =>{
+    console.log(req.query.id,"test")
       try {
-        const user = await User.findOne({ id: req.query.query })
+        const user = await User.findOne({ _id: req.query.id })
         res.status(200).json(user);
-        
       } catch (error) {
         res.status(500).json(error);
       }
