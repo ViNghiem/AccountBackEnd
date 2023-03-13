@@ -29,14 +29,20 @@ function hexToBase64(hexstring) {
 
 const userController = {
   getAllUsers: async (req, res) => {
-   
-   
     try {
+      console.log("sadjksajkd")
       const user = await User.find();
       res.status(200).json(user);
     } catch (err) {
+      console.log("err")
       res.status(500).json(err);
     }
+  },
+
+  getTest: async(req,res) =>{
+      console.log("oke")
+      res.status(500).json("nghiemsss");
+    
   },
 
 

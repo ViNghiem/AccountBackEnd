@@ -5,22 +5,54 @@ var mongoose = require("mongoose");
 var dotenv = require("dotenv");
 dotenv.config();
 var userRoute = require("./routes/user");
+var fileRoute = require("./routes/File")
 var bodyParser = require("body-parser");
-const cors = require('cors');
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
-    extended: true
-  }));
-  app.use(bodyParser.json())
-
-
-console.log(process.env.MOGODB_URL)
+  extended: true
+}));
+const cors = require('cors');
 mongoose.set('strictQuery', true)
-mongoose.connect((process.env.MOGODB_URL), () => {console.log("vlc")}).then( console.log("Connected to By vi nghiemw"));
+
+
+
+
+var imageModel = require('./model/ImagesModel');
+
 
 app.get("/", function(request, response)  {
-    response.send("aksjdkjaskjdaslkjdlkjkh")
+  response.send("aksjdkjaskjdaslkjdlkjkh")
 });
 
-app.use("/user", userRoute);
 
-app.listen(3020);
+
+mongoose.connect(process.env.MOGODB_URL, () => {
+  
+  app.listen(3020);
+  console.log("CONNECTED TO MONGO DB");
+  app.use("/user", userRoute);
+  app.use("/files", fileRoute);
+  
+  // app.post('/uploadphoto', upload.single('picture'), (req, res) => {
+  //   console.log(req.file)
+  //   var img = fs.readFileSync(req.file.path);
+  //   var encode_image = img.toString('base64');
+    
+  //   // Define a JSONobject for the image attributes for saving to database
+  
+  //   var finalImg = {
+  //     contentType: req.file.mimetype,
+  //     image:  new Buffer.from(encode_image, 'base64')
+  //   };
+
+  //   console.log(finalImg,"finalImg")
+
+  //   res.send(finalImg.image);
+  // })
+
+
+
+});
+
+
+
