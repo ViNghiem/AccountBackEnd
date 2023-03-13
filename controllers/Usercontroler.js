@@ -88,6 +88,7 @@ const userController = {
     
       try {
         const user = await User.findOne({ _id: req.query.id })
+        console.log("user",user)
         res.status(200).json(user);
       } catch (error) {
         res.status(500).json(error);
