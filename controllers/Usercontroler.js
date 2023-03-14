@@ -30,7 +30,7 @@ function hexToBase64(hexstring) {
 const userController = {
   getAllUsers: async (req, res) => {
     try {
-      console.log("sadjksajkd")
+      console.log("test ")
       const user = await User.find();
       res.status(200).json(user);
     } catch (err) {

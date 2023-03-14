@@ -3,45 +3,62 @@ var imageModel = require('../model/ImagesModel');
 
 var path = require('path');
 var fs = require("fs");
-var multer = require("multer");
 
-const storage = multer.diskStorage({
-
-
-  destination: function (req, file, cb) {
-    cb(null, 'uploads')
-  },
-  filename: function (req, file, cb) {
-
-    let typeFlife = file.mimetype.split('/')
-    cb(null, file.fieldname + '-' + Date.now()+'.'+typeFlife[1])
-  }
-})
-var upload = multer({ storage: storage })
-
-
-
-var upload = multer({ storage: storage })
 const fileController = {
   getFile: async (req,res) =>{
-    console.log("reafasdf")
-    res.status(500).json("nghiem")
+    console.log(req)
+    // imagemodel.find({name: req.params.image_name}, {image_path: 1, _id: 0}).limit(1).exec((err, docs) => {
+    //     if (err) {
+    //         console.log(err)
+    //         return res.status(500).json({message: err.message})
+    //     }
+
+    //     if (docs.length === 0) {
+    //         return res.status(404).json({ message: 'No such image file' })
+    //     }
+
+    //     const imagePath = path.join(__dirname, docs[0].image_path)
+    //     try {
+    //         const buffer = fs.readFileSync(imagePath)
+    //         const mime = fileType(buffer).mime
+    //         res.writeHead(200, { 'Content-Type': mime })
+    //         res.end(buffer, 'binary')
+    //     } catch (error) {
+    //         console.log(error.code)
+    //         if (error.code === 'ENOENT') {
+    //             res.status(404).json({ message: 'No such image file' })
+    //         } else {
+    //             res.status(500).json({ message: error.message })
+    //         }
+    //     }
+    // })
+
+    res.status(200).json({ message: `done` })
+
   },
 
 
-  upload: (upload.single('myImage'),async (req,res)=>{
+  upload: async (req,res)=>{
     console.log(req.file)
-    var img = fs.readFileSync(req.file.path);
-    var encode_image = img.toString('base64');
-    var finalImg = {
-      contentType: req.file.mimetype,
-      image:  new Buffer.from(encode_image, 'base64')
-    };
+    const reqName = req.file.filename
+    const imagePath = path.join('uploads', req.file.filename)
 
-    console.log(finalImg,"finalImg")
+    const model = new imageModel({
+        name: reqName,
+        image_path: imagePath,
+        created_at: new Date()
+    })
+    
+    model.save((err) => {
+          if (err)  {
+              console.log(err)
+              return res.status(500).json({message: err.message})
+          }
 
-    res.send(finalImg.image);
-})
+          res.status(200).json({ message: `Uploaded image "${reqName}" successfully` })
+      })
+
+  }
 }
 
 
