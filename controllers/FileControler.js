@@ -63,11 +63,11 @@ const fileController = {
     console.log(req.query)
     const file = await imageModel.findOne({name:req.query.image_name})
     console.log(file.image_path)
-    fs.readFile(file.image_path,(err,imgData)=>{
+    fs.readFile(file.image_path,async (err,imgData)=>{
       if(err){
         res.json({messege:'file không tồn tại'})
       }
-      res.writeHead(200, { 'Content-Type': 'image/jpeg' })
+     await res.writeHead(200, { 'Content-Type': 'image/jpeg' })
       res.end(imgData)
     })
 
