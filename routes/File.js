@@ -18,6 +18,6 @@ var upload = multer({ storage: storage })
 
 router.get("/imag", fileController.getFile);
 router.post("/uploadphoto",upload.single('avartar'), fileController.upload);
-
+router.get('/anh',fileController.getImages)
 
 module.exports = router;  

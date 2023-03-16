@@ -1,6 +1,15 @@
 const router = require("express").Router();
 const userController = require("../controllers/Usercontroler");
-router.get("/all", userController.getAllUsers);
+
+const {
+  verifyToken,
+  verifyTokenAndAdmin,
+  verifyTokenAndUserAuthorization,
+} = require("../controllers/VerifyToken");
+
+  
+
+router.get("/all",verifyTokenAndAdmin, userController.getAllUsers);
 router.get("/info", userController.getInfoUsers);
 router.delete("/:id", userController.deleteUser);
 router.post("/regiter", userController.registerUser)

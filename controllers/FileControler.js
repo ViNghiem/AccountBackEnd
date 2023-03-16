@@ -54,11 +54,28 @@ const fileController = {
               console.log(err)
               return res.status(500).json({message: err.message})
           }
-
           res.status(200).json({ message: `Uploaded image "${reqName}" successfully` })
       })
 
+  },
+
+  getImages: async (req, res) => {
+    console.log(req.query)
+    const file = await imageModel.findOne({name:req.query.image_name})
+    console.log(file.image_path)
+    fs.readFile(file.image_path,(err,imgData)=>{
+      if(err){
+        res.json({messege:'file không tồn tại'})
+      }
+      res.writeHead(200, { 'Content-Type': 'image/jpeg' })
+      res.end(imgData)
+    })
+
   }
+
+
+
+
 }
 
 

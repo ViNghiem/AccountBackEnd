@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({
 const cors = require('cors');
 mongoose.set('strictQuery', true)
 
-
+app.use(express.static('uploads'))
 
 
 
@@ -31,10 +31,5 @@ mongoose.connect(
   app.use("/files", fileRoute)
 })
 .catch(e=>console.log(e));
-
-// mongoose.connect(process.env.MOGODB_URL, () => {
-//   console.log(process.env.MOGODB_URL)
-//  ;
-// });
 
 app.listen(3020);
