@@ -1,81 +1,74 @@
 
 var imageModel = require('../model/ImagesModel');
-
 var path = require('path');
 var fs = require("fs");
+const cloudinary = require('cloudinary').v2;
+
+ 
+cloudinary.config({
+  cloud_name: "dhef1t1iu",
+  api_key: "584173867866189",
+  api_secret: "mHUxyykyR6S3mkK6NZH0KtCyXhk"
+});
 
 const fileController = {
   getFile: async (req,res) =>{
-    console.log(req)
-    // imagemodel.find({name: req.params.image_name}, {image_path: 1, _id: 0}).limit(1).exec((err, docs) => {
-    //     if (err) {
-    //         console.log(err)
-    //         return res.status(500).json({message: err.message})
-    //     }
-
-    //     if (docs.length === 0) {
-    //         return res.status(404).json({ message: 'No such image file' })
-    //     }
-
-    //     const imagePath = path.join(__dirname, docs[0].image_path)
-    //     try {
-    //         const buffer = fs.readFileSync(imagePath)
-    //         const mime = fileType(buffer).mime
-    //         res.writeHead(200, { 'Content-Type': mime })
-    //         res.end(buffer, 'binary')
-    //     } catch (error) {
-    //         console.log(error.code)
-    //         if (error.code === 'ENOENT') {
-    //             res.status(404).json({ message: 'No such image file' })
-    //         } else {
-    //             res.status(500).json({ message: error.message })
-    //         }
-    //     }
-    // })
-
-    res.status(200).json({ message: `done` })
-
+   const data = await cloudinary.api.resources({ max_results: 500 })
+    res.send(data.resources)
+    console.log(data)
   },
-
-
+  
   upload: async (req,res)=>{
     console.log(req.file)
     const reqName = req.file.filename
-    const imagePath = path.join('uploads', req.file.filename)
-
-    const model = new imageModel({
-        name: reqName,
-        image_path: imagePath,
-        created_at: new Date()
-    })
-    
-    model.save((err) => {
-          if (err)  {
-              console.log(err)
-              return res.status(500).json({message: err.message})
-          }
-          res.status(200).json({ message: `Uploaded image "${reqName}" successfully` })
-      })
-
+    var img = fs.readFileSync(req.file.path);
+    console.log(img)
+    if(!req.file) {
+      return res.status(400).send("Error: No files found")
+    }
+      const result = await cloudinary.uploader.upload(req.file.path);
+      console.log(result)
+      res.send(result)
   },
+
+
+  delete:async(req,res)=>{
+    let data = req.body.id
+    cloudinary.uploader.destroy(data, function(error, result) {
+        console.log(result, error);
+      });
+  },
+
+
+  deletes:async (req,res)=>{
+    console.log("sjjhdjhsaheguiwegug",this.getData)
+    console.log(req.query.data)
+    let data = req.query.data
+    cloudinary.api.delete_resources(data)
+    .then(async (respon)=>{
+      console.log(respon)
+      let newdata = await cloudinary.api.resources({ max_results: 500 })
+      res.json(newdata.resources)
+    }).catch(function (error) {
+      console.log(error);
+    })
+   
+  },
+
 
   getImages: async (req, res) => {
     console.log(req.query)
     const file = await imageModel.findOne({name:req.query.image_name})
     console.log(file.image_path)
-    fs.readFile(file.image_path,async (err,imgData)=>{
+    fs.readFile(file.image_path, (err,imgData)=>{
       if(err){
         res.json({messege:'file không tồn tại'})
       }
-     await res.writeHead(200, { 'Content-Type': 'image/jpeg' })
+       res.writeHead(200, { 'Content-Type': 'image/jpeg' })
       res.end(imgData)
     })
 
   }
-
-
-
-
 }
 
 

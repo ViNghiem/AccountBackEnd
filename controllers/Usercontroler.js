@@ -1,13 +1,23 @@
 const User = require("../model/UserModel");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt")
 const authController = require("./authControler")
 const sha256 = require("sha256")
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: "dhef1t1iu",
+  api_key: "584173867866189",
+  api_secret: "mHUxyykyR6S3mkK6NZH0KtCyXhk"
+});
+
+
+
 
 function makeid(number){
   var text = "";
   var char_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
   for(let i=0; i < number; i++ ){  
-      text += char_list.charAt(Math.floor(Math.random() * char_list.length));
+    text += char_list.charAt(Math.floor(Math.random() * char_list.length));
   }
   return text;
 }
@@ -55,13 +65,16 @@ const userController = {
   },
 
   registerUser: async (req, res) => {
-
+  
+    console.log(req.file,"requet")
     try {
       const salt = await bcrypt.genSalt(10);
+      console.log(salt,"salt")
       const hashed = await bcrypt.hash(req.body.password, salt);
+      console.log(req,"hashed")
       const User_db = await User.findOne({email:req.body.email})
-      console.log("User_db",User_db)
 
+     
       if(User_db){
         const mess = {
           "mess":"Email already used"
@@ -71,22 +84,21 @@ const userController = {
         const newUser = await new User({
           username: req.body.username,
           email: req.body.email,
-          password: hashed,
+          phone:req.body.phone,
+          password: hashed
         });
-        console.log(newUser,"sdsjadijai")
         const user = await newUser.save();
-  
         res.status(200).json(user);
       }
     } catch (err) {
+      console.log(err)
       res.status(500).json(err);
     }
   },
   
   getInfoUsers: async (req,res) =>{
-    
-      try {
-        const user = await User.findOne({ _id: req.query.id })
+      try { 
+        const user = await User.findOne({ _id: req.user.id }).populate('adress')
         console.log("user",user)
         res.status(200).json(user);
       } catch (error) {
@@ -95,9 +107,8 @@ const userController = {
   },
 
   loginUser: async (req, res) => {
-    console.log(req.body.username,"body")
     try {
-      const user = await User.findOne({ username: req.body.username });
+      const user = await User.findOne({ email: req.body.email });
       console.log(user,"user")
       if (!user) {
         let mess = {mess: "Tai khoản không tồn tại"}
@@ -124,12 +135,18 @@ const userController = {
             sameSite: "strict",
           });
           const { password, ...others } = user._doc;
-          res.status(200).json({ ...others, accessToken, refreshToken ,mess});
+          res.status(200).json({ ...others, accessToken ,mess});
         }
       }
     } catch (err) {
       res.status(500).json(err);
     }
+  },
+
+  acount:async(req,res)=>{
+    console.log(req.user.id)
+    const user = await User.findOne({ _id:req.user.id }) 
+    res.status(200).json(user);
   },
 
 
