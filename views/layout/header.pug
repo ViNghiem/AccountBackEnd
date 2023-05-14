@@ -1,2 +1,270 @@
-header 
-  div.vn-header kdksad
+.overlay(style='z-index: 999; display: none;')
+header
+  div
+    .pc
+      #header-top.header-link-bar
+        .container
+          ul
+            li
+              a(href='') KI&#x1EC2;M TRA &Dstrok;&#x1A0;N H&Agrave;NG
+            li
+              a(href='') mua h&agrave;ng tr&#x1EA3; g&oacute;p
+            li
+              a(href='') b&#x1EA3;ng gi&aacute; s&#x1EED;a ch&#x1EEF;a
+            li
+              a(href='') tin khuy&#x1EBF;n m&atilde;i
+            li
+              a(href='') gi&#x1EDB;i thi&#x1EC7;u
+      #header-mid.relatv
+        .header-content-bar
+          .container
+            .row
+              .col-lg-3.col-md-3.logo
+                a(href='/')
+                  img#logo(src='https://statics.pancake.vn/web-media/08/57/24/b0/01f0af106e9cbb6ad173d034a942ed39e7c5acb460beb981c0868b13.svg' alt='' style='display: block;')
+                #open-headerbot.open-headerbot.stuck
+                  span
+                    i.fas.fa-bars
+                  span#text-open T&#x1EA5;t c&#x1EA3; danh m&#x1EE5;c
+              .col-lg-5.col-md-5
+                form
+                  .search-index
+                    input.input_search(name='q' type='text' placeholder='Nhập từ khóa tìm kiếm')
+                    button#search-big
+                      .svg-next-icon.svg-next-icon-size-30
+                        svg#Layer_1(xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' viewbox='0 0 612 792' enable-background='new 0 0 612 792' xml:space='preserve')
+                          path(d='M260.1,74.7c-109.7,0-198.9,89.2-198.9,198.9s89.2,198.9,198.9,198.9c38.2,0,74-10.9,104.3-29.7l108,108  c8.7,8.7,20.2,13.4,32.5,13.4c12.3,0,23.8-4.8,32.5-13.4c8.7-8.7,13.4-20.2,13.4-32.5c0-12.3-4.8-23.8-13.4-32.5l-108-108  c18.8-30.4,29.7-66.1,29.7-104.3C459,163.9,369.8,74.7,260.1,74.7z M260.1,411.3c-75.9,0-137.7-61.8-137.7-137.7  s61.8-137.7,137.7-137.7s137.7,61.8,137.7,137.7S336,411.3,260.1,411.3z')
+                          path(d='M153,273.6h30.6c0-42.2,34.3-76.5,76.5-76.5v-30.6C201,166.5,153,214.5,153,273.6z')
+              .col-lg-2.col-md-2
+                .user
+                  .icon-user
+                    svg(xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewbox='0 0 45.538 45.538')
+                      path(d='M6.524,39.935l-0.016,0.111l0,0V43.3H39.03v-2.746l-0.032-0.413c-0.206-2.444-1.27-4.714-2.968-6.635  c-1.619-1.841-3.825-3.349-6.397-4.349c-0.841,0.841-1.809,1.524-2.857,2.032c-1.238,0.587-2.587,0.921-4,0.921  c-1.476,0-2.873-0.349-4.143-0.984c-1.079-0.54-2.079-1.286-2.936-2.19c-2.587,0.936-4.793,2.397-6.397,4.222  c-1.651,1.873-2.667,4.159-2.778,6.635l0,0V39.935L6.524,39.935z M22.777,0c2.984,0,5.666,1.555,7.587,4.047  c1.857,2.413,3.016,5.73,3.016,9.381c0,3.651-1.159,6.968-3.016,9.381c-1.921,2.508-4.603,4.048-7.587,4.048  c-2.984,0-5.682-1.54-7.603-4.048c-1.857-2.413-3.016-5.73-3.016-9.381c0-3.651,1.159-6.968,3.016-9.381  C17.095,1.555,19.793,0,22.777,0L22.777,0z M28.602,5.413c-1.508-1.952-3.571-3.175-5.825-3.175c-2.27,0-4.333,1.222-5.841,3.175  c-1.571,2.032-2.54,4.873-2.54,8.016c0,3.143,0.968,5.984,2.54,8.016c1.508,1.968,3.571,3.174,5.841,3.174  c2.254,0,4.317-1.206,5.825-3.174c1.571-2.032,2.54-4.873,2.54-8.016C31.142,10.285,30.174,7.444,28.602,5.413L28.602,5.413z   M4.35,38.935c0.302-2.714,1.46-5.19,3.286-7.254c2-2.286,4.809-4.079,8.063-5.111l0.714-0.222l0.476,0.587  c0.778,0.921,1.698,1.667,2.73,2.19c0.968,0.476,2.032,0.746,3.159,0.746c1.079,0,2.111-0.254,3.047-0.698  c0.984-0.476,1.889-1.175,2.667-2.063l0.492-0.556l0.714,0.238c3.222,1.127,6,2.952,8,5.238c1.778,2,2.984,4.365,3.397,6.905h0.175  v1.111v4.381v1.111h-1.127H5.397H4.27v-1.111v-4.381v-1.111H4.35z')
+                  .name-user
+                    p T&agrave;i kho&#x1EA3;n
+                    p
+                      a(href='/customer/login') &Dstrok;&abreve;ng nh&#x1EAD;p, &dstrok;&abreve;ng k&yacute;
+              .col-lg-2.col-md-2
+                .user.hovercart
+                  .icon-user
+                    .number-cart 0
+                    svg(xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewbox='0 0 446.853 446.853')
+                      g
+                        path(d='M444.274,93.36c-2.558-3.666-6.674-5.932-11.145-6.123L155.942,75.289c-7.953-0.348-14.599,5.792-14.939,13.708   c-0.338,7.913,5.792,14.599,13.707,14.939l258.421,11.14L362.32,273.61H136.205L95.354,51.179   c-0.898-4.875-4.245-8.942-8.861-10.753L19.586,14.141c-7.374-2.887-15.695,0.735-18.591,8.1c-2.891,7.369,0.73,15.695,8.1,18.591   l59.491,23.371l41.572,226.335c1.253,6.804,7.183,11.746,14.104,11.746h6.896l-15.747,43.74c-1.318,3.664-0.775,7.733,1.468,10.916   c2.24,3.184,5.883,5.078,9.772,5.078h11.045c-6.844,7.617-11.045,17.646-11.045,28.675c0,23.718,19.299,43.012,43.012,43.012   s43.012-19.294,43.012-43.012c0-11.028-4.201-21.058-11.044-28.675h93.777c-6.847,7.617-11.047,17.646-11.047,28.675   c0,23.718,19.294,43.012,43.012,43.012c23.719,0,43.012-19.294,43.012-43.012c0-11.028-4.2-21.058-11.042-28.675h13.432   c6.6,0,11.948-5.349,11.948-11.947c0-6.6-5.349-11.948-11.948-11.948H143.651l12.902-35.843h216.221   c6.235,0,11.752-4.028,13.651-9.96l59.739-186.387C447.536,101.679,446.832,97.028,444.274,93.36z M169.664,409.814   c-10.543,0-19.117-8.573-19.117-19.116s8.574-19.117,19.117-19.117s19.116,8.574,19.116,19.117S180.207,409.814,169.664,409.814z    M327.373,409.814c-10.543,0-19.116-8.573-19.116-19.116s8.573-19.117,19.116-19.117s19.116,8.574,19.116,19.117   S337.916,409.814,327.373,409.814z')
+                  .name-user
+                    p Gi&#x1ECF; h&agrave;ng c&#x1EE7;a b&#x1EA1;n
+                    p
+                      a(href='#') V&#x1EAD;n chuy&#x1EC3;n to&agrave;n qu&#x1ED1;c
+                  .cart-view
+                    p Hi&#x1EC7;n ch&#x1B0;a c&oacute; s&#x1EA3;n ph&#x1EA9;m trong gi&#x1ECF; h&agrave;ng
+                    span.line
+                    table.total-table
+                      tbody
+                        tr
+                          td.total
+                            span(style='font-size: 15px;') T&#x1ED5;ng ti&#x1EC1;n:
+                          td.total
+                            span(style='font-size: 15px;') 0&dstrok;
+                        tr
+                          td
+                            a.linktocart(style='width: 75%' href='/cart') Xem gi&#x1ECF; h&agrave;ng
+                          td
+                            a.linktocheckout(style='width: 120%;' href='/cart/checkout') Thanh to&aacute;n
+        #menu.menu
+          .container.bot-header
+            .row.list-menu
+              ul
+                li.menu-father
+                  a(href='/categories/iphone') iphone
+                  .arrow-down
+                  .menu-mom
+                    ul
+                      li.menu-chil
+                        a(href='/categories/iphone-x')
+                          span iPhone X
+                          span.icon-chil
+                            i.fa.fa-angle-right
+                        .list-chil
+                          ul
+                            li
+                              a(href='/categories/thiet-bi-thong-minh') Thi&#x1EBF;t b&#x1ECB; th&ocirc;ng minh
+                            li
+                              a(href='/categories/sua-chua') S&#x1EED;a ch&#x1EEF;a
+                      li
+                        a(href='/categories/iphone-7') iPhone 7
+                      li
+                        a(href='/categories/iphone-8') iPhone 8
+                li
+                  a(href='/categories/ipad') iPad
+                li
+                  a(href='/categories/iwacth') iWacth
+                li
+                  a(href='/categories/macbook') Macbook
+                li
+                  a(href='/categories/kho-may-cu') Kho m&aacute;y c&utilde;
+                li
+                  a(href='/categories/thiet-bi-thong-minh') Thi&#x1EBF;t b&#x1ECB; th&ocirc;ng minh
+                li
+                  a(href='/categories/phu-kien') Ph&#x1EE5; ki&#x1EC7;n
+                li
+                  a(href='/categories/sim-so-dep') Sim s&#x1ED1; &dstrok;&#x1EB9;p
+                li
+                  a(href='/blog') G&oacute;c c&ocirc;ng ngh&#x1EC7;
+      script.
+        window.addEventListener("scroll", () => {
+        if (window.scrollY > 100) {
+        document.getElementById("header-top").classList.add("stuck")
+        document.getElementById("header-mid").classList.add("stuck")
+        document.getElementById("open-headerbot").classList.remove("stuck")
+        document.getElementById("menu").classList.add("stuck")
+        document.getElementById("logo").style.display="none"
+        } else {
+        document.getElementById("header-top").classList.remove("stuck")
+        document.getElementById("header-mid").classList.remove("stuck")
+        document.getElementById("open-headerbot").classList.add("stuck")
+        document.getElementById("menu").classList.remove("stuck")
+        // document.getElementById("menu").style.height="auto"
+        document.getElementById("logo").style.display="block"
+        }
+        })
+        let openbot = document.querySelector(".open-headerbot")
+        let i= true
+        openbot.addEventListener("click", () => {
+        if(i==true){
+        // document.getElementById("menu").style.height = "auto"
+        document.getElementById("menu").classList.remove("stuck")
+        document.getElementById("text-open").innerHTML="Ẩn danh mục"
+        return i=false;
+        }else{
+        console.log("dasdsa")
+        // document.getElementById("menu").style.height = "0px"
+        document.getElementById("menu").classList.add("stuck")
+        document.getElementById("text-open").innerHTML="Tất cả danh mục"
+        return i=true
+        }
+        })
+    // mobile
+    #header-mobile.header-mobile
+      .mobile-top
+        .open-nav
+          i.fas.fa-bars
+        .logo-mobile
+          a(href='/')
+            img#logo(src='https://statics.pancake.vn/web-media/08/57/24/b0/01f0af106e9cbb6ad173d034a942ed39e7c5acb460beb981c0868b13.svg' alt='')
+        .icon-user
+          .number-cart 0
+          svg(xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewbox='0 0 446.853 446.853')
+            g
+              path(d='M444.274,93.36c-2.558-3.666-6.674-5.932-11.145-6.123L155.942,75.289c-7.953-0.348-14.599,5.792-14.939,13.708   c-0.338,7.913,5.792,14.599,13.707,14.939l258.421,11.14L362.32,273.61H136.205L95.354,51.179   c-0.898-4.875-4.245-8.942-8.861-10.753L19.586,14.141c-7.374-2.887-15.695,0.735-18.591,8.1c-2.891,7.369,0.73,15.695,8.1,18.591   l59.491,23.371l41.572,226.335c1.253,6.804,7.183,11.746,14.104,11.746h6.896l-15.747,43.74c-1.318,3.664-0.775,7.733,1.468,10.916   c2.24,3.184,5.883,5.078,9.772,5.078h11.045c-6.844,7.617-11.045,17.646-11.045,28.675c0,23.718,19.299,43.012,43.012,43.012   s43.012-19.294,43.012-43.012c0-11.028-4.201-21.058-11.044-28.675h93.777c-6.847,7.617-11.047,17.646-11.047,28.675   c0,23.718,19.294,43.012,43.012,43.012c23.719,0,43.012-19.294,43.012-43.012c0-11.028-4.2-21.058-11.042-28.675h13.432   c6.6,0,11.948-5.349,11.948-11.947c0-6.6-5.349-11.948-11.948-11.948H143.651l12.902-35.843h216.221   c6.235,0,11.752-4.028,13.651-9.96l59.739-186.387C447.536,101.679,446.832,97.028,444.274,93.36z M169.664,409.814   c-10.543,0-19.117-8.573-19.117-19.116s8.574-19.117,19.117-19.117s19.116,8.574,19.116,19.117S180.207,409.814,169.664,409.814z    M327.373,409.814c-10.543,0-19.116-8.573-19.116-19.116s8.573-19.117,19.116-19.117s19.116,8.574,19.116,19.117   S337.916,409.814,327.373,409.814z')
+      .mobile-bot
+        form
+          .search-index
+            input.input_search(type='text' name='q' placeholder='Nhập từ khóa tìm kiếm')
+            button#search-big
+              .svg-next-icon.svg-next-icon-size-30
+                svg#Layer_1(xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' viewbox='0 0 612 792' enable-background='new 0 0 612 792' xml:space='preserve')
+                  path(d='M260.1,74.7c-109.7,0-198.9,89.2-198.9,198.9s89.2,198.9,198.9,198.9c38.2,0,74-10.9,104.3-29.7l108,108  c8.7,8.7,20.2,13.4,32.5,13.4c12.3,0,23.8-4.8,32.5-13.4c8.7-8.7,13.4-20.2,13.4-32.5c0-12.3-4.8-23.8-13.4-32.5l-108-108  c18.8-30.4,29.7-66.1,29.7-104.3C459,163.9,369.8,74.7,260.1,74.7z M260.1,411.3c-75.9,0-137.7-61.8-137.7-137.7  s61.8-137.7,137.7-137.7s137.7,61.8,137.7,137.7S336,411.3,260.1,411.3z')
+                  path(d='M153,273.6h30.6c0-42.2,34.3-76.5,76.5-76.5v-30.6C201,166.5,153,214.5,153,273.6z')
+
+    .nav-mobile
+      .acount-mobile
+        .avt-acout
+          svg#Layer_1(xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' viewbox='0 0 612 792' enable-background='new 0 0 612 792' xml:space='preserve')
+            ellipse(fill='#fff' cx='306' cy='280.2' rx='110.2' ry='112.3')
+            path(fill='#fff' d='M306,44.1c-152.1,0-275.4,123.3-275.4,275.4S153.9,594.9,306,594.9s275.4-123.3,275.4-275.4  S458.1,44.1,306,44.1z M475,487.8c-36.1-35-98.3-58.2-169-58.2s-133,23.1-169,58.2c-43-43.2-69.7-102.7-69.7-168.3  C67.3,187.9,174.4,80.8,306,80.8s238.7,107.1,238.7,238.7C544.7,385.1,518,444.6,475,487.8z')
+        .acout-text
+          ul(style='padding-left: 14px;')
+            li
+              a(href='') &Dstrok;&abreve;ng k&yacute;
+            li |
+            li
+              a(href='') &Dstrok;&abreve;ng nh&#x1EAD;p
+      .menu-mobile
+        ul
+          li
+            .title-menu
+              .mobile-father
+                a(href='/categories/iphone') iphone
+                i.fa.fa-angle-right
+              ul.content-chil
+                li
+                  a(href='/categories/iphone-x') iPhone X
+                li
+                  a(href='/categories/iphone-7') iPhone 7
+                li
+                  a(href='/categories/iphone-8') iPhone 8
+          li
+            .title-menu
+              .mobile-father
+                a(href='/categories/ipad') iPad
+          li
+            .title-menu
+              .mobile-father
+                a(href='/categories/iwacth') iWacth
+          li
+            .title-menu
+              .mobile-father
+                a(href='/categories/macbook') Macbook
+          li
+            .title-menu
+              .mobile-father
+                a(href='/categories/kho-may-cu') Kho m&aacute;y c&utilde;
+          li
+            .title-menu
+              .mobile-father
+                a(href='/categories/thiet-bi-thong-minh') Thi&#x1EBF;t b&#x1ECB; th&ocirc;ng minh
+          li
+            .title-menu
+              .mobile-father
+                a(href='/categories/phu-kien') Ph&#x1EE5; ki&#x1EC7;n
+          li
+            .title-menu
+              .mobile-father
+                a(href='/categories/sim-so-dep') Sim s&#x1ED1; &dstrok;&#x1EB9;p
+          li
+            .title-menu
+              .mobile-father
+                a(href='/blog') G&oacute;c c&ocirc;ng ngh&#x1EC7;
+    script.
+      let open = document.querySelector(".open-nav")
+      open.addEventListener('click',function() {
+      let nav = document.querySelector('.overlay')
+      nav.style.display="block"
+      document.getElementById("main").style.transform = "translate3d(240px, 0, 0)";
+      let body = document.getElementById("main")
+      main.style.position = "fixed"
+      main.style.width = "100%"
+      });
+      let close = document.querySelector(".overlay")
+      close.addEventListener("click",function(){
+      console.log("vinghiem")
+      document.getElementById("main").style.transform = "";
+      close.style.display="none"
+      let body = document.getElementById("main")
+      main.style.position = ""
+      });
+      window.addEventListener("scroll", () => {
+      if (window.scrollY >= 200) {
+      document.getElementById("header-mobile").classList.add("stuck")
+      } else {
+      document.getElementById("header-mobile").classList.remove("stuck")
+      }
+      })
+      let toggle = document.querySelectorAll(".title-menu")
+      for (let i = 0; i < toggle.length; ++i) {
+      toggle[i].addEventListener("click", () => handleToggleNavMobile(toggle[i], i))
+      }
+      function handleToggleNavMobile(elm, index) {
+      let show = elm.classList.contains("active")
+      if (show) {
+      elm.classList.remove("active")
+      let children = document.getElementsByClassName("title-menu")[index]
+      children.classList.remove("active")
+      } else {
+      for (let i = 0; i < toggle.length; i++) {
+      toggle[i].classList.remove("active")
+      }
+      let children = document.getElementsByClassName("title-menu")[index]
+      children.classList.add("active")
+      }
+      }

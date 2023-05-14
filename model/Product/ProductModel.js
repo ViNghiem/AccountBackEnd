@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+  const mongoose = require("mongoose");
 
 
 
@@ -17,25 +17,23 @@ const productSchema = new mongoose.Schema({
     required: true
   },
 
-  attributes:[
-      {
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Attributes"
-      }
-  ],
-
   price: {
     type: Number,
     required: true
   },
+
   images: [{
     type: String
    }],
 
-  reviews: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref:"Review"
-   }], 
+
+  variations:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"Variations"
+    }
+  ],
+
 
   createdAt: {
     type: Date,
