@@ -19,16 +19,12 @@ const fileController = {
   },
   
   upload: async (req,res)=>{
-    console.log(req.file)
-    const reqName = req.file.filename
-    var img = fs.readFileSync(req.file.path);
-    console.log(img)
-    if(!req.file) {
-      return res.status(400).send("Error: No files found")
+    if (!req.file) {
+      next(new Error('No file uploaded!'));
+      return;
     }
-      const result = await cloudinary.uploader.upload(req.file.path);
-      console.log(result)
-      res.send(result)
+    res.status(200).json({ secure_url: req.file.path });
+
   },
 
 
@@ -52,10 +48,8 @@ const fileController = {
     }).catch(function (error) {
       console.log(error);
     })
-   
   },
-
-
+  
   getImages: async (req, res) => {
     console.log(req.query)
     const file = await imageModel.findOne({name:req.query.image_name})

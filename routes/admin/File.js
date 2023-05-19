@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const fileController = require("../../controllers/FileControler");
+const fileUploader = require('../../config/configCloud');
 
 var multer = require("multer");
 
@@ -17,7 +18,7 @@ var upload = multer({ storage: storage })
 
 
 router.get("/imag", fileController.getFile);
-router.post("/uploadphoto",upload.single('avartar'), fileController.upload);
+router.post("/uploadphoto",fileUploader.single('file'), fileController.upload);
 router.get('/anh',fileController.getImages)
 router.delete('/delete',fileController.delete)
 router.delete('/deletes',fileController.deletes)

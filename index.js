@@ -3,7 +3,7 @@ var cors = require("cors");
 var userRoute = require("./routes/admin/user");
 var fileRoute = require("./routes/admin/File")
 var address = require("./routes/public/address")
-var product = require("./routes/admin/product")
+var productAdmim = require("./routes/admin/product")
 var public = require("./routes/public/index")
 var cookieParser = require('cookie-parser');
 
@@ -53,7 +53,7 @@ mongoose.connect(
   app.use("/user", userRoute);
   app.use("/files", fileRoute)
   app.use("/address",address);
-  app.use("/products",product);
+  app.use("/products",productAdmim);
 })
 .catch(e=>console.log(e));
 

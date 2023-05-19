@@ -4,10 +4,6 @@ const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
-      min: 6,
-      max: 20,
-      unique: false,
     },
     
     email: {
@@ -16,7 +12,6 @@ const userSchema = new mongoose.Schema(
       max: 50,
       unique: true,
     },
-
     phone: {
       type: String,
       required: false,
@@ -31,18 +26,15 @@ const userSchema = new mongoose.Schema(
 
     avartar : {
       type: String,
-    
       max: 50,
-     
     },
 
-    idZalo: {
+    Zaloid: {
       type: String
     },
 
     password: {
       type: String,
-      required: true,
       min: 6,
     },
     isAdmin: {

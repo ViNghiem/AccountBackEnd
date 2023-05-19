@@ -29,5 +29,6 @@ router.delete("/:id", userController.deleteUser);
 router.post("/regiter",userController.registerUser)
 router.get("/loginbyzalo",userController.zaloAuth)
 router.post("/login", userController.loginUser);
+router.put('/update',userController.updateProfile)
 router.get("/test",userController.getTest);
 module.exports = router;  

@@ -35,4 +35,11 @@ const CartSchema = new mongoose.Schema({
 });
 
 
+// orderSchema.methods.getListProduct = async function(id) {
+//   const product = await Product.findOne({_id:id})
+//   return product;
+// };
+
+
+
 module.exports = mongoose.model("Cart", CartSchema);

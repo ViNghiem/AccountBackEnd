@@ -38,6 +38,9 @@ function hexToBase64(hexstring) {
 
 
 const userController = {
+
+
+
   getAllUsers: async (req, res) => {
     try {
       const user = await User.find();
@@ -71,7 +74,7 @@ const userController = {
       const salt = await bcrypt.genSalt(10);
       console.log(salt,"salt")
       const hashed = await bcrypt.hash(req.body.password, salt);
-      console.log(req,"hashed")
+
       const User_db = await User.findOne({email:req.body.email})
 
      
@@ -81,6 +84,7 @@ const userController = {
         }
         res.status(200).json(mess);
       }else {
+        
         const newUser = await new User({
           username: req.body.username,
           email: req.body.email,
@@ -99,7 +103,6 @@ const userController = {
   getInfoUsers: async (req,res) =>{
       try { 
         const user = await User.findOne({ _id: req.user.id }).populate('adress')
-        console.log("user",user)
         res.status(200).json(user);
       } catch (error) {
         res.status(500).json(error);
@@ -108,34 +111,73 @@ const userController = {
 
   loginUser: async (req, res) => {
     try {
-      const user = await User.findOne({ email: req.body.email });
+      console.log(req.body.email )
+      const user = await User.findOne({ email: req.body.email.toString() });
+      const userPhone = await User.findOne({ phone: req.body.email.toString() });
+      console.log(userPhone,"userPhone")
       console.log(user,"user")
-      if (!user) {
+      if (!user && !userPhone) {
         let mess = {mess: "Tai khoản không tồn tại"}
         res.status(404).json(mess);
        
       }else{
-        const validPassword = await bcrypt.compare(
-          req.body.password,
-          user.password
-        );
-        console.log(validPassword)
+        var validPassword =''
+        if(user){
+          console.log("kjdhfjsdh")
+          validPassword = await bcrypt.compare(
+            req.body.password,
+            user.password
+          );
+        }else{
+          console.log("kjdhfjsdhssssssssssssssssssssssssssssss")
+          validPassword = await bcrypt.compare(
+            req.body.password,
+            userPhone.password
+          );
+        }
+        
+        console.log(validPassword,"kjdhfjsdhssssssssssssssssssssssssssssss")
         if (!validPassword) {
           let mess = {mess: "Mật khẩu không chính xác"}
           res.status(404).json(mess);
         }
-        if (user && validPassword) {
-          let mess = "Đăng nhập thành công";
-          const accessToken = authController.generateAccessToken(user);
-          const refreshToken = authController.generateRefreshToken(user);
-          res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure:false,
-            path: "/",
-            sameSite: "strict",
-          });
-          const { password, ...others } = user._doc;
-          res.status(200).json({ ...others, accessToken ,mess});
+
+        if(validPassword) {
+        
+          if(user){
+            console.log("áhdjhjashd2222")
+            let mess = "Đăng nhập thành công";
+            const accessToken = authController.generateAccessToken(user);
+            const refreshToken = authController.generateRefreshToken(user);
+            res.cookie("refreshToken", refreshToken, {
+              httpOnly: true,
+              secure:false,
+              path: "/",
+              sameSite: "strict",
+            });
+            const { password, ...others } = user._doc;
+            res.status(200).json({ ...others, accessToken ,mess});
+          }else if(userPhone){
+            
+            let mess = "Đăng nhập thành công";
+            const accessToken = authController.generateAccessToken(userPhone);
+            const refreshToken = authController.generateRefreshToken(userPhone);
+            res.cookie("refreshToken", refreshToken, {
+              httpOnly: true,
+              secure:false,
+              path: "/",
+              sameSite: "strict",
+            });
+            
+            const { password, ...others } = userPhone._doc;
+           
+            res.status(200).json({ ...others, accessToken ,mess});
+          }
+
+          
+     
+        
+          
         }
       }
     } catch (err) {
@@ -148,6 +190,31 @@ const userController = {
     const user = await User.findOne({ _id:req.user.id }) 
     res.status(200).json(user);
   },
+
+  updateProfile:async(req,res)=>{
+    console.log(req.body,"body")
+    const newObj = { ...req.body };
+    delete newObj.id;
+
+
+    console.log(newObj,"newObjs")
+    User.updateOne(
+      { _id: req.body.id },newObj
+ 
+      
+    )
+      .then( async result => {
+        console.log('Dữ liệu đã được cập nhật thành công');
+        const user = await User.findOne({ _id:req.body.id }) 
+        res.status(200).json(user);
+      })
+      .catch(error => {
+        console.error('Lỗi khi cập nhật dữ liệu:', error);
+      });
+  },
+
+
+  
 
 
   zaloAuth: async (req,res) =>{
@@ -165,7 +232,7 @@ const userController = {
     } catch (err) {
       res.status(500).json(err);
     }
-  }
+  } 
 };
 
 

@@ -22,11 +22,14 @@ var upload = multer({ storage: storage })
 
 
 
-// router.get("/all",verifyTokenAndAdmin, userController.getAllUsers);
+router.get("/all",verifyToken,ProductController.getAllProduct);
 // router.get("/info",verifyToken, userController.getInfoUsers);
-// router.delete("/:id", userController.deleteUser);
+router.delete("/delete",verifyTokenAndAdmin,ProductController.deleteProduct);
+router.put("/update", ProductController.updateProduct);
 // router.post("/regiter",userController.registerUser)
 // router.get("/loginbyzalo",userController.zaloAuth)
 router.post("/add", ProductController.addProduct);
+
+router.get("/:id", ProductController.getProduct);
 // router.get("/test",userController.getTest);
 module.exports = router;  
