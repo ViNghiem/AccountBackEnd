@@ -9,6 +9,10 @@
     },
     "author": "",
     "license": "ISC",
+    "engines": {
+        "node": "14.x"
+    },
+
     "dependencies": {
         "api": "^5.0.8",
         "ascii": "^1.0.0",
@@ -27,6 +31,7 @@
         "file-type": "^18.2.1",
         "fs": "^0.0.1-security",
         "http": "^0.0.1-security",
+        "json-schema-to-ts": "^2.8.2",
         "jsonwebtoken": "^9.0.0",
         "mixpanel": "^0.17.0",
         "mongoose": "^6.9.1",
