@@ -6,7 +6,7 @@ const {
   verifyToken,
   verifyTokenAndAdmin,
   verifyTokenAndUserAuthorization,
-} = require("../../controllers/VerifyToken");
+} = require("../../controllers/Authentication/VerifyToken");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

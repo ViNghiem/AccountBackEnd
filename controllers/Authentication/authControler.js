@@ -1,4 +1,4 @@
-const User = require("../model/UserModel");
+const User = require("../../model/UserModel");
 const bcrypt = require("bcrypt");
 var mongoose = require("mongoose");
 const sha256 = require("sha256")

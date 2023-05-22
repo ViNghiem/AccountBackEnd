@@ -6,7 +6,7 @@ const {
   verifyToken,
   verifyTokenAndAdmin,
   verifyTokenAndUserAuthorization,
-} = require("../../controllers/VerifyToken");
+} = require("../../controllers/Authentication/VerifyToken");
 
 
 

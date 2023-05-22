@@ -1,6 +1,6 @@
 const User = require("../model/UserModel");
 const bcrypt = require("bcrypt")
-const authController = require("./authControler")
+const authController = require("./Authentication/authControler")
 const sha256 = require("sha256")
 const cloudinary = require('cloudinary').v2;
 

@@ -6,7 +6,7 @@ const CartController = require("../../controllers/CartControler/Cartcontroler");
 const Checkout = require("../../controllers/oderControler/OrderControler");
 
 
-router.get("",Setcookey, indexController.getIndex);
+// router.get("",Setcookey, indexController.getIndex);
 router.get("/customer/login",Setcookey,indexController.getLogin)
 router.get("/categories/:slug",Setcookey,indexController.getCategory)
 router.get("/product/:slug",Setcookey,indexController.getProduct)
@@ -16,5 +16,5 @@ router.get("/checkout",Checkout.viewOrder)
 router.post("/checkout",Checkout.creatOrder)
 router.post("/add-cart",Setcookey,CartController.addCart)
 
-
+router.get("", indexController.getIndex);
 module.exports = router;  
