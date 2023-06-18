@@ -1,0 +1,354 @@
+{% layout "layout.liquid" %}
+
+
+{% block content %}
+  <link rel="stylesheet" href="http://localhost:3020/product.css">
+  {% assign prod = template.product %}
+
+  <!-- Start main -->
+  <div class="header-navigate">
+    <div class="container">
+      <ol class=" breadcrumb ">
+        <li>Tranng chủ</li>/
+        <li>
+          {{ prod.name }}</li>
+      </ol>
+    </div>
+  </div>
+
+
+
+  <div class="container">
+    <div class="col-xs-12">
+      <div class="information-product-title">
+        <div class="infor-name">
+          <h1>{{ prod.name }}</h1>
+          <span>SKU: {{ prod.sku }}</span>
+          <div>thương hiệu:</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="bg-information-product">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 flex-colum">
+            <div class="row">
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 pad" style="padding-right:0">
+                <div thumbsSlider="" class="swiper mySwiper slide-mall">
+                  <div class="swiper-wrapper">
+                    {% for img in prod.images %}
+                      <div class="swiper-slide small" data-imgsmall="{{img}}">
+                        <img src="{{ img }}" />
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff;" class="swiper mySwiper2">
+                  <div class="swiper-wrapper">
+                    {% for img in prod.images %}
+                      <div class="swiper-slide" data-imgbig="{{img}}">
+                        <img src="{{ img }}" />
+                      </div>
+                    {% endfor %}
+                  </div>
+                  <div class="swiper-button-next"></div>
+                  <div class="swiper-button-prev"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+            <form
+              action="/add-cart"
+              enctype="multipart/form-data"
+              method="post"
+              accept-charset="UTF-8">
+              <input
+                type="hidden"
+                name="_csrf_token"
+                value="RF1PLBoETnwwfUc3eXwEDxwhKFxNIDQ0t97ei794U7rrAKQ6NbadyugV">
+              <input
+                type="hidden"
+                name="utf8"
+                value="✓">
+              <div class="pro-info-product">
+                <input
+                  type="hidden"
+                  name="id"
+                  value=""
+                  id="var_id">
+                <input
+                  type="hidden"
+                  name="quantity"
+                  value="1"
+                  id="input-quantity">
+                <div class="pro-color-product">
+                  <label>Dung lượng:</label>
+                  <ul>
+                    <li
+                      class="value-color"
+                      data-attributes="Dung lượng"
+                      data-value="64GB"
+                      onclick="handleClick('64GB', 'Dung lượng', this)">
+                      <span>64GB</span>
+                    </li>
+                    <li
+                      class="value-color"
+                      data-attributes="Dung lượng"
+                      data-value="256GB"
+                      onclick="handleClick('256GB', 'Dung lượng', this)">
+                      <span>256GB</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="pro-color-product">
+                  <label style="margin-top: 14px;min-width: 62px;">Màu sắc:</label>
+                  <ul>
+                    <li
+                      class="value-color"
+                      data-img="https://statics.pancake.vn/web-media/59/bf/e9/85/056819e2a09d44a41907ccff47f95367581fddbf053053d40f98ad1d.jpg"
+                      data-attributes="Màu sắc"
+                      data-value="đen"
+                      onclick="handleClick('đen','Màu sắc',this)">
+                      <span>đen</span><img src=" https://cdn.pancake.vn/1/s150x150/59/bf/e9/85/056819e2a09d44a41907ccff47f95367581fddbf053053d40f98ad1d.jpg" alt=""></li>
+                    <li
+                      class="value-color"
+                      data-img="https://statics.pancake.vn/web-media/02/4c/9a/31/e6cf2f46f3b90dd65cbc4a569c1733ce6e4be09eea7149326ec3194c.jpg"
+                      data-attributes="Màu sắc"
+                      data-value="trắng"
+                      onclick="handleClick('trắng','Màu sắc',this)">
+                      <span>trắng</span><img src=" https://cdn.pancake.vn/1/s150x150/02/4c/9a/31/e6cf2f46f3b90dd65cbc4a569c1733ce6e4be09eea7149326ec3194c.jpg" alt=""></li>
+                    <li
+                      class="value-color"
+                      data-img="https://statics.pancake.vn/web-media/7d/ce/b4/36/d02253cb50d9c6490c96767531a442356d97648489b92d457bc18579.jpg"
+                      data-attributes="Màu sắc"
+                      data-value="đỏ"
+                      onclick="handleClick('đỏ','Màu sắc',this)">
+                      <span>đỏ</span><img src=" https://cdn.pancake.vn/1/s150x150/7d/ce/b4/36/d02253cb50d9c6490c96767531a442356d97648489b92d457bc18579.jpg" alt=""></li>
+                  </ul>
+                </div>
+                <div class="product-price">
+                  <p>{{ prod.price | vnd }}</p>
+                </div>
+                <div class="pro-button">
+                  <button
+                    class="addcart"
+                    type="submit"
+                    style="text-align: -webkit-right;">
+                    <span class="iconsc"></span>Thêm vào giỏ hàng</button>
+                  <input
+                    type="hidden"
+                    name="return_url"
+                    value="/pages/mua-hang-thanh-cong">
+                  <button class="addcart" style="background: #f00e0e">
+                    <span class="icon_cart_btn"></span>Mua ngay</button>
+                </div>
+                <div class="box-promotion">
+                  <h3 class="title-promotion">DỊCH VỤ HỖ TRỢ</h3>
+                  <div class="content-promotion">
+                    <p>
+                      - Ship COD toàn quốc</p>
+                    <p>
+                      - Ship COD toàn quốc</p>
+                    <p>
+                      - Ship COD toàn quốc</p>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+    let color,
+      size;
+    let variant;
+    let obj = JSON.parse(document.getElementById('TemplateJson').innerText);
+    let product = obj.product;
+    let attributes = product.attributes
+    if (product.variations.length == 0) {
+      variant = product.default_variation;
+      console.log("ssdadsa", variant)
+      if (variant) 
+        document.getElementById("var_id").value = variant.id;
+      
+
+
+
+    } else {
+
+
+      checkId();
+
+    }
+
+    function handleClick(whichValue, whichAttributes, self) {
+      let dataAttributes = document.querySelectorAll("[data-attributes]")
+      for (let i = 0; i < dataAttributes.length; i++) {
+        if (dataAttributes[i].getAttribute("data-attributes") === whichAttributes) {
+          dataAttributes[i].classList.remove("active")
+
+        }
+
+      }
+
+      for (let i = 0; i < dataAttributes.length; i++) {
+        if (dataAttributes[i].getAttribute("data-attributes") === whichAttributes) {
+          if (dataAttributes[i].getAttribute("data-value") === whichValue) {
+            console.log("nghiêmm", whichValue)
+            self.classList.add("active");
+          }
+        }
+      }
+      checkId()
+      let dataslide = document.querySelectorAll("[data-imgsmall]")
+      let listbig = document.querySelectorAll("[data-imgbig]")
+      console.log("self", self)
+      let img = self.dataset.img
+      let linkimg = img.toString()
+
+// let slide = document.querySelectorAll(".swiper-slide.small")
+
+
+
+      for (let k = 0; k < dataslide.length; k++) {
+        let imgslide = dataslide[k].dataset.imgsmall
+        let linkslide = imgslide
+          .toString()
+          dataslide[k]
+          .classList
+          .remove("swiper-slide-active")
+          dataslide[k]
+          .classList
+          .remove("swiper-slide-thumb-active")
+        if (linkslide == linkimg) {
+          dataslide[k]
+            .classList
+            .add("swiper-slide-active")
+            dataslide[k]
+            .classList
+            .add("swiper-slide-thumb-active")
+        }
+      }
+
+      for (let k = 0; k < listbig.length; k++) {
+        let imgslide = listbig[k].dataset.imgbig
+        let linkslide = imgslide
+          .toString()
+          listbig[k]
+          .classList
+          .remove("swiper-slide-active")
+          listbig[k]
+          .classList
+          .remove("swiper-slide-prev")
+        listbig[k]
+        .classList
+        .remove("swiper-slide-next")
+      if (linkslide == linkimg) {
+        listbig[k - 1]
+          .classList
+          .remove("swiper-slide-prev")
+          listbig[k]
+          .classList
+          .add("swiper-slide-active")
+      }
+    }
+
+
+  }
+
+  function checkId() {
+    let variations = product.variations
+    let valueChildActive = document.querySelectorAll(".value-color.active")
+    let title = []
+    for (let i = 0; i < valueChildActive.length; i++) {
+      title.push(valueChildActive[i].getAttribute("data-value"))
+    }
+    title = title.join(" / ")
+    for (let i = 0; i < variations.length; i++) {
+      if (variations[i].title === title) {
+        variant = variations[i]
+      }
+    }
+    if (variant) 
+      document.getElementById("var_id").value = variant.id;
+    
+
+
+
+    console.log(variant, "variant")
+
+  }
+  </script>
+
+  <script>
+    let openx = document.querySelector(".view-more-detail")
+
+    openx.addEventListener('click', function() {
+      let veiw = document.querySelector(".pro-description")
+      veiw.style.height = "auto"
+      openx.style.display = "none"
+    });
+
+
+    let opens = document.querySelector(".product-reviews-summary-actions")
+    opens.addEventListener('click', function() {
+      let formz = document.querySelector(".coment-info")
+      formz.classList.toggle("active")
+    });
+  </script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+
+      spaceBetween: 10,
+      slidesPerView: 5,
+      freeMode: true,
+
+      watchSlidesProgress: true,
+      breakpoints: {
+        "@0.00": {
+          slidesPerView: 3,
+          mousewheel: false
+        },
+        "@0.75": {
+          slidesPerView: 3,
+          mousewheel: false
+        },
+        "@1.00": {
+          slidesPerView: 3,
+          direction: "vertical",
+          mousewheel: true
+        },
+        "@1.50": {
+          slidesPerView: 3,
+          direction: "vertical",
+          mousewheel: true
+        }
+      }
+    });
+    var swiper2 = new Swiper(".mySwiper2", {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev"
+      },
+      thumbs: {
+        swiper: swiper
+      }
+    });
+  </script>
+
+  <script id="template">
+
+    console.log( {{ template | json }})
+
+  </script>
+{% endblock %}

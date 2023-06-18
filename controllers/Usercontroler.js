@@ -68,23 +68,16 @@ const userController = {
   },
 
   registerUser: async (req, res) => {
-  
-    console.log(req.file,"requet")
     try {
       const salt = await bcrypt.genSalt(10);
-      console.log(salt,"salt")
       const hashed = await bcrypt.hash(req.body.password, salt);
-
       const User_db = await User.findOne({email:req.body.email})
-
-     
       if(User_db){
         const mess = {
           "mess":"Email already used"
         }
         res.status(200).json(mess);
       }else {
-        
         const newUser = await new User({
           username: req.body.username,
           email: req.body.email,
@@ -129,14 +122,14 @@ const userController = {
             user.password
           );
         }else{
-          console.log("kjdhfjsdhssssssssssssssssssssssssssssss")
+         
           validPassword = await bcrypt.compare(
             req.body.password,
             userPhone.password
           );
         }
         
-        console.log(validPassword,"kjdhfjsdhssssssssssssssssssssssssssssss")
+       
         if (!validPassword) {
           let mess = {mess: "Mật khẩu không chính xác"}
           res.status(404).json(mess);
@@ -168,9 +161,7 @@ const userController = {
               path: "/",
               sameSite: "strict",
             });
-            
             const { password, ...others } = userPhone._doc;
-           
             res.status(200).json({ ...others, accessToken ,mess});
           }
 
@@ -186,7 +177,7 @@ const userController = {
   },
 
   acount:async(req,res)=>{
-    console.log(req.user.id)
+   
     const user = await User.findOne({ _id:req.user.id }) 
     res.status(200).json(user);
   },
@@ -200,11 +191,9 @@ const userController = {
     console.log(newObj,"newObjs")
     User.updateOne(
       { _id: req.body.id },newObj
- 
-      
     )
       .then( async result => {
-        console.log('Dữ liệu đã được cập nhật thành công');
+
         const user = await User.findOne({ _id:req.body.id }) 
         res.status(200).json(user);
       })
@@ -212,9 +201,6 @@ const userController = {
         console.error('Lỗi khi cập nhật dữ liệu:', error);
       });
   },
-
-
-  
 
 
   zaloAuth: async (req,res) =>{

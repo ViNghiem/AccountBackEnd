@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema(
       type: String
     },
 
+    Googleid: {
+      type: String
+    },
+
     password: {
       type: String,
       min: 6,
