@@ -9,13 +9,12 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary,
+  cloudinary: cloudinary,
   allowedFormats: ['jpg', 'png'],
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); 
-  }
+  public_id: (req, file) => file.originalname
 });
 
 const uploadCloud = multer({ storage });
 
 module.exports = uploadCloud;
+  

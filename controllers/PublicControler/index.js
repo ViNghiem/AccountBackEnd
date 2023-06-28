@@ -2,10 +2,15 @@ const Product = require("../../model/Product/ProductModel");
 
 const cookieParser = require('cookie-parser');
 const Pixcel = require("../../model/modelPixcel")
+const { Liquid } = require('liquidjs');
+const engine = new Liquid();
+
+
+
 const IndexControler = {
   getIndex: async (req, res) => {
     try {
-      
+        console.log(req,"req")
         res.render('index',{title:'index'});
      
       
@@ -42,10 +47,13 @@ const IndexControler = {
   getProduct: async (req, res) => {
     try {
       console.log(req.params.slug)
-      const product = await Product.findOne({slug:req.params.slug})
-      // res.status(200).json(product)
- 
-      res.render('product',{product});
+      const data = await Product.findOne({slug:req.params.slug})
+
+
+      console.log(Product,"product")
+      const {...product } = data._doc;
+  
+      res.render('product',{template:{product}});
 
     } catch (err) {
       console.log(err)

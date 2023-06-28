@@ -15,19 +15,47 @@ var app = express();
 var dotenv = require("dotenv");
 var authRoute = require('./routes/admin/authRoute')
 const passportSetup = require("./config/passport")
+const { Liquid } = require('liquidjs')
+
 
 var http = require('http').createServer(app);
-const io = require('socket.io')(http, {
-  cors: {
-    origin: 'http://localhost:3000/',
-    methods: ['GET', 'POST']
-  }
-});
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST','PUT','DELETE'],
+ credentials: true,
+};
+app.use(cors(corsOptions));
+
+
+// const io = require('socket.io')(http, {
+//   cors: {
+//     origin: '*',
+//     methods: "GET,POST,PUT,DELETE",
+//     // credentials: true,
+//   }
+// });
+
 
 dotenv.config();
 
-app.set('view engine', 'pug');
-app.set('views', './views');
+const engine = new Liquid({
+  extname: '.liquid',
+  root: __dirname,
+  layouts: './layout',
+ 
+})
+
+app.engine('liquid', engine.express())
+app.set('views', [ './views', './views/index','./views/layout','./views/Product'] )
+app.set('view engine', 'liquid')
+
+engine.registerFilter('vnd', (value) => {
+  const formattedValue = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+  return formattedValue;
+});
+
+
+
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname + '/public/images')))
@@ -37,7 +65,7 @@ app.use(
   session({
     secret: process.env.JWT_ACCESS_KEY,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
   })
 );
 
@@ -52,9 +80,10 @@ app.use(cors(),bodyParser.json())
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-io.on('connection', (socket) => {
-  console.log('a user connected',socket.handshake.headers["sec-ch-ua"]);
-});
+
+// io.on('connection', (socket) => {
+//   console.log('a user connected',socket.handshake.headers["sec-ch-ua"]);
+// });
 
 mongoose.set('strictQuery', true)
 
@@ -64,6 +93,12 @@ mongoose.connect(
 .then(()=>console.log('connected'))
 .then(()=>{
   app.use("/",public);
+  // app.get('/', function (req, res) {
+  //   const todos = ['fork and clone', 'make it better', 'make a pull request']
+  //   res.render('index', {todos:todos})
+  // })
+
+
   app.use("/user", userRoute);
   app.use("/files", fileRoute)
   app.use("/address",address);
@@ -72,10 +107,4 @@ mongoose.connect(
 
 })
 .catch(e=>console.log(e));
-
-
-
-
-
-
 http.listen(3020);
