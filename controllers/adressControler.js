@@ -3,8 +3,6 @@ const User = require("../model/UserModel");
 
 
 const Address = require("../model/adressModel");
-
-
 const addressControler = {
   addAdress: async (req, res) => {
     try {
@@ -31,7 +29,6 @@ const addressControler = {
   getAll: async (req,res) =>{
     try {
       const idUser =req.user.id
-      // const user = await User.findOne({ _id: req.query.id })
       const list = await Address.find({userID:idUser})
       console.log(list)
       res.status(200).json(list);

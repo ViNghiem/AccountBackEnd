@@ -14,9 +14,10 @@ const session = require('express-session');
 var app = express();
 var dotenv = require("dotenv");
 var authRoute = require('./routes/admin/authRoute')
+var categori = require('./routes/admin/Categories')
 const passportSetup = require("./config/passport")
 const { Liquid } = require('liquidjs')
-
+const {Setcookey} = require('./miderwhere/statistical')
 
 var http = require('http').createServer(app);
 const corsOptions = {
@@ -46,13 +47,20 @@ const engine = new Liquid({
 })
 
 app.engine('liquid', engine.express())
-app.set('views', [ './views', './views/index','./views/layout','./views/Product'] )
+app.set('views', [ './views', './views/index','./views/layout','./views/Product','./views/Categories','./views/Checkout'] )
 app.set('view engine', 'liquid')
+
+
 
 engine.registerFilter('vnd', (value) => {
   const formattedValue = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
   return formattedValue;
 });
+
+engine.registerFilter('first', (value) => {
+  return value[0];
+});
+
 
 
 
@@ -92,7 +100,7 @@ mongoose.connect(
 )
 .then(()=>console.log('connected'))
 .then(()=>{
-  app.use("/",public);
+  app.use("/",Setcookey,public);
   // app.get('/', function (req, res) {
   //   const todos = ['fork and clone', 'make it better', 'make a pull request']
   //   res.render('index', {todos:todos})
@@ -104,7 +112,16 @@ mongoose.connect(
   app.use("/address",address);
   app.use("/products",productAdmim);
   app.use("/auth", authRoute);
+  app.use("/admin/categories", categori);
 
+  app.use(function(req, res, next) {
+    res.render('Err404notfoud',{template:{}});
+  });
+  
 })
 .catch(e=>console.log(e));
+
+
+
+
 http.listen(3020);

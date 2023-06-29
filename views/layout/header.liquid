@@ -54,7 +54,7 @@
                      <div class="col-lg-2 col-md-2">
                         <div class="user hovercart">
                            <div class="icon-user">
-                              <div class="number-cart">0</div>
+                              <div class="number-cart">{{ global.cart.Quantity_InCart }}</div>
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 446.853 446.853">
                                  <g>
                                     <path d="M444.274,93.36c-2.558-3.666-6.674-5.932-11.145-6.123L155.942,75.289c-7.953-0.348-14.599,5.792-14.939,13.708   c-0.338,7.913,5.792,14.599,13.707,14.939l258.421,11.14L362.32,273.61H136.205L95.354,51.179   c-0.898-4.875-4.245-8.942-8.861-10.753L19.586,14.141c-7.374-2.887-15.695,0.735-18.591,8.1c-2.891,7.369,0.73,15.695,8.1,18.591   l59.491,23.371l41.572,226.335c1.253,6.804,7.183,11.746,14.104,11.746h6.896l-15.747,43.74c-1.318,3.664-0.775,7.733,1.468,10.916   c2.24,3.184,5.883,5.078,9.772,5.078h11.045c-6.844,7.617-11.045,17.646-11.045,28.675c0,23.718,19.299,43.012,43.012,43.012   s43.012-19.294,43.012-43.012c0-11.028-4.201-21.058-11.044-28.675h93.777c-6.847,7.617-11.047,17.646-11.047,28.675   c0,23.718,19.294,43.012,43.012,43.012c23.719,0,43.012-19.294,43.012-43.012c0-11.028-4.2-21.058-11.042-28.675h13.432   c6.6,0,11.948-5.349,11.948-11.947c0-6.6-5.349-11.948-11.948-11.948H143.651l12.902-35.843h216.221   c6.235,0,11.752-4.028,13.651-9.96l59.739-186.387C447.536,101.679,446.832,97.028,444.274,93.36z M169.664,409.814   c-10.543,0-19.117-8.573-19.117-19.116s8.574-19.117,19.117-19.117s19.116,8.574,19.116,19.117S180.207,409.814,169.664,409.814z    M327.373,409.814c-10.543,0-19.116-8.573-19.116-19.116s8.573-19.117,19.116-19.117s19.116,8.574,19.116,19.117   S337.916,409.814,327.373,409.814z"></path>
@@ -66,13 +66,35 @@
                               <p><a href="#">Vận chuyển toàn quốc</a></p>
                            </div>
                            <div class="cart-view">
+
+                           {% if global.cart.items.size > 0 %}
+                              {% for item in global.cart.items %}
+                                 
+                              <table>
+                                 <tbody>
+                                    <tr class="product-cart">
+                                       <td class="vartar"><img src="{{item.images | first}}" alt=""></td>
+                                       <td>
+                                          <a href="/product/{{ item.slug}}">{{ item.name}}</a>
+                                          <span>Số lượng:{{ item.quantity}} </span>
+                                          <span>Giá:{{ item.price | vnd }}  </span>
+                                       </td>
+                                    </tr>
+                                 </tbody>
+                              </table>
+                              {% endfor %}
+                           {% else %}
                               <p>Hiện chưa có sản phẩm trong giỏ hàng</p>
+                           {% endif %}
+
+
+
                               <span class="line"></span>
                               <table class="total-table">
                                  <tbody>
                                     <tr>
                                        <td class="total"><span style="font-size: 15px;">Tổng tiền:</span></td>
-                                       <td class="total"><span style="font-size: 15px;">0đ</span></td>
+                                       <td class="total"><span style="font-size: 15px;">{{ global.cart.total_price | vnd }}</span></td>
                                     </tr>
                                     <tr>
                                        <td>
@@ -96,55 +118,18 @@
                      <ul>
                         <li class="menu-father">
                            <a href="/categories/iphone">iphone</a>
-                           <div class="arrow-down"></div>
-                           <div class="menu-mom">
-                              <ul>
-                                 <li class="menu-chil">
-                                    <a href="/categories/iphone-x"><span>iPhone X</span><span class="icon-chil "><i class="fa fa-angle-right"></i></span></a>
-                                    <div class="list-chil">
-                                       <ul>
-                                          <li><a href="/categories/thiet-bi-thong-minh">Thiết bị thông minh</a></li>
-                                          <li><a href="/categories/sua-chua">Sửa chữa</a></li>
-                                       </ul>
-                                    </div>
-                                 </li>
-                                 <li><a href="/categories/iphone-7">iPhone 7</a></li>
-                                 <li><a href="/categories/iphone-8">iPhone 8</a></li>
-                              </ul>
-                           </div>
                         </li>
-                        <li><a href="/categories/ipad">iPad</a></li>
-                        <li><a href="/categories/iwacth">iWacth</a></li>
-                        <li><a href="/categories/macbook">Macbook</a></li>
-                        <li><a href="/categories/kho-may-cu">Kho máy cũ</a></li>
-                        <li><a href="/categories/thiet-bi-thong-minh">Thiết bị thông minh</a></li>
-                        <li><a href="/categories/phu-kien">Phụ kiện</a></li>
-                        <li><a href="/categories/sim-so-dep">Sim số đẹp</a></li>
-                        <li><a href="/blog">Góc công nghệ</a></li>
+                        <li class="menu-father">
+                           <a href="/categories/may-tinh">Máy tính</a>
+                        </li>
+                       
                      </ul>
                   </div>
                </div>
             </div>
          </div>
          <script>
-            window.addEventListener("scroll", () => {
-              if (window.scrollY > 100) {
-                document.getElementById("header-top").classList.add("stuck")
-                document.getElementById("header-mid").classList.add("stuck")
-                document.getElementById("open-headerbot").classList.remove("stuck")
-                document.getElementById("menu").classList.add("stuck")
-                document.getElementById("logo").style.display="none"
-            
-              } else {
-                document.getElementById("header-top").classList.remove("stuck")
-                document.getElementById("header-mid").classList.remove("stuck")
-                document.getElementById("open-headerbot").classList.add("stuck")
-                document.getElementById("menu").classList.remove("stuck")
-                // document.getElementById("menu").style.height="auto"
-                document.getElementById("logo").style.display="block"
-              }
-            })
-            
+       
             let openbot = document.querySelector(".open-headerbot")
             let i= true
               openbot.addEventListener("click", () => {
@@ -176,7 +161,7 @@
                <a href="/"><img id="logo" src="https://statics.pancake.vn/web-media/08/57/24/b0/01f0af106e9cbb6ad173d034a942ed39e7c5acb460beb981c0868b13.svg" alt=""></a>
             </div>
             <div class="icon-user">
-               <div class="number-cart">0</div>
+               <div class="number-cart">{{ global.cart.Quantity_InCart }}</div>
                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 446.853 446.853">
                   <g>
                      <path d="M444.274,93.36c-2.558-3.666-6.674-5.932-11.145-6.123L155.942,75.289c-7.953-0.348-14.599,5.792-14.939,13.708   c-0.338,7.913,5.792,14.599,13.707,14.939l258.421,11.14L362.32,273.61H136.205L95.354,51.179   c-0.898-4.875-4.245-8.942-8.861-10.753L19.586,14.141c-7.374-2.887-15.695,0.735-18.591,8.1c-2.891,7.369,0.73,15.695,8.1,18.591   l59.491,23.371l41.572,226.335c1.253,6.804,7.183,11.746,14.104,11.746h6.896l-15.747,43.74c-1.318,3.664-0.775,7.733,1.468,10.916   c2.24,3.184,5.883,5.078,9.772,5.078h11.045c-6.844,7.617-11.045,17.646-11.045,28.675c0,23.718,19.299,43.012,43.012,43.012   s43.012-19.294,43.012-43.012c0-11.028-4.201-21.058-11.044-28.675h93.777c-6.847,7.617-11.047,17.646-11.047,28.675   c0,23.718,19.294,43.012,43.012,43.012c23.719,0,43.012-19.294,43.012-43.012c0-11.028-4.2-21.058-11.042-28.675h13.432   c6.6,0,11.948-5.349,11.948-11.947c0-6.6-5.349-11.948-11.948-11.948H143.651l12.902-35.843h216.221   c6.235,0,11.752-4.028,13.651-9.96l59.739-186.387C447.536,101.679,446.832,97.028,444.274,93.36z M169.664,409.814   c-10.543,0-19.117-8.573-19.117-19.116s8.574-19.117,19.117-19.117s19.116,8.574,19.116,19.117S180.207,409.814,169.664,409.814z    M327.373,409.814c-10.543,0-19.116-8.573-19.116-19.116s8.573-19.117,19.116-19.117s19.116,8.574,19.116,19.117   S337.916,409.814,327.373,409.814z"></path>
