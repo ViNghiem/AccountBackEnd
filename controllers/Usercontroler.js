@@ -23,8 +23,6 @@ function makeid(number){
 }
 
 
-
-
 function hexToBase64(hexstring) {
   let code = btoa(hexstring.match(/\w{2}/g).map(function(a) {
       return String.fromCharCode(parseInt(a, 16));
@@ -128,17 +126,14 @@ const userController = {
             userPhone.password
           );
         }
-        
-       
         if (!validPassword) {
           let mess = {mess: "Mật khẩu không chính xác"}
           res.status(404).json(mess);
         }
 
         if(validPassword) {
-        
           if(user){
-            console.log("áhdjhjashd2222")
+          
             let mess = "Đăng nhập thành công";
             const accessToken = authController.generateAccessToken(user);
             const refreshToken = authController.generateRefreshToken(user);
@@ -163,12 +158,7 @@ const userController = {
             });
             const { password, ...others } = userPhone._doc;
             res.status(200).json({ ...others, accessToken ,mess});
-          }
-
-          
-     
-        
-          
+          }          
         }
       }
     } catch (err) {
@@ -177,30 +167,44 @@ const userController = {
   },
 
   acount:async(req,res)=>{
-   
+
+   try {
     const user = await User.findOne({ _id:req.user.id }) 
     res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+    
   },
 
   updateProfile:async(req,res)=>{
     console.log(req.body,"body")
     const newObj = { ...req.body };
     delete newObj.id;
-
-
     console.log(newObj,"newObjs")
     User.updateOne(
       { _id: req.body.id },newObj
     )
       .then( async result => {
 
-        const user = await User.findOne({ _id:req.body.id }) 
+        const user = await User.findOne({ _id:req.body.id })
+        console.log(user)
         res.status(200).json(user);
       })
       .catch(error => {
         console.error('Lỗi khi cập nhật dữ liệu:', error);
       });
   },
+
+  permission: async(req,res)=>{
+    try {
+      console.log(req)
+      res.status(200).json({mess:"succes"});
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+
 
 
   zaloAuth: async (req,res) =>{

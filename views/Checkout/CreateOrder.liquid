@@ -1,0 +1,431 @@
+{% layout "layout.liquid" %}
+
+{% block content %}
+  <link rel="stylesheet" href="http://localhost:3020/checkout.css">
+
+
+  <div class="checkout woocommerce-checkout">
+    <div class="container">
+      <form
+        method="post"
+        action="/checkout"
+        id="quick-buy">
+        <div class="row pt-0 ">
+
+          <div class="col-md-7 col-12">
+
+            <input
+              type="hidden"
+              id="return_url"
+              name="return_url"
+              value="/pages/mua-hang-thanh-cong">
+            <input
+              type="hidden"
+              name="shipping_fee"
+              value="0">
+            <input
+              type="hidden"
+              id="discount_code"
+              name="order[discount_code]">
+            <div class="customer_details">
+              <div class="woocommerce-billing-fields">
+                <h3>Thông tin thanh toán</h3>
+                <div class="woocommerce-billing-fields__field-wrapper">
+                  <div class="shipment-details-left">
+                    <p class="update_totals_on_change">
+                      <label>
+                        Họ và tên *
+                      </label>
+                      <span class="form-row-first">
+                        <input
+                          type="text"
+                          id="fullname"
+                          name="order[full_name]"
+                          value=""
+                          placeholder="Nhập họ tên của bạn...">
+                      </span>
+                    </p>
+                    <p class="update_totals_on_change">
+                      <label>
+                        Địa chỉ*
+                      </label>
+                      <span class="form-row-first">
+                        <input
+                          type="text"
+                          id="address"
+                          name="order[address]"
+                          value=""
+                          placeholder="Nhập địa chỉ của bạn...">
+                      </span>
+                    </p>
+                    <div class="input col-12" id="fillter-selected">
+                      <div class="tvh-input-form-container">
+                        <label>
+                          Chọn Tỉnh/ Thành Phố
+                        </label><br/>
+                        <select
+                          class="fullWidth-input"
+                          id="optCity"
+                          name="order[province_id]"
+                          onchange="handleDistrict()">
+                          <option
+                            data-name="null"
+                            value="null"
+                            selected="">Chọn Tỉnh/ Thành Phố</option>
+                        </select>
+                      </div>
+                      <div class="tvh-input-form-container" style="margin: 0 8px">
+                        <label>
+                          Chọn Quận/ Huyện
+                        </label><br/>
+                        <select
+                          class="fullWidth-input"
+                          id="optDistrict"
+                          name="order[district_id]"
+                          onchange="handleCommue()">
+                          <option value="" selected="">Chọn Quận/ Huyện</option>
+                        </select>
+                      </div>
+                      <div class="tvh-input-form-container">
+                        <label>
+                          Chọn Phường/ Xã
+                        </label><br/>
+                        <select
+                          class="fullWidth-input"
+                          id="optCommunes"
+                          name="order[commune_id]">
+                          <option value="" selected="">Chọn Phường/ Xã</option>
+                        </select>
+                      </div>
+                    </div>
+                    <p class="update_totals_on_change">
+                      <label>
+                        Số điện thoại *
+                      </label>
+                      <span class="form-row-first">
+                        <input
+                          type="text"
+                          pattern="[0-9]{10}"
+                          title="Số điện thoại không phù hợp"
+                          id="phone_number"
+                          name="order[phone_number]"
+                          value=""
+                          placeholder="Nhập số điện thoại để nhận viên có thể tư vấn cho bạn...">
+                      </span>
+                    </p>
+                    <p class="update_totals_on_change">
+                      <label>
+                        Địa chỉ email *
+                      </label>
+                      <span class="form-row-first">
+                        <input
+                          type="email"
+                          id="email"
+                          name="order[email]"
+                          value=""
+                          placeholder="Điền địa chỉ email để có thêm thông báo gửi về email của bạn..">
+                      </span>
+                    </p>
+                  </div>
+                  <div class="woocommerce-additional-fields">
+                    <h3>Thông tin bổ sung</h3>
+                    <p class="update_totals_on_change">
+                      <label>
+                        Ghi chú đơn hàng (tuỳ chọn)
+                      </label>
+                      <span class="form-row-first">
+                        <textarea
+                          name="order[note]"
+                          id="ndvTextNote"
+                          cols="20"
+                          rows="5"
+                          placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."></textarea>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-md-5 col-12">
+            <div class="has-border">
+              <div class="checkout-sidebar sm-touch-scroll">
+                <h3>ĐƠN HÀNG CỦA BẠN</h3>
+                <div class="woocommerce-checkout-review-order">
+                  <div class="product-name-total">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="total-left">
+                          <b>SẢN PHẨM</b>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="total-right">
+                          <b>TỔNG</b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Đặt biến lưu discount_promotion_value, khởi tạo giá bằng 0-->
+
+                  {% for order in global.cart.items %}
+                    <!--Cộng dồn giá trị discount_promotion_value-->
+
+
+                    <div class="product-name-total cart_item">
+                      <div class="row">
+                        <div class="col-8">
+                          <div class="total-left">
+                            {{ order.name }} (<strong>{{ order.quantity }}</strong>)
+                          </div>
+                        </div>
+                        <div class="col-4">
+                          <div class="total-right">
+                            <b>{{ order.price | times: order.quantity | vnd }}</b>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+
+                </div>
+
+                <div class="product-name-total cart_item">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="total-left">
+                        <b>Thành tiền</b>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="total-right">
+                        <b>
+                          <span
+                            class="is-float-right pay-pay"
+                            id="invoice-amount"
+                            style="text-transform: lowercase">{{ global.cart.total_price | vnd }}</span>
+                        </b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tvh-product-method-checkout">
+                  <div class="tvh-methods">Phương thức thanh toán</div>
+                  <div class="tvh-checkout-cod">
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      id="method_cod"
+                      value="cod"
+                      onclick="swichSelection()"
+                      checked>
+                    <div class="tvh-check-flex">
+                      <span>
+                        <div class="tvh-bold">Trả tiền mặt khi nhận hàng</div>
+                        <div class="tab-pane" id="tt-code">{{ section.settings.content_COD }}</div>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="tvh-checkout-zalopay">
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      id="method_bacs"
+                      value="banking"
+                      onclick="swichSelection()" />
+                    <div class="tvh-check-flex">
+                      <span>
+                        <div class="tvh-bold">Chuyển khoản ngân hàng</div>
+                        <div id="payment_method_bacs">{{ section.settings.content_ck }}</div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="place-order">
+                  <div id="submit" class="woocommerce-button confirmBtn">
+                    <div class="text-top">ĐẶT HÀNG</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div><br/><br/>
+
+  <script>
+
+    console.log("global", {{ global | json }})
+
+    function getJSON(url) {
+      var resp;
+      var xmlHttp;
+      resp = '';
+      xmlHttp = new XMLHttpRequest();
+      if (xmlHttp != null) {
+        xmlHttp.open("GET", url, false);
+        xmlHttp.send(null);
+        resp = xmlHttp.responseText;
+      }
+      return resp;
+    }
+
+// -----------the url---v         ------------the callback---v
+    let optCity = document.getElementById("optCity")
+    var mydata = getJSON("https://pos.pages.fm/api/v1/geo/provinces")
+    let dataCity = JSON.parse(mydata)
+    for (let i = 0; i < dataCity.data.length; i++) {
+      let myCity = dataCity.data[i]
+      const elm = `
+       <option data-name=\"${
+        myCity.name
+      }\" value=\"${
+        myCity.id
+      }\"> ${
+        myCity.name
+      }</option>
+    `
+      optCity.innerHTML += elm
+    }
+
+    function handleDistrict() {
+      let optDistrict = document.getElementById("optDistrict")
+      let dataDistrict = JSON.parse(getJSON("https://pos.pages.fm/api/v1/geo/districts?province_id=" + optCity.value))
+
+      optDistrict.innerHTML = '';
+      optDistrict.innerHTML = ' <option value="">Chọn Quận/ Huyện</option>';
+      for (let i = 0; i < dataDistrict.data.length; i++) {
+        let myDistrict = dataDistrict.data[i]
+        const el = `
+          <option data-name=\"${
+          myDistrict.name
+        }\" value=\"${
+          myDistrict.id
+        }\">${
+          myDistrict.name
+        }</option>
+        `
+        optDistrict.innerHTML += el
+      }
+    }
+
+    function handleCommue() {
+      let optCommune = document.getElementById('optCommunes')
+      let dataComm = JSON.parse(getJSON("https://pos.pages.fm/api/v1/geo/communes?district_id=" + optDistrict.value))
+      if (dataComm.data.length > 0) {
+        optCommune.innerHTML = ''
+        optCommune.innerHTML = '<option>Chọn Phường/ Xã</option>'
+        for (let i = 0; i < dataComm.data.length; i++) {
+          let myComm = dataComm.data[i]
+          const el = `
+          <option data-name=\"${
+            myComm.name
+          }\" value=\"${
+            myComm.id
+          }\">${
+            myComm.name
+          }</option>
+        `
+          optCommune.innerHTML += el
+        }
+      } else {
+        optCommune.innerHTML = ''
+        optCommune.innerHTML = '<option disable value="">Chọn Phường/ Xã</option>'
+      }
+      calcFee()
+    }
+
+    function formatMoney(num) {
+      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
+
+
+    const submit = document.getElementById('submit')
+    submit.addEventListener('click', () => {
+      let form = document.getElementById('quick-buy');
+      let check = enableButtonConfirm();
+      if (check) {
+        form.submit()
+
+      }
+    })
+
+    function validatePhoneNumber(input_str) {
+      var re = /^(\+84|84|0)(5[5|8|9|6]|8[1|2|3|4|5|8|6|9|7]|3[2|3|4|5|6|7|8|9]|7[0|9|7|6|8]|9[0|2|1|4|3|6|7|8|9]|1[2|9])([0-9]{7})$/im;
+      return re.test(input_str);
+    }
+
+    let regex = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
+
+    function enableButtonConfirm() {
+      var fullname = document.getElementById("fullname");
+      var address = document.getElementById("address");
+      var province = document.getElementById("optCity");
+      var district = document.getElementById("optDistrict");
+      var commune = document.getElementById("optCommunes");
+      var phone_number = document.getElementById("phone_number");
+      var email = document.getElementById("email");
+
+      if (fullname.value == "") {
+        fullname.focus();
+        alert('Vui lòng nhập đầy đủ họ tên');
+        return false;
+      }
+
+      if (address.value == "") {
+        address.focus();
+        alert('Địa chỉ không được để trống')
+        return false;
+      }
+
+      if (province.value == "") {
+        province.focus();
+        alert('Bạn chưa chọn tỉnh thành')
+        return false;
+      }
+
+      if (district.value == "") {
+        district.focus();
+        alert('Bạn chưa chọn huyện')
+        return false;
+      }
+
+      if (commune.value == "Chọn Phường/ Xã") {
+        commune.focus();
+        alert('Bạn chưa chọn phường xã')
+        return false;
+      }
+
+      if (phone_number.value == "") {
+        phone_number.focus();
+        alert('Số điện thoại không được để trống')
+        return false;
+      } else {
+        if (validatePhoneNumber(phone_number.value) == false) {
+          phone_number.focus();
+          alert('Số điện thoại không đúng định dạng')
+          return false;
+        }
+      }
+
+      if (email.value == "") {
+        email.focus();
+        alert('Email của bạn không được để trống')
+        return false;
+      } else {
+        if (regex.test(email.value) == false) {
+          email.focus();
+          alert('Email không đúng định dạng')
+          return false;
+        }
+      }
+      return true;
+    }
+  </script>
+
+{% endblock %}

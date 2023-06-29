@@ -26,6 +26,12 @@ router.get("/login/success",async (req, res) => {
         const accessToken = authController.generateAccessToken(User_db);
         const refreshToken = authController.generateRefreshToken(User_db);
         console.log(accessToken,"accessToken")
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          secure:false,
+          path: "/",
+          sameSite: "strict",
+        });
         res.status(200).json({accessToken:accessToken})
       }else{
         const newUser = await new User({
@@ -37,6 +43,12 @@ router.get("/login/success",async (req, res) => {
         const accessToken = authController.generateAccessToken(newUser);
         const refreshToken = authController.generateRefreshToken(newUser);
         console.log(accessToken,"accessToken")
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          secure:false,
+          path: "/",
+          sameSite: "strict",
+        });
         res.status(200).json({accessToken:accessToken})
 
       }
@@ -66,11 +78,15 @@ router.get("/login/failed", (req, res) => {
 
 router.get("/logout", (req, res) => {
   console.log(req)
-  req.logout(()=>{
-    console.log("doi")
+  req.logOut(() => {
+    
+    const cookies = Object.keys(req.cookies);
+    cookies.forEach((cookie) => {
+      res.clearCookie(cookie);
+    });
+    res.status(200).json({mess:"logout oke"});
   });
-  // res.status(200).json({mess:'logout success'})
-  res.redirect(CLIENT_URL);
+  
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile","email"] }));

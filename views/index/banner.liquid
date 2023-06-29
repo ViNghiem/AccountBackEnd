@@ -1,3 +1,124 @@
 {% block banner %}
-  banner
+  <section class="container mg-top">
+    <div class="banner">
+      <div class="banner-left">
+        <div class="swiper mySwiper2vn swiper-initialized swiper-horizontal swiper-backface-hidden">
+          <div
+            class="swiper-wrapper"
+            id="swiper-wrapper-7c5c9f3274337107d"
+            aria-live="polite"
+            style="transition-duration: 0ms; transform: translate3d(-2079px, 0px, 0px);">
+            <div
+              class="swiper-slide swiper-slide-next"
+              role="group"
+              aria-label="3 / 4"
+              data-swiper-slide-index="2"
+              style="width: 683px; margin-right: 10px;">
+              <a href=""><img src="https://statics.pancake.vn/web-media/b8/ef/83/4f/cc092100f71b30838c522857e53618e4b9c5b4d95190b13665f7cabc.jpg"></a>
+            </div>
+            <div
+              class="swiper-slide"
+              role="group"
+              aria-label="4 / 4"
+              data-swiper-slide-index="3"
+              style="width: 683px; margin-right: 10px;">
+              <a href=""><img src="https://statics.pancake.vn/web-media/48/6d/86/68/fd9d804c13c8c982ed5dea0d7d180a7189f55cce464beb97a0ee675e.jpg"></a>
+            </div>
+            <div
+              class="swiper-slide swiper-slide-prev"
+              role="group"
+              aria-label="1 / 4"
+              data-swiper-slide-index="0"
+              style="width: 683px; margin-right: 10px;">
+              <a href=""><img src="https://statics.pancake.vn/web-media/c9/82/e7/69/c24f745e4f7566a17cb64fbe18bae69394ab51fef7b331a1cf8c4be0.jpg"></a>
+            </div>
+            <div
+              class="swiper-slide swiper-slide-active"
+              role="group"
+              aria-label="2 / 4"
+              data-swiper-slide-index="1"
+              style="width: 683px; margin-right: 10px;">
+              <a href=""><img src="https://statics.pancake.vn/web-media/02/26/55/30/96f0d9e24a558c315f6d78c34b621f36ad728ee93d8aff6976c64054.jpg"></a>
+            </div>
+          </div>
+          <span
+            class="swiper-notification"
+            aria-live="assertive"
+            aria-atomic="true"></span>
+        </div>
+        <div thumbsslider="" class="swiper mySwipervn swiper-initialized swiper-horizontal swiper-free-mode swiper-watch-progress swiper-backface-hidden swiper-thumbs">
+          <div
+            class="swiper-wrapper"
+            id="swiper-wrapper-ceebd964aa736d3e"
+            aria-live="polite"
+            style="transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;">
+            <div
+              class="swiper-slide item-slide swiper-slide-visible swiper-slide-active"
+              role="group"
+              aria-label="1 / 4"
+              style="width: 128.6px; margin-right: 10px;">
+              <span>Thit</span>
+            </div>
+            <div
+              class="swiper-slide item-slide swiper-slide-visible swiper-slide-next swiper-slide-thumb-active"
+              role="group"
+              aria-label="2 / 4"
+              style="width: 128.6px; margin-right: 10px;">
+              <span>iWacth</span>
+            </div>
+            <div
+              class="swiper-slide item-slide swiper-slide-visible"
+              role="group"
+              aria-label="3 / 4"
+              style="width: 128.6px; margin-right: 10px;">
+              <span>iPhone</span>
+            </div>
+            <div
+              class="swiper-slide item-slide swiper-slide-visible"
+              role="group"
+              aria-label="4 / 4"
+              style="width: 128.6px; margin-right: 10px;">
+              <span>iPad</span>
+            </div>
+          </div>
+          <span
+            class="swiper-notification"
+            aria-live="assertive"
+            aria-atomic="true"></span>
+        </div>
+      </div>
+      <div class="banner-right">
+        <div>
+          <a href=""><img src="https://statics.pancake.vn/web-media/6e/ba/29/dc/2d928b5c8141a44572a3d782e2e9383d692636314c37224687d7eb4f.jpg" alt=""></a>
+        </div>
+        <div>
+          <a href=""><img src="https://statics.pancake.vn/web-media/91/be/d1/87/b30a7b38fad60f44ffd2d468770c1de7e558979c61fa1d49df1610a1.jpg" alt=""></a>
+        </div>
+        <div>
+          <a href=""><img src="https://statics.pancake.vn/web-media/03/b2/da/8b/e3bf21bf4664fbbb4a7d7ee94016e0ef87873f4273b30ca5a0fe4b58.jpg" alt=""></a>
+        </div>
+      </div>
+    </div>
+    <div class="banner-full">
+      <img src="https://statics.pancake.vn/web-media/35/24/e7/67/eac3764aea54aef2550a27447642810a30c473945d081aee27b778b4.jpg" alt="">
+    </div>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper(".mySwipervn", {
+        loop: false,
+        spaceBetween: 10,
+        slidesPerView: 5,
+        freeMode: true,
+        watchSlidesProgress: true
+      });
+      var swiper2 = new Swiper(".mySwiper2vn", {
+        loop: true,
+        spaceBetween: 10,
+
+        thumbs: {
+          swiper: swiper
+        }
+      });
+    </script>
+  </section>
 {% endblock %}

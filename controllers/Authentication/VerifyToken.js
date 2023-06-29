@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const verifyToken = (req, res, next) => {
   
   const token = req.headers.token;
-  console.log(token)
   if (token) {
     const accessToken = token;
     jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
@@ -11,7 +10,6 @@ const verifyToken = (req, res, next) => {
         res.status(403).json("Token is not valid!");
       }
       req.user = user;
-      console.log(user)
       next();
     });
   } else {  
@@ -39,6 +37,9 @@ const verifyTokenAndAdmin = (req, res, next) => {
     }
   });
 };
+
+
+
 
 module.exports = {
   verifyToken,

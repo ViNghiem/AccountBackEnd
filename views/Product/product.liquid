@@ -61,15 +61,7 @@
             </div>
           </div>
           <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
-            <form
-              action="/add-cart"
-              enctype="multipart/form-data"
-              method="post"
-              accept-charset="UTF-8">
-              <input
-                type="hidden"
-                name="_csrf_token"
-                value="RF1PLBoETnwwfUc3eXwEDxwhKFxNIDQ0t97ei794U7rrAKQ6NbadyugV">
+            <form action="/add-cart" method="post">
               <input
                 type="hidden"
                 name="utf8"
@@ -78,58 +70,14 @@
                 <input
                   type="hidden"
                   name="id"
-                  value=""
+                  value="{{prod._id}}"
                   id="var_id">
                 <input
                   type="hidden"
                   name="quantity"
                   value="1"
                   id="input-quantity">
-                <div class="pro-color-product">
-                  <label>Dung lượng:</label>
-                  <ul>
-                    <li
-                      class="value-color"
-                      data-attributes="Dung lượng"
-                      data-value="64GB"
-                      onclick="handleClick('64GB', 'Dung lượng', this)">
-                      <span>64GB</span>
-                    </li>
-                    <li
-                      class="value-color"
-                      data-attributes="Dung lượng"
-                      data-value="256GB"
-                      onclick="handleClick('256GB', 'Dung lượng', this)">
-                      <span>256GB</span>
-                    </li>
-                  </ul>
-                </div>
-                <div class="pro-color-product">
-                  <label style="margin-top: 14px;min-width: 62px;">Màu sắc:</label>
-                  <ul>
-                    <li
-                      class="value-color"
-                      data-img="https://statics.pancake.vn/web-media/59/bf/e9/85/056819e2a09d44a41907ccff47f95367581fddbf053053d40f98ad1d.jpg"
-                      data-attributes="Màu sắc"
-                      data-value="đen"
-                      onclick="handleClick('đen','Màu sắc',this)">
-                      <span>đen</span><img src=" https://cdn.pancake.vn/1/s150x150/59/bf/e9/85/056819e2a09d44a41907ccff47f95367581fddbf053053d40f98ad1d.jpg" alt=""></li>
-                    <li
-                      class="value-color"
-                      data-img="https://statics.pancake.vn/web-media/02/4c/9a/31/e6cf2f46f3b90dd65cbc4a569c1733ce6e4be09eea7149326ec3194c.jpg"
-                      data-attributes="Màu sắc"
-                      data-value="trắng"
-                      onclick="handleClick('trắng','Màu sắc',this)">
-                      <span>trắng</span><img src=" https://cdn.pancake.vn/1/s150x150/02/4c/9a/31/e6cf2f46f3b90dd65cbc4a569c1733ce6e4be09eea7149326ec3194c.jpg" alt=""></li>
-                    <li
-                      class="value-color"
-                      data-img="https://statics.pancake.vn/web-media/7d/ce/b4/36/d02253cb50d9c6490c96767531a442356d97648489b92d457bc18579.jpg"
-                      data-attributes="Màu sắc"
-                      data-value="đỏ"
-                      onclick="handleClick('đỏ','Màu sắc',this)">
-                      <span>đỏ</span><img src=" https://cdn.pancake.vn/1/s150x150/7d/ce/b4/36/d02253cb50d9c6490c96767531a442356d97648489b92d457bc18579.jpg" alt=""></li>
-                  </ul>
-                </div>
+
                 <div class="product-price">
                   <p>{{ prod.price | vnd }}</p>
                 </div>
@@ -142,7 +90,7 @@
                   <input
                     type="hidden"
                     name="return_url"
-                    value="/pages/mua-hang-thanh-cong">
+                    value="{{prod.slug}}">
                   <button class="addcart" style="background: #f00e0e">
                     <span class="icon_cart_btn"></span>Mua ngay</button>
                 </div>
@@ -346,9 +294,5 @@
     });
   </script>
 
-  <script id="template">
 
-    console.log( {{ template | json }})
-
-  </script>
 {% endblock %}

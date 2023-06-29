@@ -20,10 +20,6 @@ const orderSchema = new Schema({
     },
 });
 
-// orderSchema.methods.getListProduct = async function(id) {
-//   const product = await Product.findOne({_id:id})
-//   return product;
-// };
 
 
 
