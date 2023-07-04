@@ -22,9 +22,21 @@ const productSchema = new mongoose.Schema({
     required: true
   },
 
+  quatity: {
+    type: Number,
+    required: true
+  },
+
   images: [{
     type: String
    }],
+
+   category:[
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"Categori"
+    }
+  ],
 
 
   variations:[

@@ -8,10 +8,12 @@ const product = require("../../model/Product/ProductModel");
 const ProductControler = {
   addProduct: async (req, res) => {
     try {
+      console.log("vinghiem")
       const  newProduct= await new Product({
         name: req.body.name,
         description: req.body.description,
         slug:req.body.slug,
+        quatity:req.body.quatity,
         price:req.body.price,
         images: req.body.images
       });

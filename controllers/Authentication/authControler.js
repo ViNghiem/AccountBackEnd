@@ -4,30 +4,34 @@ var mongoose = require("mongoose");
 const sha256 = require("sha256")
 const jwt = require('jsonwebtoken')
 
-
+const UserDb= require('../../model/UserModel')
 
 
 
 
 const authController = {
 
-  generateAccessToken:(user) => {
+  generateAccessToken:async (user) => {
+    const userinDb = await UserDb.findOne({_id:user.id})
+    console.log(userinDb,"sajdkjsakjd")
     return jwt.sign(
       {
         id: user.id,
-        isAdmin: user.isAdmin,
+        isAdmin: userinDb.isAdmin,
       },
       process.env.JWT_ACCESS_KEY,
-      { expiresIn: "2d" }
+      { expiresIn: "30s" }
     );
 
   },
 
-  generateRefreshToken: (user) => {
+  generateRefreshToken:async (user) => {
+    const userinDb = await UserDb.findOne({_id:user.id})
+    
     return jwt.sign(
       {
         id: user.id,
-        isAdmin: user.isAdmin,
+        isAdmin: userinDb.isAdmin,
       },
       process.env.JWT_REFRESH_KEY,
       { expiresIn: "365d" }
@@ -37,29 +41,32 @@ const authController = {
 
   requestRefreshToken: async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) return res.status(401).json("You're not authenticated");
-    if (!refreshTokens.includes(refreshToken)) {
-      return res.status(403).json("Refresh token is not valid");
+    // console.log("teoken", refreshToken)
+    if (!refreshToken){
+       return res.status(401).json("You're not authenticated");
+    }else{
+      jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, async (err, user) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(refreshToken)
+        // refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+        const newAccessToken = await authController.generateAccessToken(user);
+        const newRefreshToken = await authController.generateRefreshToken(user);
+        // refreshTokens.push(newRefreshToken);
+        console.log("newAccessToken",newAccessToken)
+  
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+          secure:false,
+          path: "/",
+          sameSite: "strict",
+        });
+        res.status(200).json({accessToken: newAccessToken});
+      });
     }
-    jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
-      if (err) {
-        console.log(err);
-      }
-      refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-      const newAccessToken = authController.generateAccessToken(user);
-      const newRefreshToken = authController.generateRefreshToken(user);
-      refreshTokens.push(newRefreshToken);
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure:false,
-        path: "/",
-        sameSite: "strict",
-      });
-      res.status(200).json({
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-      });
-    });
+
+
   },
 
 

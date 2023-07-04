@@ -14,8 +14,6 @@ const setGlooBal = async (req, res,next) => {
     const id = req.body.id
     console.log("_Mystore_key",_Mystore_key)
     const cart = await Cart.findOne({ idPicel: _Mystore_key });
-
-
     if(cart){
       await Cart.findOne({ idPicel: _Mystore_key })
       .populate('items.product_id')
@@ -23,7 +21,6 @@ const setGlooBal = async (req, res,next) => {
         if (err) {
     
         } else {
-
           const quantity = cart_items.items.reduce((accumulator, currentItem) => {
                 return accumulator + currentItem.quantity;
               }, 0);
@@ -56,9 +53,7 @@ const setGlooBal = async (req, res,next) => {
             
         }
       })
-
-
-      
+ 
     }else {
       const Cart = {
         items: [],

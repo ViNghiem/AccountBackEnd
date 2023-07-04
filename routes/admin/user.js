@@ -23,7 +23,7 @@ var upload = multer({ storage: storage })
 
 router.get("/account",verifyToken, userController.acount);
 
-router.get("/all",verifyTokenAndAdmin, userController.getAllUsers);
+router.get("/all", userController.getAllUsers);
 router.get("/info",verifyToken,userController.getInfoUsers);
 router.delete("/:id", userController.deleteUser);
 router.post("/regiter",userController.registerUser)

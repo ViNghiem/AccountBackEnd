@@ -41,6 +41,7 @@ const userController = {
 
   getAllUsers: async (req, res) => {
     try {
+      console.log("hjsahdjsah")
       const user = await User.find();
       res.status(200).json(user);
     } catch (err) {
@@ -167,14 +168,14 @@ const userController = {
   },
 
   acount:async(req,res)=>{
-
    try {
-    const user = await User.findOne({ _id:req.user.id }) 
-    res.status(200).json(user);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-    
+    console.log(req.user)
+      const user = await User.findOne({ _id:req.user.id }) 
+      res.status(200).json(user);
+    } catch (err) {
+      console.log(err)
+      // res.status(500).json(err);
+    }
   },
 
   updateProfile:async(req,res)=>{

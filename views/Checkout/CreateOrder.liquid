@@ -233,11 +233,25 @@
                       type="radio"
                       name="payment_method"
                       id="method_bacs"
+                      value="zalopay"
+                      onclick="swichSelection()" />
+                    <div class="tvh-check-flex">
+                      <span>
+                        <div class="tvh-bold">Thanh toán qua ZaloPay</div>
+                        <div id="payment_method_bacs">{{ section.settings.content_ck }}</div>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="tvh-checkout-zalopay">
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      id="method_bacs"
                       value="banking"
                       onclick="swichSelection()" />
                     <div class="tvh-check-flex">
                       <span>
-                        <div class="tvh-bold">Chuyển khoản ngân hàng</div>
+                        <div class="tvh-bold">Thanh toán qua momo</div>
                         <div id="payment_method_bacs">{{ section.settings.content_ck }}</div>
                       </span>
                     </div>

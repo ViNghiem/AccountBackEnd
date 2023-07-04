@@ -7,18 +7,12 @@ const Product = require("../../model/Product/ProductModel")
 const Cartcontroler = {
   addCart: async (req, res) => {
     try {
-      console.log("sadjsajkd")
-     console.log(req.body,"kety")
+  
       const _Mystore_key = req.cookies._Mystore_key
       const retuurl = req.body.return_url
-      console.log("_Mystore_key",_Mystore_key)
-      console.log("req",req.body.id)
       const CartColection = await Cart.findOne({ idPicel: _Mystore_key })
-     
-      console.log(Cart,"Cart")
       if(CartColection){
         const idCart = CartColection._id
-        // const listItem = CartColection.items
         const productId = req.body.id
         const quantity = parseInt(req.body.quantity)
         const itemToUpdate = CartColection.items.find(item => item.product_id.toString() === productId.toString());

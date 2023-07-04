@@ -16,16 +16,16 @@ const CLIENT_URL = "http://localhost:3000";
 
 
 router.get("/login/success",async (req, res) => {
-  
   try {
     if (req.user) {
+
       const user = req.user
       console.log(user,"usernpm")
       const User_db = await User.findOne({email:user._json.email})
       if(User_db){
-        const accessToken = authController.generateAccessToken(User_db);
-        const refreshToken = authController.generateRefreshToken(User_db);
-        console.log(accessToken,"accessToken")
+        const accessToken = await authController.generateAccessToken(User_db);
+        const refreshToken = await authController.generateRefreshToken(User_db);
+        console.log("accessTokensssssssssssssssssssssssssssssssssssssssssssssss",accessToken)
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure:false,
@@ -40,8 +40,8 @@ router.get("/login/success",async (req, res) => {
           avartar: req.user._json.picture
         });
         const user = await newUser.save();
-        const accessToken = authController.generateAccessToken(newUser);
-        const refreshToken = authController.generateRefreshToken(newUser);
+        const accessToken = await authController.generateAccessToken(newUser);
+        const refreshToken = await authController.generateRefreshToken(newUser);
         console.log(accessToken,"accessToken")
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
@@ -59,15 +59,9 @@ router.get("/login/success",async (req, res) => {
     console.log(err)
     res.status(500).json(err);
   }
-
-
-
-
-
-
-
-
 });
+
+
 
 router.get("/login/failed", (req, res) => {
   res.status(401).json({
@@ -88,6 +82,8 @@ router.get("/logout", (req, res) => {
   });
   
 });
+
+router.get("/refreshtoken", authController.requestRefreshToken);
 
 router.get("/google", passport.authenticate("google", { scope: ["profile","email"] }));
 
@@ -118,5 +114,12 @@ router.get(
     failureRedirect: "/login/failed",
   })
 );
+
+
+
+
+
+
+
 
 module.exports = router

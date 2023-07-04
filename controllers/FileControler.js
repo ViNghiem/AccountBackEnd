@@ -19,20 +19,19 @@ const fileController = {
     res.send(data.resources)
     console.log(data)
   },
-
+    
   upload: async (req,res)=>{
     if (!req.file) {
       next(new Error('No file uploaded!'));
       return;
     }
-    
+
     console.log(req.file)
     const newFile = await new File({
       name: req.file.filename,
       image_path: req.file.path
     });
     newFile.save()
-
     res.status(200).json({ newFile});
   },
 
