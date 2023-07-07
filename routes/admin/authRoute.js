@@ -2,6 +2,8 @@ const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../model/UserModel");
 const authController = require("../../controllers/Authentication/authControler")
+var dotenv = require("dotenv");
+dotenv.config();
 
 const CLIENT_URL = process.env.INDEX_URL
 console.log("CLIENT_URL",CLIENT_URL)
