@@ -3,17 +3,8 @@ const passport = require("passport");
 const User = require("../../model/UserModel");
 const authController = require("../../controllers/Authentication/authControler")
 
-
-
-
-
-
-
-
-const CLIENT_URL = "http://localhost:3000";
-
-
-
+const CLIENT_URL = process.env.INDEX_URL
+console.log("CLIENT_URL",CLIENT_URL)
 
 router.get("/login/success",async (req, res) => {
   try {
@@ -42,7 +33,6 @@ router.get("/login/success",async (req, res) => {
         const user = await newUser.save();
         const accessToken = await authController.generateAccessToken(newUser);
         const refreshToken = await authController.generateRefreshToken(newUser);
-        console.log(accessToken,"accessToken")
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure:false,

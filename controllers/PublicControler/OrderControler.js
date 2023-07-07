@@ -156,10 +156,10 @@ const OrderControler = {
 
 
 
-        const accessKey = 'F8BBA842ECF85';
-        const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
+        const accessKey = 'ir0gmkqQG4wTOcAd';
+        const secretKey = 'eiDZpRyiAjjMu5TnU6Cn1xJzvTYE3MmN';
         const orderInfo = OrderBill.note;
-        const partnerCode = 'MOMO';
+        const partnerCode = 'MOMOEOXC20220521';
         const redirectUrl = 'http://localhost:3020/ordersucces';
         const ipnUrl = 'http://localhost:3020/';
         const requestType = 'payWithMethod';
@@ -179,12 +179,12 @@ const OrderControler = {
       const signature = crypto.createHmac('sha256', secretKey)
         .update(rawSignature)
         .digest('hex');
-
+      console.log("signature",signature)
 
       const requestBody = {
         partnerCode: partnerCode,
-        partnerName: 'Test',
-        storeId: 'MomoTestStore',
+        partnerName: 'vinghiem',
+        storeId: 'vinghiem',
         requestId: requestId,
         amount: amount,
         orderId: orderId,
