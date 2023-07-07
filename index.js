@@ -15,6 +15,9 @@ var app = express();
 var dotenv = require("dotenv");
 var authRoute = require('./routes/admin/authRoute')
 var categori = require('./routes/admin/Categories')
+var Orders = require('./routes/admin/Order')
+
+
 const passportSetup = require("./config/passport")
 const { Liquid } = require('liquidjs')
 const {Setcookey} = require('./miderwhere/statistical')
@@ -113,6 +116,7 @@ mongoose.connect(
   app.use("/products",productAdmim);
   app.use("/auth", authRoute);
   app.use("/admin/categories", categori);
+  app.use("/admin/orders", Orders);
 
   app.use(function(req, res, next) {
     res.render('Err404notfoud',{template:{}});

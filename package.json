@@ -13,6 +13,7 @@
         "node": "16.x"
     },
     "dependencies": {
+        "@fortawesome/free-solid-svg-icons": "^6.4.0",
         "api": "^5.0.8",
         "ascii": "^1.0.0",
         "axios": "^1.4.0",

@@ -10,12 +10,12 @@ const Product = require("../../model/Product/ProductModel")
 const setGlooBal = async (req, res,next) => {
   
   try {
+    const index = process.env.INDEX_URL
+    console.log(index,"index")
     const _Mystore_key = req.cookies._Mystore_key
     const id = req.body.id
     console.log("_Mystore_key",_Mystore_key)
     const cart = await Cart.findOne({ idPicel: _Mystore_key });
-
-
     if(cart){
       await Cart.findOne({ idPicel: _Mystore_key })
       .populate('items.product_id')
@@ -23,7 +23,6 @@ const setGlooBal = async (req, res,next) => {
         if (err) {
     
         } else {
-
           const quantity = cart_items.items.reduce((accumulator, currentItem) => {
                 return accumulator + currentItem.quantity;
               }, 0);
@@ -56,9 +55,7 @@ const setGlooBal = async (req, res,next) => {
             
         }
       })
-
-
-      
+ 
     }else {
       const Cart = {
         items: [],

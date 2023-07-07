@@ -46,8 +46,13 @@ const IndexControler = {
 
   getCategory: async (req, res) => {
     try {
+
+      const Global = req.cart
       console.log(req.params.slug)
       const categori = await Categori.findOne({slug:req.params.slug})
+
+      if(categori) {
+
       const lisProduct = categori.listProduct
       console.log(lisProduct,"lisProduct")
       const {...category } = categori._doc;
@@ -60,16 +65,24 @@ const IndexControler = {
       .then(products => {
         var arr =[]
         products.map(e=>{
+          console.log(products)
           const {...item} = e._doc
           arr.push(item)
         })
         category.listProduct = arr
-        console.log(arr,"arr")
-        res.render('categori',{template:{category}});
+        console.log(Global,"arr")
+        res.render('categori',{template:{category},global:{cart:Global}});
       })
       .catch(error => {
         console.log('Lỗi: ', error);
       }); 
+
+    }else{
+      res.redirect( response.data.payUrl) 
+    }
+
+
+
     } catch (err) {
       res.status(500).json(err);
     }
