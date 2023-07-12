@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
       max: 50,
-      unique: true,
+      unique: false,
+      sparse: true,
     },
 
     adress: [{
@@ -45,6 +46,14 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    role: {
+    type: String,
+    enum: ['pending', 'approved'],
+    default: 'pending'
+    },
+
+
+
   },
   { timestamps: true }
 );

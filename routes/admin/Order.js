@@ -30,7 +30,6 @@ router.get("/all",OrderController.GetAllOrder);
 // router.post("/add", CategoriController.AddProduct);
 // router.post("/create", CategoriController.CreatCategori);
 
-
-// router.get("/:id", CategoriController.getProduct);
+router.get("/dataweek", OrderController.GetDataWeek);
 
 module.exports = router;  
