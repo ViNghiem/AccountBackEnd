@@ -2,6 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const User = require("../../model/UserModel");
 const authController = require("../../controllers/Authentication/authControler")
+
 var dotenv = require("dotenv");
 dotenv.config();
 
@@ -11,28 +12,28 @@ console.log("CLIENT_URL",CLIENT_URL)
 router.get("/login/success",async (req, res) => {
   try {
     if (req.user) {
-
       const user = req.user
       console.log(user,"usernpm")
       const User_db = await User.findOne({email:user._json.email})
       if(User_db){
         const accessToken = await authController.generateAccessToken(User_db);
         const refreshToken = await authController.generateRefreshToken(User_db);
-        console.log("accessTokensssssssssssssssssssssssssssssssssssssssssssssss",accessToken)
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure:false,
           path: "/",
           sameSite: "strict",
         });
-        res.status(200).json({accessToken:accessToken})
+        res.status(200).json({accessToken:accessToken,role:User_db.role})
       }else{
         const newUser = await new User({
           username: req.user._json.name,
           email: req.user._json.email,
+       
           avartar: req.user._json.picture
         });
         const user = await newUser.save();
+        console.log("user",user)
         const accessToken = await authController.generateAccessToken(newUser);
         const refreshToken = await authController.generateRefreshToken(newUser);
         res.cookie("refreshToken", refreshToken, {
@@ -41,7 +42,7 @@ router.get("/login/success",async (req, res) => {
           path: "/",
           sameSite: "strict",
         });
-        res.status(200).json({accessToken:accessToken})
+        res.status(200).json({accessToken:accessToken,role:user.role})
 
       }
     }else{
