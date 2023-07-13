@@ -1,5 +1,5 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-// const GithubStrategy = require("passport-github2").Strategy;
+
 const FacebookStrategy = require("passport-facebook").Strategy;
 const passport = require("passport");
 
@@ -22,25 +22,13 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, done) {
       const email = profile.emails[0].value;
-      // profile.email = email
-      // console.log(profile,"profile")
+      console.log('profile',profile)
       done(null, profile);
     }
   )
 );
 
-// passport.use(
-//   new GithubStrategy(
-//     {
-//       clientID: GITHUB_CLIENT_ID,
-//       clientSecret: GITHUB_CLIENT_SECRET,
-//       callbackURL: "/auth/github/callback",
-//     },
-//     function (accessToken, refreshToken, profile, done) {
-//       done(null, profile);
-//     }
-//   )
-// );
+
 
 passport.use(
   new FacebookStrategy(

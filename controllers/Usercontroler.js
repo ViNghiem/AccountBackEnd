@@ -134,16 +134,18 @@ const userController = {
 
         if(validPassword) {
           if(user){
-          
             let mess = "Đăng nhập thành công";
-            const accessToken = authController.generateAccessToken(user);
-            const refreshToken = authController.generateRefreshToken(user);
+            const accessToken = await authController.generateAccessToken(user);
+            console.log('accessToken',accessToken)
+            const refreshToken = await authController.generateRefreshToken(user);
+
             res.cookie("refreshToken", refreshToken, {
               httpOnly: true,
               secure:false,
               path: "/",
               sameSite: "strict",
             });
+            
             const { password, ...others } = user._doc;
             res.status(200).json({ ...others, accessToken ,mess});
           }else if(userPhone){
