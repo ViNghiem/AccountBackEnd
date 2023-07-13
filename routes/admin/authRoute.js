@@ -7,13 +7,14 @@ var dotenv = require("dotenv");
 dotenv.config();
 
 const CLIENT_URL = process.env.INDEX_URL
-console.log("CLIENT_URL",CLIENT_URL)
+
 
 router.get("/login/success",async (req, res) => {
   try {
+    console.log("req",req)
     if (req.user) {
       const user = req.user
-      console.log(user,"usernpm")
+      console.log("ggewgrehgrwjqwjegyqweqwfetuwqyiuhejiwqjeqwgewqrfetgyhuwqjequwyeqwfyegqywhje")
       const User_db = await User.findOne({email:user._json.email})
       if(User_db){
         const accessToken = await authController.generateAccessToken(User_db);
