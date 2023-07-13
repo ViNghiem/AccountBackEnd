@@ -11,10 +11,10 @@ const CLIENT_URL = process.env.INDEX_URL
 
 router.get("/login/success",async (req, res) => {
   try {
-    console.log("req",req)
+    console.log("reqzzzzzzzzzzzzzzzzzzzzzzzzzzz",req.session)
     if (req.user) {
       const user = req.user
-      console.log("ggewgrehgrwjqwjegyqweqwfetuwqyiuhejiwqjeqwgewqrfetgyhuwqjequwyeqwfyegqywhje")
+      console.log("ggewgrehgr wjqwjegyqweqwfetuwqyiuhejiwqjeqwgewqrfetgyhuwqjequwyeqwfyegqywhje")
       const User_db = await User.findOne({email:user._json.email})
       if(User_db){
         const accessToken = await authController.generateAccessToken(User_db);

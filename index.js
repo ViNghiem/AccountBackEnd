@@ -16,17 +16,18 @@ var dotenv = require("dotenv");
 var authRoute = require('./routes/admin/authRoute')
 var categori = require('./routes/admin/Categories')
 var Orders = require('./routes/admin/Order')
-
-
 const passportSetup = require("./config/passport")
 const { Liquid } = require('liquidjs')
 const {Setcookey} = require('./miderwhere/statistical')
 
+
+
+
 var http = require('http').createServer(app);
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: process.env.INDEX_URL,
   methods: ['GET', 'POST','PUT','DELETE'],
- credentials: true,
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
