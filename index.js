@@ -19,7 +19,7 @@ var Orders = require('./routes/admin/Order')
 const passportSetup = require("./config/passport")
 const { Liquid } = require('liquidjs')
 const {Setcookey} = require('./miderwhere/statistical')
-
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 
@@ -29,12 +29,18 @@ const corsOptions = {
   methods: ['GET', 'POST','PUT','DELETE'],
   credentials: true,
 };
+
+
+
+
+
+
 app.use(cors(corsOptions));
 
 
 // const io = require('socket.io')(http, {
 //   cors: {
-//     origin: '*',
+//     origin: '*', 
 //     methods: "GET,POST,PUT,DELETE",
 //     // credentials: true,
 //   }
@@ -65,7 +71,10 @@ engine.registerFilter('first', (value) => {
   return value[0];
 });
 
-
+const store = new MongoDBStore({
+  uri: process.env.MOGODB_URL,
+  collection: 'sessions',
+});
 
 
 app.use(cookieParser());
@@ -77,7 +86,8 @@ app.use(
   session({
     secret: process.env.JWT_ACCESS_KEY,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    store: store,
   })
 );
 
