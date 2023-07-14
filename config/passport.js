@@ -9,10 +9,8 @@ const GOOGLE_CLIENT_SECRET = "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";
 
 // GITHUB_CLIENT_ID = "your id";
 // GITHUB_CLIENT_SECRET = "your id";
-
 FACEBOOK_APP_ID = "217899804473753";
 FACEBOOK_APP_SECRET = "e014bcfcd530277716d8126663d37255";
-
 passport.use(
   new GoogleStrategy(
     {
@@ -23,6 +21,8 @@ passport.use(
     function (accessToken, refreshToken, profile, done) {
       const email = profile.emails[0].value;
       console.log('profile',profile)
+
+      
       done(null, profile);
     }
   )
