@@ -21,16 +21,15 @@ router.get("/login/success",async (req, res) => {
         const refreshToken = await authController.generateRefreshToken(User_db);
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          secure:false,
+          secure:true,
           path: "/",
-          sameSite: "strict",
+          sameSite: "none"
         });
         res.status(200).json({accessToken:accessToken,role:User_db.role})
       }else{
         const newUser = await new User({
           username: req.user._json.name,
           email: req.user._json.email,
-       
           avartar: req.user._json.picture
         });
         const user = await newUser.save();
@@ -39,9 +38,9 @@ router.get("/login/success",async (req, res) => {
         const refreshToken = await authController.generateRefreshToken(newUser);
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          secure:false,
+          secure:true,
           path: "/",
-          sameSite: "strict",
+          sameSite: "none"
         });
         res.status(200).json({accessToken:accessToken,role:user.role})
 
