@@ -11,7 +11,7 @@ const CLIENT_URL = process.env.INDEX_URL
 
 router.get("/login/success",async (req, res) => {
   try {
-    console.log("reqzzzzzzzzzzzzzzzzzzzzzzzzzzz",req.session)
+    console.log('phien',req.isAuthenticated())
     if (req.user) {
       const user = req.user
       console.log("ggewgrehgr wjqwjegyqweqwfetuwqyiuhejiwqjeqwgewqrfetgyhuwqjequwyeqwfyegqywhje")
@@ -57,6 +57,10 @@ router.get("/login/success",async (req, res) => {
 
 
 
+
+
+
+
 router.get("/login/failed", (req, res) => {
   res.status(401).json({
     success: false,
@@ -78,26 +82,33 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/refreshtoken", authController.requestRefreshToken);
-
 router.get("/google", passport.authenticate("google", { scope: ["profile","email"] }));
-
 router.get(
-  "/google/callback",
+  "/google/callback",(req, res,next) => {
+    console.log("reqssssssssssssssssssssssssssssssssssss",req)
+    next();
+  },
+ 
   passport.authenticate("google", {
     successRedirect: CLIENT_URL,
-    failureRedirect: "/login/failed",
+    failureRedirect: "/",
   })
 );
+
+
+
 
 router.get("/github", passport.authenticate("github", { scope: ["profile"] }));
 
-router.get(
-  "/github/callback",
+router.get("/github/callback",
   passport.authenticate("github", {
     successRedirect: CLIENT_URL,
-    failureRedirect: "/login/failed",
+    failureRedirect: "/",
   })
 );
+
+
+
 
 router.get("/facebook", passport.authenticate("facebook", { scope: ["profile"] }));
 
@@ -105,7 +116,7 @@ router.get(
   "/facebook/callback",
   passport.authenticate("facebook", {
     successRedirect: CLIENT_URL,
-    failureRedirect: "/login/failed",
+    failureRedirect: "/",
   })
 );
 

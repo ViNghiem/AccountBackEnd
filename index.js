@@ -25,14 +25,10 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 var http = require('http').createServer(app);
 const corsOptions = {
-  origin: process.env.INDEX_URL,
+  origin: [process.env.INDEX_URL,'http://localhost:3000/'],
   methods: ['GET', 'POST','PUT','DELETE'],
   credentials: true,
 };
-
-
-
-
 
 
 app.use(cors(corsOptions));
