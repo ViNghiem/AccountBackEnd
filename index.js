@@ -31,8 +31,19 @@ const corsOptions = {
 };
 
 
-app.use(cors(corsOptions));
-
+app.use(
+  cors({
+    origin: [
+      "https://my-store-theta-lyart.vercel.app/",
+      "https://my-store-theta-lyart.vercel.app",
+    ],
+    // origin: "https://front-end-client--nodejs.web.app",  (*)
+    // origin: "https://front-end-client--nodejs.web.app/", (**)
+    // origin: true,
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+    credentials: true,
+  })
+);
 
 // const io = require('socket.io')(http, {
 //   cors: {
