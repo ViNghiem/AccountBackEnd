@@ -74,7 +74,7 @@ const store = new MongoDBStore({
 
 
 app.use(cookieParser());
-
+app.set("trust proxy", 1)
 app.use(express.static(path.join(__dirname + '/public/images')))
 app.use(express.static(path.join(__dirname + '/public/stylesheets')))
 // app.set('vews',path.join(__dirname, 'views'))
@@ -84,6 +84,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: store,
+    cookie: {
+      sameSite: "none",
+      secure: true,
+      maxAge: 1000 * 60 * 60,
+      // httpOnly: true,
+    }
   })
 );
 
