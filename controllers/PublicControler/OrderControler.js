@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const Order = require("../../model/Order/OderModel")
 const CryptoJS = require('crypto-js'); // npm install crypto-js
 const moment = require('moment');
-const orderItem = require('../../model/Order/ItemOrder')
+const OrderItem = require('../../model/Order/ItemOrder')
 
 const engine = new Liquid();
 
@@ -68,8 +68,42 @@ const OrderControler = {
      
       const id_incart = await Cart.findOne({ idPicel: _Mystore_key })
       console.log(Global)
+
+      const  Bill = await new Order({
+        full_name:req.body.order.full_name,
+        address:req.body.order.address,
+        province_id:req.body.order.province_id,
+        district_id:req.body.order.district_id,
+        commune_id:req.body.order.commune_id,
+        phone_number:req.body.order.phone_number,
+        email:req.body.order.email,
+        note:req.body.order.note,
+        payment_method:req.body.payment_method,
+        totalAmount:req.cart.total_price
+      });
+      const OrderBill = await Bill.save();
+      const addItem = await ListItemOrder.map(item =>{
+       const newitem =  new OrderItem({
+          name:item.name,
+          idOrder:OrderBill._id,
+          price:item.price,
+          quatity:item.quantity,
+          images:item.images[0]
+        })
+        return newitem.save()
+      })
+
+
+
+
       if(req.body.payment_method ==='cod'){
-        res.redirect( response.data.payUrl)
+
+        res.redirect(`/ordersucces?orderId=${OrderBill._id}`)
+
+
+
+
+        
       }else if(req.body.payment_method ==='zalopay'){
         const config = {
           app_id: "2553",
@@ -109,57 +143,11 @@ const OrderControler = {
 
       }
       
-      
-      
-      
-      
-      
       else {
-
-
-
-
-
-
-        
-      const  Bill = await new Order({
-        full_name:req.body.order.full_name,
-        address:req.body.order.address,
-        province_id:req.body.order.province_id,
-        district_id:req.body.order.district_id,
-        commune_id:req.body.order.commune_id,
-        phone_number:req.body.order.phone_number,
-        email:req.body.order.email,
-        note:req.body.order.note,
-        payment_method:req.body.payment_method,
-        totalAmount:req.cart.total_price
-      });
-      const OrderBill = await Bill.save();
-      const addItem = ListItemOrder.map(item =>{
-       const newitem = new orderItem({
-          name:item.name,
-          idOrder:OrderBill._id,
-          price:item.price,
-          quatity:item.quantity,
-          images:item.images[0]
-        })
-        return newitem.save()
-      })
-
-
-
-
-
-
-      console.log("OrderBill",OrderBill._id.toString())
-
-
-
-
-        const accessKey = 'ir0gmkqQG4wTOcAd';
-        const secretKey = 'eiDZpRyiAjjMu5TnU6Cn1xJzvTYE3MmN';
+        const accessKey = 'F8BBA842ECF85';
+        const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
         const orderInfo = OrderBill.note;
-        const partnerCode = 'MOMOEOXC20220521';
+        const partnerCode = 'MOMO';
         const redirectUrl = 'http://localhost:3020/ordersucces';
         const ipnUrl = 'http://localhost:3020/';
         const requestType = 'payWithMethod';
@@ -227,11 +215,33 @@ const OrderControler = {
   ordersucces:async(req,res)=>{
     try {
 
-      console.log(req)
-      // Odersucces
-      res.status(200).json({mess:req.query.message})
       
+      // Odersucces
+     
+    
+
+      const orderId = req.query.orderId
+      const _Mystore_key = req.cookies._Mystore_key
+      console.log("sdaaaaadsadasdsaas",orderId)
+      const infoOrder = await Order.findOne({_id:orderId})
+      console.log('infoOrder',infoOrder)
+      const {...infoOrders} = infoOrder._doc
+
+      const orderItem = await OrderItem.find({idOrder:orderId })
+      var arr =[]
+      orderItem.map(e=>{
+         
+          const {...item} = e._doc
+          arr.push(item)
+        })
+
+      await Cart.deleteOne({ idPicel: _Mystore_key })
+      const Global = req.cart
+      console.log('orderItem',orderItem)  
+      // res.status(200).json({mess:req.query.message,orderItem:orderItem,infoOrder:infoOrder})
+      res.render('Odersucces',{template:{title:'Mua hàng thành công',order_items:arr,infoOrder:infoOrders},global:{cart:Global}});
     } catch (error) {
+      console.log(error)
       res.status(500).json({error:error})
     }
   }

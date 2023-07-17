@@ -67,7 +67,7 @@ const IndexControler = {
         products.map(e=>{
           console.log(products)
           const {...item} = e._doc
-          arr.push(item)
+          arr.push(item)  
         })
         category.listProduct = arr
         console.log(Global,"arr")

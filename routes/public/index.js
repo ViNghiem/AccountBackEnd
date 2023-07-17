@@ -18,5 +18,5 @@ router.get("/cart/checkout",setGlooBal,Checkout.viewOrder)
 router.post("/checkout",setGlooBal,Checkout.creatOrderMomo)
 router.post("/add-cart",CartController.addCart)
 router.get("",setGlooBal, indexController.getIndex);
-router.get('/ordersucces',Checkout.ordersucces)
+router.get('/ordersucces',setGlooBal,Checkout.ordersucces)
 module.exports = router;  
