@@ -34,7 +34,7 @@ app.use(cors())
 //     // credentials: true,
 //   }
 // });
-
+console.log('----------------------------')
 
 dotenv.config();
 
