@@ -22,9 +22,9 @@ router.get("/login/success",async (req, res) => {
         const refreshToken = await authController.generateRefreshToken(User_db);
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          // secure:true,
+          secure:true,
           path: "/",
-          // sameSite: "none"
+          sameSite: "none"
         });
         res.status(200).json({accessToken:accessToken,role:User_db.role})
       }else{
@@ -39,12 +39,11 @@ router.get("/login/success",async (req, res) => {
         const refreshToken = await authController.generateRefreshToken(newUser);
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          // secure:true,
+          secure:true,
           path: "/",
-          // sameSite: "none"
+          sameSite: "none"
         });
         res.status(200).json({accessToken:accessToken,role:user.role})
-
       }
     }else{
       res.status(500).json({err:"ndoeu"});
