@@ -11,6 +11,7 @@ const CLIENT_URL = process.env.INDEX_URL
 
 router.get("/login/success",async (req, res) => {
   try {
+    console.log('req.user',req.user)
     console.log('phien',req.isAuthenticated())
     if (req.user) {
       const user = req.user

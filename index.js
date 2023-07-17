@@ -74,6 +74,24 @@ engine.registerFilter('vnd', (value) => {
   return formattedValue;
 });
 
+engine.registerFilter('fomatTime', (value) => {
+  const vietnamTime = new Date(value);
+
+  const formattedTime = vietnamTime.toLocaleString("vi-VN", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit"
+  });
+
+return formattedTime
+
+});
+
+
+
 engine.registerFilter('first', (value) => {
   return value[0];
 });

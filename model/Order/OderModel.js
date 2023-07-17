@@ -65,6 +65,12 @@ const orderSchema = new Schema({
   deliveryDate: { 
     type: Date 
   },
+
+  StaffHandlingLsy:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"User"
+  },
+
   status: {
     type: String,
     enum: ['pending', 'shipped', 'delivered'],

@@ -1,0 +1,234 @@
+{% layout "layout.liquid" %}
+
+{% block content %}
+  <link rel="stylesheet" href="/ordersucces.css">
+  <script>
+    console.log("template", {{template | json}})
+  </script>
+
+  <div class="tvh-breadcrumb-shop padding mb-5" id="tvh-breadcrumb-shop-block">
+    <div class="container">
+      <span class="tvh-link-home">
+        <a href="/" style="text-decoration: none;">Trang chủ</a>
+      </span>
+      <span class="space">/</span>
+      {{ template.title }}
+    </div>
+  </div>
+  <main class="tvh-main-success">
+    <div class="container">
+      <div class="flex justify--center">
+        <!--<div class="col-12">-->
+        <div class="wrap-content">
+          <h2 class="title mb-2">
+            Đặt hàng thành công!
+          </h2>
+
+
+          <div>Dưới đây là thông tin đơn hàng
+
+            <span class="text--bold">#{{ template.infoOrder._id }}</span>
+            của bạn - {{ template.infoOrder.orderDate | fomatTime }}</div>
+          <!--pc-->
+
+          <table
+            class="table-products__item mt-2"
+            style="margin-bottom: 5px"
+            id="table-pc">
+            <thead>
+              <tr>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th width="120px">Giá niêm yết</th>
+
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            {% for temp in template.order_items %}
+              <tbody data-product="{{ temp.name }}  - {{ temp.quatity }}" class="on-change-nameProduct">
+                <tr class="table-products__item-payment">
+                  <td style="text-align:left">{{ temp.name }}</td>
+                  <td>{{ temp.quatity }}</td>
+                  <td>{{ temp.price | vnd }}</td>
+
+                  <td>{{ temp.price | times: temp.quatity | vnd }}</td>
+                </tr>
+              </tbody>
+            {% endfor %}
+          </table>
+          <!--mobi-->
+          <div id="table-mobi" class="mt-3 mb-3">
+            <div class="text-align mb-2">Thông tin đơn hàng</div>
+            {% for temp in template.order_items %}
+              <div class="row mb-2">
+                <div class="col-12" style="font-size:15px; font-weight:700;">{{ temp.name }}
+                </div>
+                <div class="col-3">SL: {{ temp.quatity }}</div>
+                <div class="col-3">{{ temp.price | vnd }}</div>
+
+                <div class="col-3">{{ temp.price | times: temp.quatity | vnd }}</div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <table style="margin-top: 5px; width: 100%;">
+            <tbody>
+
+              <tr>
+                <td colspan="3" style="font-style: italic;background-color: #f2f2f2; text-align: left; border: 1px solid #fff;">
+                  Tổng giá trị sản phẩm
+                </td>
+                <td style="text-align: right;font-style: italic;background-color: #f2f2f2; border: 1px solid #fff;">
+                  {{ template.infoOrder.totalAmount | vnd }}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3" style="font-style: italic;background-color: #f2f2f2; text-align: left; border: 1px solid #fff;">Phí giao hàng</td>
+                <td style="text-align: right;font-style: italic;background-color: #f2f2f2; border: 1px solid #fff;">0 đ</td>
+              </tr>
+              <tr>
+                <td
+                  colspan="3"
+                  class="text--bold"
+                  style="text-align: left;">Tổng thanh toán</td>
+                <td style="text-align: right;" class="text--bold">
+                  {{ template.infoOrder.totalAmount | vnd }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <tbody>
+              <tr>
+                <th>Thông tin nhận hàng</th>
+              </tr>
+              <tr>
+                <td width="100%" style="text-align: left">
+                  <p data-name="{{ template.invoice.bill_full_name }}" class="on-change-name">
+                    <i>Tên người nhận:</i>
+                    {{ template.infoOrder.full_name }}
+                  </p>
+                  <p>
+                    <i>Email:</i>
+                    <span id="tvhEmail">
+                      {{ template.infoOrder.email }}</span>
+                  </p>
+                  <p data-phone="{{ template.invoice.bill_phone_number }}" class="on-change-phone">
+                    <i>Số điện thoại:</i>
+                    {{ template.infoOrder.phone_number }}
+                  </p>
+                  <p>
+                    <i>Ghi chú đơn hàng:</i>
+                    <span id="invoice-infor">{{ template.infoOrder.note }}</span>
+                  </p>
+                  <p>
+                    <i>Hình thức thanh toán:</i>
+                    <span id="ndv-paymethod">
+                      {{ template.infoOrder.payment_method }}
+                    </span>
+                  </p>
+                  <p data-address="{{ template.invoice.shipping_address.full_address }}" class="on-change-address">
+                    <i>Địa chỉ nhận hàng:</i>
+                    {{ template.invoice.shipping_address.full_address }}
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <br/>
+
+        </div>
+        <!--</div>-->
+      </div>
+    </div>
+  </main>
+
+  <!--<input id="invoice-note" value="{{ template.invoice.note }}" type="hidden">-->
+  <!--<input id="cknh" value="Chuyển khoản ngân hàng" type="hidden">-->
+  <script>// let listNote = document.getElementById('invoice-note').value;
+// arrNote = listNote.split('|');
+// if(arrNote[0] == ""){
+// arrNote[0] = "Không có"
+// }
+// document.getElementById('invoice-infor').innerHTML = arrNote[0];
+// if(arrNote[1] == 'Chuyển khoản ngân hàng'){
+// document.getElementById('ndv-paymethod').innerHTML = arrNote[1];
+// }else{
+// document.getElementById('ndv-paymethod').innerHTML = 'Trả tiền mặt khi nhận hàng';
+// }
+</script>
+
+<script>
+  function formatMoney(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  }
+
+  document.getElementById("btn-update-order").onclick = function(e) {
+    let totalPrice = formatMoney({{ template.invoice.invoice_value }}).replaceAll(".", ",")
+    console.log("totalPrice", totalPrice)
+    let full_name = document.querySelector(".on-change-name").getAttribute("data-name")
+    console.log("fullname", full_name)
+    let phone_number = document.querySelector(".on-change-phone").getAttribute("data-phone")
+    console.log("phone_number", phone_number)
+    let full_address = document.querySelector(".on-change-address").getAttribute("data-address")
+    console.log("full_address", full_address)
+
+    let cknh = ""
+    let checkThanhToan = "{{ template.invoice.payment_method }}"
+    if (checkThanhToan == "banking") {
+      cknh = "Chuyển khoản ngân hàng"
+    } else {
+      cknh = ""
+    }
+
+    let tendonhang = '';
+    let nameProduct = document.querySelectorAll(".on-change-nameProduct")
+    nameProduct.forEach((el, index) => {
+      if (index == 0) {
+        tendonhang = tendonhang + el.getAttribute('data-product')
+      } else {
+        tendonhang = tendonhang + " và " + el.getAttribute('data-product')
+      }
+    })
+
+    let ref = "https://m.me/100182876078883?ref=216946";
+    let newRef = `${ref}--nameOrder%3D${tendonhang}.full_name%3D${full_name}.phone_number%3D${phone_number}.address%3D${full_address}.totalPrice%3D${totalPrice}%20đ.payments%3D${cknh}&messaging_source=source%3Apages%3Amessage_shortlink`
+
+// let ref ="https://m.me/109709017884951?ref=information-order"
+// let newRef = `${ref}--product%3D${tendonhang}.phone%3D${phone_number}.address%3D${full_address}.totalPrice%3D${totalPrice}%20đ.note%3D${cknh}&messaging_source=source%3Apages%3Amessage_shortlink`
+
+    newRef = newRef.replace(/ /g, "%20")
+    window.open(newRef)
+  }
+</script>
+
+<script>// var tvhEmail = document.getElementById("tvhEmail").innerHTML;
+// var a = tvhEmail.split("@"); 
+// var b = a[0];
+// var newstr = "";
+// for(var i in b){
+// if(i > 1 && i < b.length){
+//       newstr += "*";
+// }else{
+//       newstr += b[i];
+// }
+// }
+// newstr += ".com";
+// document.getElementById("tvhEmail").innerHTML = newstr;
+</script><script>
+if (window.localStorage.getItem('checkOneLoad') == "true") {
+  document.querySelector(".btn-update-order").removeAttribute('disabled');
+}
+
+$('#btn-update-order').on('click', () => {
+  window.localStorage.setItem('checkOneLoad', false);
+  if (window.localStorage.getItem('checkOneLoad') == "false") {
+    window.setTimeout(() => {
+      location.assign("/")
+
+// location.reload();
+    }, 20000);
+  }
+})
+</script>{% endblock %}
