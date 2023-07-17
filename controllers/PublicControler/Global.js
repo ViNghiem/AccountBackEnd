@@ -11,9 +11,6 @@ const setGlooBal = async (req, res,next) => {
   
   try {
     const index = process.env.INDEX_URL
-
-
-    
     console.log(index,"index")
     const _Mystore_key = req.cookies._Mystore_key
     const id = req.body.id
