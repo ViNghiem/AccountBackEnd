@@ -24,26 +24,8 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 var http = require('http').createServer(app);
-const corsOptions = {
-  origin: '*',
-  methods: '*',
-  allowedHeaders: '*',
-};
+app.use(cors())
 
-
-app.use(
-  cors({
-    origin: [
-      "https://my-store-theta-lyart.vercel.app/",
-      "https://my-store-theta-lyart.vercel.app",
-    ],
-    // origin: "https://front-end-client--nodejs.web.app",  (*)
-    // origin: "https://front-end-client--nodejs.web.app/", (**)
-    // origin: true,
-    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-    credentials: true,
-  })
-);
 
 // const io = require('socket.io')(http, {
 //   cors: {
@@ -114,8 +96,8 @@ app.use(
     saveUninitialized: false,
     store: store,
     cookie: {
-      sameSite: "none",
-      secure: true,
+      // sameSite: "none",
+      // secure: true,
       maxAge: 1000 * 60 * 60,
       // httpOnly: true,
     }

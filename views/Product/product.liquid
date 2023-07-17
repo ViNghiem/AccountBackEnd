@@ -5,6 +5,9 @@
   <link rel="stylesheet" href="/product.css">
   {% assign prod = template.product %}
 
+  <script>
+    console.log('template', {{ template | json }})
+  </script>
   <!-- Start main -->
   <div class="header-navigate">
     <div class="container">
@@ -78,6 +81,9 @@
                   value="1"
                   id="input-quantity">
 
+                <div>
+                  {{ template.product.name }}
+                </div>
                 <div class="product-price">
                   <p>{{ prod.price | vnd }}</p>
                 </div>
