@@ -24,14 +24,19 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 var http = require('http').createServer(app);
-app.use(cors())
+app.use(cors({
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST','PUT','DELETE'],
+  // allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
-app.use(function(req,res,next){
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Accept,X-Requested-With,Origin,Content-Type, Authorization');
-  next()
-})
+// app.use(function(req,res,next){
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'Accept,X-Requested-With,Origin,Content-Type, Authorization');
+//   next()
+// })
 
 // const io = require('socket.io')(http, {
 //   cors: {
