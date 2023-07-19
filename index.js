@@ -24,19 +24,27 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 var http = require('http').createServer(app);
-app.use(cors({
+const corsOptions = {
   origin: '*',
-  credentials: true,
-  methods: ['GET', 'POST','PUT','DELETE'],
-  // allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+  methods: '*',
+  allowedHeaders: '*',
+};
 
-// app.use(function(req,res,next){
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'Accept,X-Requested-With,Origin,Content-Type, Authorization');
-//   next()
-// })
+
+app.use(
+  cors({
+    origin: [
+      "https://my-store-theta-lyart.vercel.app/",
+      "https://my-store-theta-lyart.vercel.app",
+      "http://localhost:3000",
+    ],
+    // origin: "https://front-end-client--nodejs.web.app",  (*)
+    // origin: "https://front-end-client--nodejs.web.app/", (**)
+    // origin: true,
+    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+    credentials: true,
+  })
+);
 
 // const io = require('socket.io')(http, {
 //   cors: {
@@ -45,7 +53,7 @@ app.use(cors({
 //     // credentials: true,
 //   }
 // });
-console.log('----------------------------')
+
 
 dotenv.config();
 
@@ -66,24 +74,6 @@ engine.registerFilter('vnd', (value) => {
   const formattedValue = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
   return formattedValue;
 });
-
-engine.registerFilter('fomatTime', (value) => {
-  const vietnamTime = new Date(value);
-
-  const formattedTime = vietnamTime.toLocaleString("vi-VN", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  });
-
-return formattedTime
-
-});
-
-
 
 engine.registerFilter('first', (value) => {
   return value[0];
@@ -107,10 +97,10 @@ app.use(
     saveUninitialized: false,
     store: store,
     cookie: {
-      sameSite: "none",
-      secure: true,
+      // sameSite: "none",
+      // secure: true, 
       maxAge: 1000 * 60 * 60,
-      httpOnly: true,
+      // httpOnly: true,
     }
   })
 );

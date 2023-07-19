@@ -5,7 +5,7 @@ const passport = require("passport");
 
 const GOOGLE_CLIENT_ID =
   "252835876115-83lmf7n80pv0tr8ojebibg0gmlmpi1ao.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "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";
+const GOOGLE_CLIENT_SECRET = "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";
 
 // GITHUB_CLIENT_ID = "your id";
 // GITHUB_CLIENT_SECRET = "your id";
@@ -21,6 +21,7 @@ FACEBOOK_APP_SECRET = "e014bcfcd530277716d8126663d37255";
       function (accessToken, refreshToken, profile, done) {
         const email = profile.emails[0].value;
         console.log('profile',profile)
+        console.log('accessToken', accessToken)
         done(null, profile);
       }
     )
