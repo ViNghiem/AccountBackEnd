@@ -22,14 +22,15 @@ var upload = multer({ storage: storage })
 
 
 
-router.get("/all",OrderController.GetAllOrder);
+router.get("/all",verifyTokenAndAdmin,OrderController.GetAllOrder);
+router.get("/info",verifyTokenAndAdmin,OrderController.GetOrder);
 
 // router.delete("/delete",verifyTokenAndAdmin,CategoriController.deleteProduct);
 // router.put("/update", CategoriController.updateProduct);
 
 // router.post("/add", CategoriController.AddProduct);
 // router.post("/create", CategoriController.CreatCategori);
-
+router.post("/update", OrderController.UpdateOrder);
 
 router.get("/dataweek", OrderController.GetDataWeek);
 

@@ -1,6 +1,6 @@
 
 const OrderModel = require('../../model/Order/OderModel')
-
+const ItemOrder = require('../../model/Order/ItemOrder')
 
 function fomattime(time){
   var day = time.getDate(); 
@@ -31,6 +31,24 @@ function fomattimeVN(time){
 
 
 const OrderController = {
+
+
+  UpdateOrder: async(req,res)=>{
+    try {
+  
+    const id =req.body.dataUpdate.id
+    const status = req.body.dataUpdate.state
+    await OrderModel.findOneAndUpdate({_id:id}, {$set: { status:status}})
+    const OrderUpdate = await OrderModel.findOne({_id:id})
+    
+   
+      res.status(200).json({order:OrderUpdate});
+    } catch (err) {
+      console.log(err)
+      res.status(500).json(err);
+    }
+  },
+
   GetAllOrder: async (req, res) => {
     try {
         console.log("da nhan requed")
@@ -39,6 +57,18 @@ const OrderController = {
       res.status(200).json({data:ListOrder});
     } catch (err) {
       res.status(500).json(err);
+    }
+  },
+
+  GetOrder: async(req,res)=>{
+    try {
+      const idorder = req.query.id
+      const order = await OrderModel.findOne({_id:idorder})
+      const  itemorder = await ItemOrder.find({idOrder:idorder})
+      const data ={orderInfo:order,items:itemorder}
+      res.status(200).json(data)
+    } catch (error) {
+      res.status(500).json({mess:'loi'})
     }
   },
 
