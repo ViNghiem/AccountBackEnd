@@ -7,6 +7,8 @@ const Order = require("../../model/Order/OderModel")
 const CryptoJS = require('crypto-js'); // npm install crypto-js
 const moment = require('moment');
 const OrderItem = require('../../model/Order/ItemOrder')
+var dotenv = require("dotenv");
+dotenv.config();
 
 const engine = new Liquid();
 const Domain = process.env.Domain
