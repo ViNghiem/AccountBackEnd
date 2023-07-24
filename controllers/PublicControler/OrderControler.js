@@ -9,20 +9,18 @@ const moment = require('moment');
 const OrderItem = require('../../model/Order/ItemOrder')
 
 const engine = new Liquid();
+const Domain = process.env.Domain
 
+
+
+function createHmacSha256Signature(data) {
+  const hmac = crypto.createHmac('sha256', `eiDZpRyiAjjMu5TnU6Cn1xJzvTYE3MmN`);
+  hmac.update(data);
+  return hmac.digest('hex');
+}
 
 const OrderControler = {
-
-
   creatOrder: async (req, res) => {
-    // try {
-
-    //   res.render('CreateOrder');
-    // } catch (err) {
-    //   console.log(err)
-    //   res.status(500).json(err);
-    // }
-  
     try {
       const Global = req.cart
       console.log(req.body,"jkdyjashdjhsakjhajkh")
@@ -31,11 +29,7 @@ const OrderControler = {
       const id_incart = await Cart.findOne({ idPicel: _Mystore_key })
       console.log(Global)
       if(req.body.payment_method ==='cod'){
-
-      }else{
-
-       
-        
+      }else{ 
       }
     } catch (error) {
       console.error('Error creating payment:', error);
@@ -46,7 +40,6 @@ const OrderControler = {
 
   viewOrder: async (req, res) => {
     try {
-   
       const Global = req.cart
       const _Mystore_key = req.cookies._Mystore_key
       console.log(_Mystore_key,"_Mystore_key")
@@ -92,10 +85,6 @@ const OrderControler = {
         })
         return newitem.save()
       })
-
-
-
-
       if(req.body.payment_method ==='cod'){
 
         res.redirect(`/ordersucces?orderId=${OrderBill._id}`)
@@ -141,65 +130,53 @@ const OrderControler = {
       })
       .catch(err => console.log(err)); 
 
-      }
-      
-      else {
-        const accessKey = 'F8BBA842ECF85';
-        const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
-        const orderInfo = OrderBill.note;
-        const partnerCode = 'MOMO';
-        const redirectUrl = 'http://localhost:3020/ordersucces';
-        const ipnUrl = 'http://localhost:3020/';
-        const requestType = 'payWithMethod';
-        const amount = OrderBill.totalAmount;
+      }else {
+        const gia = OrderBill.totalAmount;
         const orderId = OrderBill._id.toString();
-        const requestId = orderId;
-        const extraData = '';
-        const paymentCode = 'T8Qii53fAXyUftPV3m9ysyRhEanUs9KlOPfHgpMR0ON50U10Bh+vZdpJU7VY4z+Z2y77fJHkoDc69scwwzLuW5MzeUKTwPo3ZMaB29imm6YulqnWfTkgzqRaion+EuD7FN9wZ4aXE1+mRt0gHsU193y+yxtRgpmY7SDMU9hCKoQtYyHsfFR5FUAOAKMdw2fzQqpToei3rnaYvZuYaxolprm9+/+WIETnPUDlxCYOiw7vPeaaYQQH0BF0TxyU3zu36ODx980rJvPAgtJzH1gUrlxcSS1HQeQ9ZaVM1eOK/jl8KJm6ijOwErHGbgf/hVymUQG65rHU2MWz9U8QUjvDWA==';
-        const orderGroupId = '';
-        const autoCapture = true;
-        const lang = 'vi';
-
+        const amount  = gia.toString()
+        console.log(typeof amount )
+        const endpoint = 'https://test-payment.momo.vn/gw_payment/transactionProcessor';
+        const returnUrl = `${Domain}/ordersucces`;
+        const requestPayload = {
+          partnerCode: 'MOMOEOXC20220521',
+          accessKey: 'ir0gmkqQG4wTOcAd',
+          requestId: orderId,
+          amount,
+          orderId,
+          orderInfo: Bill.full_name + 'thanh toán đơn hàng ' + orderId,
+          returnUrl,
+          notifyUrl: Domain,
+        
+        };
       
-      const rawSignature = `accessKey=${accessKey}&amount=${amount}&extraData=${extraData}&ipnUrl=${ipnUrl}&orderId=${orderId}&orderInfo=${orderInfo}&partnerCode=${partnerCode}&redirectUrl=${redirectUrl}&requestId=${requestId}&requestType=${requestType}`;
-
       
-      const signature = crypto.createHmac('sha256', secretKey)
-        .update(rawSignature)
-        .digest('hex');
-      console.log("signature",signature)
-
-      const requestBody = {
-        partnerCode: partnerCode,
-        partnerName: 'vinghiem',
-        storeId: 'vinghiem',
-        requestId: requestId,
-        amount: amount,
-        orderId: orderId,
-        orderInfo: orderInfo,
-        redirectUrl: redirectUrl,
-        ipnUrl: ipnUrl,
-        lang: lang,
-        requestType: requestType,
-        autoCapture: autoCapture,
-        extraData: extraData,
-        orderGroupId: orderGroupId,
-        signature: signature
-      }
-
-      axios.post('https://test-payment.momo.vn/v2/gateway/api/create', requestBody)
-        .then(response => {
-          console.log('Response:');
-          console.log(response.data);
-          console.log('resultCode:');
-          console.log(response.data.resultCode.payUrl);
-          res.redirect( response.data.payUrl)
-        })
-        .catch(error => {
-          console.log('Error:', error);
-        });
-
-
+        const row =`partnerCode=${requestPayload.partnerCode}&accessKey=${requestPayload.accessKey}&requestId=${requestPayload.requestId}&amount=${requestPayload.amount}&orderId=${requestPayload.orderId}&orderInfo=${requestPayload.orderInfo}&returnUrl=${requestPayload.returnUrl}&notifyUrl=${requestPayload.notifyUrl}&extraData=`
+        console.log('row',row)
+        const datass = JSON.stringify(requestPayload);
+        console.log('Empty',datass)
+        const signature = createHmacSha256Signature(row);
+        console.log('signature',signature)
+        const requestType= 'captureMoMoWallet'
+        const headers = {
+          'Content-Type': 'application/json',
+        };
+      
+        const requestData = {
+          ...requestPayload,
+          requestType,
+          signature,
+        };
+      
+   
+      
+        try {
+          const response = await axios.post(endpoint, requestData, { headers });
+          console.log('Momo response:', response.data);
+      
+          res.redirect(response.data.payUrl) 
+        } catch (error) {
+          console.error('Error making payment request:', error.message);
+        }
 
 
 
@@ -214,12 +191,6 @@ const OrderControler = {
 
   ordersucces:async(req,res)=>{
     try {
-
-      
-      // Odersucces
-     
-    
-
       const orderId = req.query.orderId
       const _Mystore_key = req.cookies._Mystore_key
       console.log("sdaaaaadsadasdsaas",orderId)

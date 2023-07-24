@@ -24,28 +24,21 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 
 var http = require('http').createServer(app);
+
+
+app.set("trust proxy", 1)
+
 const corsOptions = {
-  origin: '*',
-  methods: '*',
-  allowedHeaders: '*',
+  origin: [
+    "https://my-store-theta-lyart.vercel.app",
+    "http://localhost:3000",
+  ],
+  credentials: true,
 };
 
 
-app.use(
-  cors({
-    origin: [
-      "https://my-store-theta-lyart.vercel.app/",
-      "https://my-store-theta-lyart.vercel.app",
-      "http://localhost:3000",
-    ],
-    // origin: "https://front-end-client--nodejs.web.app",  (*)
-    // origin: "https://front-end-client--nodejs.web.app/", (**)
-    // origin: true,
-    methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
-    credentials: true,
-  })
-);
-
+app.use(cors(corsOptions));
+app.use(cookieParser());
 // const io = require('socket.io')(http, {
 //   cors: {
 //     origin: '*', 
@@ -85,8 +78,7 @@ const store = new MongoDBStore({
 });
 
 
-app.use(cookieParser());
-app.set("trust proxy", 1)
+
 app.use(express.static(path.join(__dirname + '/public/images')))
 app.use(express.static(path.join(__dirname + '/public/stylesheets')))
 // app.set('vews',path.join(__dirname, 'views'))
@@ -100,7 +92,7 @@ app.use(
       sameSite: "none",
       secure: true, 
       maxAge: 1000 * 60 * 60,
-      httpOnly: true,
+      // httpOnly: true,
     }
   })
 );
