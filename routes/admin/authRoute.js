@@ -21,7 +21,7 @@ router.get("/login/success",async (req, res) => {
         const accessToken = await authController.generateAccessToken(User_db);
         const refreshToken = await authController.generateRefreshToken(User_db);
         res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
+          // httpOnly: true,
           secure:true,
           path: "/",
           sameSite: "none"
@@ -38,7 +38,7 @@ router.get("/login/success",async (req, res) => {
         const accessToken = await authController.generateAccessToken(newUser);
         const refreshToken = await authController.generateRefreshToken(newUser);
         res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
+          // httpOnly: true,
           secure:true,
           path: "/",
           sameSite: "none"
