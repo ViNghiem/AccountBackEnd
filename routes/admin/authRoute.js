@@ -11,7 +11,9 @@ const CLIENT_URL = process.env.INDEX_URL
 
 router.get("/login/success",async (req, res) => {
   try {
-    console.log('req.user',req.user)
+    console.log("daskjdklasjkjaskdksjakhdjsah")
+    // res.status(200).json({mess:'sadjashdj'})
+    console.log('req.usersssssssssss',req.user)
     console.log('phien',req.isAuthenticated())
     if (req.user) {
       const user = req.user
@@ -21,7 +23,7 @@ router.get("/login/success",async (req, res) => {
         const accessToken = await authController.generateAccessToken(User_db);
         const refreshToken = await authController.generateRefreshToken(User_db);
         res.cookie("refreshToken", refreshToken, {
-          // httpOnly: true,
+          httpOnly: true,
           secure:true,
           path: "/",
           sameSite: "none"
@@ -38,7 +40,7 @@ router.get("/login/success",async (req, res) => {
         const accessToken = await authController.generateAccessToken(newUser);
         const refreshToken = await authController.generateRefreshToken(newUser);
         res.cookie("refreshToken", refreshToken, {
-          // httpOnly: true,
+          httpOnly: true,
           secure:true,
           path: "/",
           sameSite: "none"

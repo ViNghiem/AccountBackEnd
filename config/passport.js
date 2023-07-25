@@ -9,8 +9,8 @@ const GOOGLE_CLIENT_SECRET = "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";
 
 // GITHUB_CLIENT_ID = "your id";
 // GITHUB_CLIENT_SECRET = "your id";
-FACEBOOK_APP_ID = "217899804473753";
-FACEBOOK_APP_SECRET = "e014bcfcd530277716d8126663d37255";
+FACEBOOK_APP_ID = "253556303920269";
+FACEBOOK_APP_SECRET = "d4b073ed4690fd2cc0a27e05f403040d";
   passport.use(
     new GoogleStrategy(
       {
@@ -37,6 +37,7 @@ passport.use(
       callbackURL: "/auth/facebook/callback",
     },
     function (accessToken, refreshToken, profile, done) {
+      console.log("sạhdjsahkjdhsjahdas",profile)
       done(null, profile);
     }
   )
