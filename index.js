@@ -25,19 +25,43 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 
 var http = require('http').createServer(app);
 
-
-app.set("trust proxy", 1)
-
 const corsOptions = {
-  origin: [
-    "https://my-store-theta-lyart.vercel.app",
-    "http://localhost:3000",
-  ],
-  credentials: true,
+  origin: '*',
+  methods: '*',
+  allowedHeaders: '*',
 };
 
 
-app.use(cors(corsOptions));
+// app.use(
+//   cors({
+//     origin: [
+//       "https://my-store-theta-lyart.vercel.app/",
+//       "https://my-store-theta-lyart.vercel.app",
+//       "http://localhost:3000/",
+//       "http://localhost:3020"
+//     ],
+ 
+//     // origin: true,
+//     methods: ["PUT", "GET", "HEAD", "POST", "DELETE", "OPTIONS"],
+//     credentials: true,
+//   })
+// );
+
+app.use(
+  cors({
+    origin: [
+      "https://my-store-theta-lyart.vercel.app",
+      "http://localhost:3000",
+      "http://localhost:3020"
+    ],
+    methods: ["PUT", "GET", "HEAD", "POST", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
+
+app.set("trust proxy", 1)
+
+
 app.use(cookieParser());
 // const io = require('socket.io')(http, {
 //   cors: {
@@ -92,12 +116,16 @@ app.use(
       sameSite: "none",
       secure: true, 
       maxAge: 1000 * 60 * 60,
-      // httpOnly: true,
+      httpOnly: true,
     }
   })
 );
 
+const setheader =(req,res,next) =>{
 
+  res.setHeader("Access-Control-Allow-Origin","http://localhost:3000")
+  next()
+}
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -127,13 +155,15 @@ mongoose.connect(
   // })
 
 
-  app.use("/user", userRoute);
-  app.use("/files", fileRoute)
-  app.use("/address",address);
-  app.use("/products",productAdmim);
-  app.use("/auth", authRoute);
-  app.use("/admin/categories", categori);
-  app.use("/admin/orders", Orders);
+  
+
+  app.use("/user",setheader, userRoute);
+  app.use("/files",setheader, fileRoute)
+  app.use("/address",setheader,address);
+  app.use("/products",setheader,productAdmim);
+  app.use("/auth",setheader, authRoute);
+  app.use("/admin/categories",setheader, categori);
+  app.use("/admin/orders",setheader, Orders);
 
   app.use(function(req, res, next) {
     res.render('Err404notfoud',{template:{}});
