@@ -7,12 +7,29 @@ const Order = require("../../model/Order/OderModel")
 const CryptoJS = require('crypto-js'); // npm install crypto-js
 const moment = require('moment');
 const OrderItem = require('../../model/Order/ItemOrder')
+const User = require('../../model/UserModel')
+
+
 var dotenv = require("dotenv");
 dotenv.config();
 
 const engine = new Liquid();
 const Domain = process.env.Domain
 
+function getMinBill(mang) {
+  if (mang.length === 0) {
+    return null;
+  }
+  let obj = mang[0]
+  let giaTriNhoNhat = mang[0].totalbill;
+  for (let i = 1; i < mang.length; i++) {
+    if (mang[i].totalbill < giaTriNhoNhat) {
+      obj = mang[i].totalbill;
+    }
+  }
+  
+  return  obj;
+}
 
 
 function createHmacSha256Signature(data) {
@@ -27,7 +44,6 @@ const OrderControler = {
       const Global = req.cart
       console.log(req.body,"jkdyjashdjhsakjhajkh")
       const _Mystore_key = req.cookies._Mystore_key
-     
       const id_incart = await Cart.findOne({ idPicel: _Mystore_key })
       console.log(Global)
       if(req.body.payment_method ==='cod'){
@@ -60,9 +76,33 @@ const OrderControler = {
       const ListItemOrder =  req.cart.items
       console.log(req.body,"jkdyjashdjhsakjhajkh")
       const _Mystore_key = req.cookies._Mystore_key
-     
       const id_incart = await Cart.findOne({ idPicel: _Mystore_key })
+
+      
+
+
       console.log(Global)
+      // console.log('listUser---------------------------------')
+      const listUser = await User.find({role:'approved'})
+      // console.log('listUser---------------------------------',listUser)
+    
+    //   const listDataUserKPI = listUser.map( async (user)=> {
+    //    let total =await user.getTotalBill()
+    //   return {...user,TotalBill:total} 
+    // })
+
+    const listDataUserKPI = await Promise.all(listUser.map(async (e) => {
+        let bill = await e.getTotalBill()
+        const {...user } = e._doc
+        user.totalbill = bill
+        return(user)
+    }));
+
+    // listDataUserKPI.filter
+
+
+    const userStaffHandlingLsy = getMinBill(listDataUserKPI)
+     console.log('userStaffHandlingLsy---------------------------------',userStaffHandlingLsy)
 
       const  Bill = await new Order({
         full_name:req.body.order.full_name,
@@ -74,7 +114,8 @@ const OrderControler = {
         email:req.body.order.email,
         note:req.body.order.note,
         payment_method:req.body.payment_method,
-        totalAmount:req.cart.total_price
+        totalAmount:req.cart.total_price,
+        StaffHandlingLsy:userStaffHandlingLsy._id
       });
       const OrderBill = await Bill.save();
       const addItem = await ListItemOrder.map(item =>{

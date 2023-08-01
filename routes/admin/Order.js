@@ -30,7 +30,7 @@ router.get("/info",verifyTokenAndAdmin,OrderController.GetOrder);
 
 // router.post("/add", CategoriController.AddProduct);
 // router.post("/create", CategoriController.CreatCategori);
-router.post("/update", OrderController.UpdateOrder);
+router.post("/update",verifyToken, OrderController.UpdateOrder);
 
 router.get("/dataweek", OrderController.GetDataWeek);
 
