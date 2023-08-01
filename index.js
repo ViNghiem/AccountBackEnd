@@ -32,28 +32,13 @@ const corsOptions = {
   allowedHeaders: '*',
 };
 
-
-// app.use(
-//   cors({
-//     origin: [
-//       "https://my-store-theta-lyart.vercel.app/",
-//       "https://my-store-theta-lyart.vercel.app",
-//       "http://localhost:3000/",
-//       "http://localhost:3020"
-//     ],
- 
-//     // origin: true,
-//     methods: ["PUT", "GET", "HEAD", "POST", "DELETE", "OPTIONS"],
-//     credentials: true,
-//   })
-// );
-
 app.use(
   cors({
     origin: [
       "https://my-store-theta-lyart.vercel.app",
       "http://localhost:3000",
-      "http://localhost:3020"
+      "http://localhost:3020",
+      'https://web2s.storedemo.vn'
     ],
     methods: ["PUT", "GET", "HEAD", "POST", "DELETE", "OPTIONS"],
     credentials: true,
@@ -114,10 +99,10 @@ app.use(
     saveUninitialized: false,
     store: store,
     cookie: {
-      // sameSite: "none",
-      // secure: true, 
+      sameSite: "none",
+      secure: true, 
       maxAge: 1000 * 60 * 60,
-      // httpOnly: true,
+      httpOnly: true,
     }
   })
 );
@@ -139,9 +124,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// io.on('connection', (socket) => {
-//   console.log('a user connected',socket.handshake.headers["sec-ch-ua"]);
-// });
+
 
 mongoose.set('strictQuery', true)
 
@@ -151,13 +134,7 @@ mongoose.connect(
 .then(()=>console.log('connected'))
 .then(()=>{
   app.use("/",Setcookey,public);
-  // app.get('/', function (req, res) {
-  //   const todos = ['fork and clone', 'make it better', 'make a pull request']
-  //   res.render('index', {todos:todos})
-  // })
 
-
-  
 
   app.use("/user",setheader, userRoute);
   app.use("/files",setheader, fileRoute)

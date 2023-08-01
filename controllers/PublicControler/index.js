@@ -49,19 +49,23 @@ const IndexControler = {
  
   getTest: async(req,res) =>{
     console.log('-------------------------',req)
+   let mes = req.body.name
+   let phone = req.body.phone
+   let tokenfroup = req.body.token
+
     const mess = {
-       'message': 'dev pancaketest sadsadasdas' 
+       'message': 'dev pancaketest ' 
      }
  
      let data =objectToQueryString(mess)
-     
+    //  5gQW8t02g6me83Sn1NmqdyJp8vQbqtBUD0ALXLEPDDA
      let config = {
        method: 'post',
        maxBodyLength: Infinity,
        url: 'https://notify-api.line.me/api/notify',
        headers: { 
          'Content-Type': 'application/x-www-form-urlencoded', 
-         'Authorization': 'Bearer 5gQW8t02g6me83Sn1NmqdyJp8vQbqtBUD0ALXLEPDDA'
+         'Authorization': `Bearer  ${tokenfroup}`
        },
        data : data
      };
