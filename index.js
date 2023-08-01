@@ -99,10 +99,10 @@ app.use(
     saveUninitialized: false,
     store: store,
     cookie: {
-      sameSite: "none",
-      secure: true, 
+      // sameSite: "none",
+      // secure: true, 
       maxAge: 1000 * 60 * 60,
-      httpOnly: true,
+      // httpOnly: true,
     }
   })
 );
