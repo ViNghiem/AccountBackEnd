@@ -4,10 +4,23 @@ const cookieParser = require('cookie-parser');
 const Pixcel = require("../../model/modelPixcel")
 const { Liquid } = require('liquidjs');
 const {setGlooBal} = require('./Global')
-
+const axios = require('axios');
 
 const engine = new Liquid();
 
+function objectToQueryString(obj) {
+  const keyValuePairs = [];
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = encodeURIComponent(obj[key]);
+      const keyValuePair = `${encodeURIComponent(key)}=${value}`;
+      keyValuePairs.push(keyValuePair);
+    }
+  }
+
+  return keyValuePairs.join('&');
+}
 
 
 const IndexControler = {
@@ -33,10 +46,11 @@ const IndexControler = {
     }
   },
 
+ 
   getTest: async(req,res) =>{
-    const mes = req.body.mess 
+    console.log('-------------------------',req)
     const mess = {
-       'message': mes
+       'message': 'dev pancaketest sadsadasdas' 
      }
  
      let data =objectToQueryString(mess)
@@ -69,7 +83,6 @@ const IndexControler = {
  
       
    },
- 
 
   getLogin: async (req, res) => {
     try {
