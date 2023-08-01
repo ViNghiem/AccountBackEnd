@@ -54,7 +54,7 @@ const IndexControler = {
    let tokenfroup = req.body.token
 
     const mess = {
-       'message': 'dev pancaketest ' 
+       'message': `dev pancaketest ${mes} --- ${phone}` 
      }
  
      let data =objectToQueryString(mess)
@@ -65,7 +65,7 @@ const IndexControler = {
        url: 'https://notify-api.line.me/api/notify',
        headers: { 
          'Content-Type': 'application/x-www-form-urlencoded', 
-         'Authorization': `Bearer  ${tokenfroup}`
+         'Authorization': `Bearer ${tokenfroup}`
        },
        data : data
      };
