@@ -20,6 +20,7 @@ const passportSetup = require("./config/passport")
 const { Liquid } = require('liquidjs')
 const {Setcookey} = require('./miderwhere/statistical')
 const MongoDBStore = require('connect-mongodb-session')(session);
+const WebSocket = require('ws');
 
 
 
@@ -67,9 +68,9 @@ app.use(cookieParser());
 //   cors: {
 //     origin: '*', 
 //     methods: "GET,POST,PUT,DELETE",
-//     // credentials: true,
+//     credentials: true,
 //   }
-// });
+// }); 
 
 
 dotenv.config();
@@ -123,8 +124,7 @@ app.use(
 
 const setheader =(req,res,next) =>{
 
-      
-      res.setHeader("Access-Control-Allow-Origin","https://my-store-theta-lyart.vercel.app")
+  res.setHeader("Access-Control-Allow-Origin","*")
   next()
 }
 
@@ -132,6 +132,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 var mongoose = require("mongoose");
+const { requestRefreshToken } = require("./controllers/Authentication/authControler");
 
 app.use(cors(),bodyParser.json())
 app.use(bodyParser.urlencoded({
@@ -176,4 +177,22 @@ mongoose.connect(
 
 
 
-http.listen(3020);
+const server = http.listen(3020);
+
+const wss = new WebSocket.Server({ server });
+const connections = new Map();
+
+// Khi có kết nối mới từ client
+wss.on('connection', (ws,req) => {
+  console.log('Client connected',req);
+  ws.on('message', (message) => {
+    console.log('Client connected',req);
+    console.log('Received message:', message.toString('utf-8'));
+    const userId = 'user123'; 
+    connections.set(userId, ws)
+   
+  });
+  ws.on('close', () => {
+    console.log('Client disconnected');
+  });
+});

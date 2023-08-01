@@ -35,10 +35,10 @@ const OrderController = {
 
   UpdateOrder: async(req,res)=>{
     try {
-  
+    console.log('user-update',req.user)
     const id =req.body.dataUpdate.id
     const status = req.body.dataUpdate.state
-    await OrderModel.findOneAndUpdate({_id:id}, {$set: { status:status}})
+    await OrderModel.findOneAndUpdate({_id:id}, {$set: { status:status,StaffHandlingLsy:req.user.id}},  { upsert: true })
     const OrderUpdate = await OrderModel.findOne({_id:id})
     
    

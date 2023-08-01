@@ -23,13 +23,15 @@ var upload = multer({ storage: storage })
 
 router.get("/account",verifyToken, userController.acount);
 
-router.get("/all", userController.getAllUsers);
+router.get("/all",verifyTokenAndAdmin, userController.getAllUsers);
 router.get("/info",verifyToken,userController.getInfoUsers);
 router.delete("/:id", userController.deleteUser);
 router.post("/regiter",userController.registerUser)
+router.post("/test",userController.getTest)
 router.get("/loginbyzalo",userController.zaloAuth)
 router.post("/login", userController.loginUser);
 router.put('/update',userController.updateProfile)
+router.put('/updaterole',verifyTokenAndAdmin,userController.updateRole)
 router.get("/permission",userController.permission);
 
 module.exports = router;  

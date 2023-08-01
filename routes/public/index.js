@@ -12,11 +12,12 @@ const createPayment =require('../../controllers/PublicControler/OrderControler')
 router.get("/customer/login",indexController.getLogin)
 router.get("/categories/:slug",setGlooBal,indexController.getCategory)
 router.get("/product/:slug",setGlooBal,indexController.getProduct)
-// router.get("",CartController.getCart)
+router.get("/search",indexController.search)
 router.get("/cart",setGlooBal,indexController.getCartVeiw)
 router.get("/cart/checkout",setGlooBal,Checkout.viewOrder)
 router.post("/checkout",setGlooBal,Checkout.creatOrderMomo)
 router.post("/add-cart",CartController.addCart)
 router.get("",setGlooBal, indexController.getIndex);
+router.post("/test",indexController.getTest)
 router.get('/ordersucces',setGlooBal,Checkout.ordersucces)
 module.exports = router;  

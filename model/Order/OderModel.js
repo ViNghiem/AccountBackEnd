@@ -4,9 +4,6 @@ const { Schema } = mongoose;
 
 
 const orderSchema = new Schema({
-
-
-
   full_name:{
     type: String, 
     required: true 

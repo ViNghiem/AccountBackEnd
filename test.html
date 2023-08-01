@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Example</title>
+</head>
+<body>
+  <h1>WebSocket Example</h1>
+  <input type="text" id="message" placeholder="Type a message">
+  <button onclick="sendMessage()">Send</button>
+  <div id="response"></div>
+
+  <script>
+    const socket = new WebSocket('ws://localhost:3020');
+
+    // Xử lý khi kết nối thành công với server
+    socket.onopen = function() {
+      console.log('Connected to WebSocket server');
+    };
+
+    // Xử lý khi nhận được dữ liệu từ server
+    socket.onmessage = function(event) {
+      const responseElement = document.getElementById('response');
+      responseElement.innerHTML = `Server response: ${event.data}`;
+    };
+
+    // Xử lý khi đóng kết nối
+    socket.onclose = function() {
+      console.log('Connection closed');
+    };
+
+    // Gửi dữ liệu tới server
+    function sendMessage() {
+      const messageInput = document.getElementById('message');
+      const message = messageInput.value;
+      socket.send(message);
+    }
+  </script>
+</body>
+</html>

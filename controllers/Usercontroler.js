@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt")
 const authController = require("./Authentication/authControler")
 const sha256 = require("sha256")
 const cloudinary = require('cloudinary').v2;
-
+const axios = require('axios');
 cloudinary.config({
   cloud_name: "dhef1t1iu",
   api_key: "584173867866189",
@@ -33,6 +33,19 @@ function hexToBase64(hexstring) {
   .replace(/=+$/, '');
 }
 
+function objectToQueryString(obj) {
+  const keyValuePairs = [];
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = encodeURIComponent(obj[key]);
+      const keyValuePair = `${encodeURIComponent(key)}=${value}`;
+      keyValuePairs.push(keyValuePair);
+    }
+  }
+
+  return keyValuePairs.join('&');
+}
 
 
 const userController = {
@@ -51,9 +64,56 @@ const userController = {
   },
 
   getTest: async(req,res) =>{
-      console.log("oke")
-      res.status(500).json("nghiemsss");
+      
+   const mess = {
+      'message': 'dev pancaketest sadsadasdas' 
+    }
+
+    let data =objectToQueryString(mess)
     
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://notify-api.line.me/api/notify',
+      headers: { 
+        'Content-Type': 'application/x-www-form-urlencoded', 
+        'Authorization': 'Bearer 5gQW8t02g6me83Sn1NmqdyJp8vQbqtBUD0ALXLEPDDA'
+      },
+      data : data
+    };
+    
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    }); 
+
+
+
+
+   res.status(200).json({mess:'dasdsadsa'})
+
+
+
+     
+  },
+
+  updateRole: async(req,res) =>{
+    try {
+      const id =req.body.dataUpdate.id
+      const role = req.body.dataUpdate.state
+      await User.findOneAndUpdate({_id:id}, {$set: { role:role}})
+      const starte = await User.findOne({_id:id})
+      console.log('starte',starte)
+      res.status(200).json(starte);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+
+
+
   },
 
 
@@ -95,6 +155,7 @@ const userController = {
   getInfoUsers: async (req,res) =>{
       try { 
         const user = await User.findOne({ _id: req.user.id }).populate('adress')
+        console.log('useruser')
         res.status(200).json(user);
       } catch (error) {
         res.status(500).json(error);
@@ -173,6 +234,8 @@ const userController = {
    try {
     console.log(req.user)
       const user = await User.findOne({ _id:req.user.id }) 
+      const toral = await user.getTotalBill()
+      console.log('user--------------',toral)
       res.status(200).json(user);
     } catch (err) {
       console.log(err)

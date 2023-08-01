@@ -22,6 +22,55 @@ const IndexControler = {
     }
   },
 
+  search: async (req, res) => {
+    try {
+      const Global = req.cart
+      
+      res.render('login',{template:{title:'login'},global:{cart:Global}});
+    } catch (err) {
+      console.log(err)
+      res.status(500).json(err);
+    }
+  },
+
+  getTest: async(req,res) =>{
+    const mes = req.body.mess 
+    const mess = {
+       'message': mes
+     }
+ 
+     let data =objectToQueryString(mess)
+     
+     let config = {
+       method: 'post',
+       maxBodyLength: Infinity,
+       url: 'https://notify-api.line.me/api/notify',
+       headers: { 
+         'Content-Type': 'application/x-www-form-urlencoded', 
+         'Authorization': 'Bearer 5gQW8t02g6me83Sn1NmqdyJp8vQbqtBUD0ALXLEPDDA'
+       },
+       data : data
+     };
+     
+     axios.request(config)
+     .then((response) => {
+       console.log(JSON.stringify(response.data));
+     })
+     .catch((error) => {
+       console.log(error);
+     }); 
+ 
+ 
+ 
+ 
+    res.status(200).json({mess:'dasdsadsa'})
+ 
+ 
+ 
+      
+   },
+ 
+
   getLogin: async (req, res) => {
     try {
       const Global = req.cart
