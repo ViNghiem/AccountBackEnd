@@ -68,7 +68,7 @@ const engine = new Liquid({
 })
 
 app.engine('liquid', engine.express())
-app.set('views', [ './views', './views/index','./views/layout','./views/Product','./views/Categories','./views/Checkout'] )
+app.set('views', [ './views','./views/Search', './views/index','./views/layout','./views/Product','./views/Categories','./views/Checkout'] )
 app.set('view engine', 'liquid')
 
 
@@ -109,7 +109,7 @@ app.use(
 
 const setheader =(req,res,next) =>{
 
-  res.setHeader("Access-Control-Allow-Origin","*")
+  res.setHeader("Access-Control-Allow-Origin","https://my-store-theta-lyart.vercel.app/login")
   next()
 }
 

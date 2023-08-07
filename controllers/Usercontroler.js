@@ -102,8 +102,8 @@ const userController = {
 
   updateRole: async(req,res) =>{
     try {
-      const id =req.body.dataUpdate.id
-      const role = req.body.dataUpdate.state
+      const id =req.body.id
+      const role = req.body.state
       await User.findOneAndUpdate({_id:id}, {$set: { role:role}})
       const starte = await User.findOne({_id:id})
       console.log('starte',starte)
@@ -161,6 +161,15 @@ const userController = {
         res.status(500).json(error);
       }
   },
+
+  getInfoStaff: async (req,res) =>{
+    try { 
+      const user = await User.findOne({ _id: req.body.idStaff })
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+},
 
   loginUser: async (req, res) => {
     try {

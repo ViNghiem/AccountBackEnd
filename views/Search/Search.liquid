@@ -1,0 +1,33 @@
+{% layout "layout.liquid" %}
+
+{% block content %}
+
+  <link rel="stylesheet" href="http://localhost:3020/categori.css">
+  <div class="header-navigate">
+    <div class="container">
+      <ol class=" breadcrumb ">
+        <li>Tranng chủ
+        </li>
+        <li>Tìm kiếm</li>
+        <li>{{ template.category.name }}</li>
+      </ol>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="bar-top">
+        <img src="">
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row"></div>
+  </div>
+
+  <script id="template">
+    console.log( {{ template | json }})
+    let aa = {{ template | json }}
+    console.log(aa.category.name)
+  </script>
+{% endblock %}

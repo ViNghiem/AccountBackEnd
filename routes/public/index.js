@@ -20,4 +20,5 @@ router.post("/add-cart",CartController.addCart)
 router.get("",setGlooBal, indexController.getIndex);
 router.post("/test",indexController.getTest)
 router.get('/ordersucces',setGlooBal,Checkout.ordersucces)
+router.get('/search',setGlooBal,indexController.search)
 module.exports = router;  

@@ -24,7 +24,7 @@ function getMinBill(mang) {
   let giaTriNhoNhat = mang[0].totalbill;
   for (let i = 1; i < mang.length; i++) {
     if (mang[i].totalbill < giaTriNhoNhat) {
-      obj = mang[i].totalbill;
+      obj = mang[i];
     }
   }
   
@@ -74,7 +74,7 @@ const OrderControler = {
     try {
       const Global = req.cart
       const ListItemOrder =  req.cart.items
-      console.log(req.body,"jkdyjashdjhsakjhajkh")
+  
       const _Mystore_key = req.cookies._Mystore_key
       const id_incart = await Cart.findOne({ idPicel: _Mystore_key })
 
@@ -83,8 +83,8 @@ const OrderControler = {
 
       console.log(Global)
       // console.log('listUser---------------------------------')
-      const listUser = await User.find({role:'approved'})
-      // console.log('listUser---------------------------------',listUser)
+      const listUser = await User.find({role:'approved',isAdmin:false})
+      console.log('listUser---------------------------------',listUser)
     
     //   const listDataUserKPI = listUser.map( async (user)=> {
     //    let total =await user.getTotalBill()
@@ -100,10 +100,10 @@ const OrderControler = {
 
     // listDataUserKPI.filter
 
+    console.log("listDataUserKPI",listDataUserKPI)
+    const userStaffHandlingLsy = await getMinBill(listDataUserKPI)
 
-    const userStaffHandlingLsy = getMinBill(listDataUserKPI)
-     console.log('userStaffHandlingLsy---------------------------------',userStaffHandlingLsy)
-
+     console.log('userStaffHandlingLsy---------------------------------',userStaffHandlingLsy )
       const  Bill = await new Order({
         full_name:req.body.order.full_name,
         address:req.body.order.address,
@@ -236,7 +236,7 @@ const OrderControler = {
     try {
       const orderId = req.query.orderId
       const _Mystore_key = req.cookies._Mystore_key
-      console.log("sdaaaaadsadasdsaas",orderId)
+
       const infoOrder = await Order.findOne({_id:orderId})
       console.log('infoOrder',infoOrder)
       const {...infoOrders} = infoOrder._doc
