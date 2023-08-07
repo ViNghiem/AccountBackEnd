@@ -1,6 +1,27 @@
 
 const OrderModel = require('../../model/Order/OderModel')
 const ItemOrder = require('../../model/Order/ItemOrder')
+const axios =require('axios')
+
+
+
+
+async function GetNameAdress(id,url) {
+  const da = await axios.get(url)
+              .then( async response => {
+              console.log('response',response)
+              const listData = response.data.data
+              const obj = await listData.find(item => item.id === id);
+              return obj
+              })
+              .catch(error => {console.error(error);
+        });
+        return da
+
+}
+
+
+
 
 function fomattime(time){
   var day = time.getDate(); 
@@ -35,9 +56,9 @@ const OrderController = {
 
   UpdateOrder: async(req,res)=>{
     try {
-    console.log('user-update',req.user)
-    const id =req.body.dataUpdate.id
-    const status = req.body.dataUpdate.state
+    console.log('user-update',req.body)
+    const id =req.body.id
+    const status = req.body.state
     await OrderModel.findOneAndUpdate({_id:id}, {$set: { status:status,StaffHandlingLsy:req.user.id}},  { upsert: true })
     const OrderUpdate = await OrderModel.findOne({_id:id})
     
@@ -64,8 +85,48 @@ const OrderController = {
     try {
       const idorder = req.query.id
       const order = await OrderModel.findOne({_id:idorder})
+      const province_id = order.province_id
+      const district_id = order.district_id
+      const communes_id = order.commune_id
+
+      const Provin = await GetNameAdress(province_id,`https://pos.pages.fm/api/v1/geo/provinces`)
+      const Distris = await GetNameAdress(district_id,`https://pos.pages.fm/api/v1/geo/districts?province_id=${province_id}`)
+      const Communes = await GetNameAdress(communes_id,`https://pos.pages.fm/api/v1/geo/communes?district_id=${district_id}`)
+      const fullAdress = order.address+ ' - ' + Communes.name+' - ' + Distris.name +' - '+ Provin.name
+     const  {...Order} = order._doc
+     Order.fullAdress = fullAdress
+
+      // https://pos.pages.fm/api/v1/geo/communes?district_id=22111
+      // const dataProvin = await axios.get('https://pos.pages.fm/api/v1/geo/provinces')
+      //       .then(response => {
+      //        console.log('response',response)
+      //        return(response.data).data;
+      //       })
+      //       .catch(error => {console.error(error);
+      // });
+
+
+      
+    // https://pos.pages.fm/api/v1/geo/districts?province_id=207
+
+
+
+
+
+
+
+
+      // const nameProvin = dataProvin.find(item => item.id === province_id);
+      
+      console.log("---------nameProvin---------",{...order})
+      console.log("--------Order----------",Order)
+      console.log("---------Communes---------",order.fullAdress)
       const  itemorder = await ItemOrder.find({idOrder:idorder})
-      const data ={orderInfo:order,items:itemorder}
+
+
+
+
+      const data ={orderInfo:Order,items:itemorder}
       res.status(200).json(data)
     } catch (error) {
       res.status(500).json({mess:'loi'})

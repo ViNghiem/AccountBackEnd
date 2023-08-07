@@ -38,8 +38,10 @@ const IndexControler = {
   search: async (req, res) => {
     try {
       const Global = req.cart
-      
-      res.render('login',{template:{title:'login'},global:{cart:Global}});
+      const keyword = req.query.q
+      console.log('req-------------------',req)
+      console.log("d---------------------------------")
+      res.render('Search',{template:{title:'search'},global:{cart:Global}});
     } catch (err) {
       console.log(err)
       res.status(500).json(err);

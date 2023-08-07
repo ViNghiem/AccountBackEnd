@@ -25,6 +25,7 @@ router.get("/account",verifyToken, userController.acount);
 
 router.get("/all",verifyTokenAndAdmin, userController.getAllUsers);
 router.get("/info",verifyToken,userController.getInfoUsers);
+router.post("/infostaff",verifyToken,userController.getInfoStaff);
 router.delete("/:id", userController.deleteUser);
 router.post("/regiter",userController.registerUser)
 router.post("/test",userController.getTest)

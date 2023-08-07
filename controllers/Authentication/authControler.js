@@ -20,7 +20,7 @@ const authController = {
         isAdmin: userinDb.isAdmin,
       },
       process.env.JWT_ACCESS_KEY,
-      { expiresIn: "5s" }
+      { expiresIn: "15s" }
     );
 
   },
@@ -41,7 +41,7 @@ const authController = {
 
   requestRefreshToken: async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    // console.log("teoken", refreshToken)
+    console.log("teoken------------------------------------------------------", refreshToken)
     if (!refreshToken){
        return res.status(401).json("You're not authenticated");
     }else{
@@ -49,13 +49,12 @@ const authController = {
         if (err) {
           console.log(err);
         }
-        console.log(refreshToken)
+     
         // refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
         const newAccessToken = await authController.generateAccessToken(user);
         const newRefreshToken = await authController.generateRefreshToken(user);
         // refreshTokens.push(newRefreshToken);
         console.log("newAccessToken",newAccessToken)
-  
         res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure:false,
