@@ -1,5 +1,6 @@
 const Product = require("../../model/Product/ProductModel");
 const Categori = require("../../model/Category/CategoryModel")
+const CartModel = require("../../model/Cart/CartModel")
 const cookieParser = require('cookie-parser');
 const Pixcel = require("../../model/modelPixcel")
 const { Liquid } = require('liquidjs');
@@ -10,7 +11,6 @@ const engine = new Liquid();
 
 function objectToQueryString(obj) {
   const keyValuePairs = [];
-
   for (const key in obj) {
     if (obj.hasOwnProperty(key)) {
       const value = encodeURIComponent(obj[key]);
@@ -27,8 +27,7 @@ const IndexControler = {
   getIndex: async (req, res) => {
     try {
       const Global = req.cart
-        console.log(req,"req")
-        res.render('index',{template:{title:'index'},global:{cart:Global}});
+      res.render('index',{template:{title:'index'},global:{cart:Global}});
     } catch (err) {
       console.log(err)
       res.status(500).json(err);
@@ -39,13 +38,19 @@ const IndexControler = {
     try {
       const Global = req.cart
       const keyword = req.query.q
-      console.log('req-------------------',req)
-      console.log("d---------------------------------")
-      res.render('Search',{template:{title:'search'},global:{cart:Global}});
+      const ListProduct = await Product.find({ name: { $regex: keyword, $options: 'i' } });
+      console.log('ListProduct',ListProduct)
+      const products = ListProduct.map(e=>{
+        return e._doc
+      })
+
+
+
+      res.render('Search',{template:{title:'search',Products:products},global:{cart:Global}});
     } catch (err) {
       console.log(err)
       res.status(500).json(err);
-    }
+    }   
   },
 
  
@@ -90,6 +95,24 @@ const IndexControler = {
       
    },
 
+  checkaction:async (req,res,next) =>{
+    const spec =req.query.spec
+    const id  = req.query.id
+    const key = req.cookies._Mystore_key
+    const cartitem = await CartModel.findOne({idPicel:key})
+    if(cartitem){
+      const listItem = cartitem.items
+      let news = []
+      news = listItem.filter(item => item.product_id.toString() !== id)
+
+      console.log("new",news)
+
+      next()
+    }else{
+      next()
+    }
+  },
+
   getLogin: async (req, res) => {
     try {
       const Global = req.cart
@@ -112,11 +135,13 @@ const IndexControler = {
 
 
 
+
+
   getCategory: async (req, res) => {
     try {
 
       const Global = req.cart
-      console.log(req.params.slug)
+
       const categori = await Categori.findOne({slug:req.params.slug})
 
       if(categori) {

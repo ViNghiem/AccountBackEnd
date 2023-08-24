@@ -22,8 +22,8 @@ var upload = multer({ storage: storage })
 
 
 
-router.get("/all",verifyTokenAndAdmin,OrderController.GetAllOrder);
-router.get("/info",verifyTokenAndAdmin,OrderController.GetOrder);
+router.get("/all",verifyToken,OrderController.GetAllOrder);
+router.get("/info",verifyToken,OrderController.GetOrder);
 
 // router.delete("/delete",verifyTokenAndAdmin,CategoriController.deleteProduct);
 // router.put("/update", CategoriController.updateProduct);

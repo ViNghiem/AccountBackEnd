@@ -13,8 +13,6 @@ router.get("/login/success",async (req, res) => {
   try {
     console.log("daskjdklasjkjaskdksjakhdjsah")
     // res.status(200).json({mess:'sadjashdj'})
-    console.log('req.usersssssssssss',req.user)
-    console.log('phien',req.isAuthenticated())
     if (req.user) {
       const user = req.user
       console.log("ggewgrehgr wjqwjegyqweqwfetuwqyiuhejiwqjeqwgewqrfetgyhuwqjequwyeqwfyegqywhje")

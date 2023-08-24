@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const verifyToken = (req, res, next) => {
   console.log('req',req.headers)
   const token = req.headers.token;
-  console.log("tokensssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",token)
+
   if (token) {
     const accessToken = token;
     jwt.verify(accessToken, process.env.JWT_ACCESS_KEY, (err, user) => {
@@ -24,8 +24,8 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAndUserAuthorization = (req, res, next) => {
   verifyToken(req, res, () => {
-    console.log("req.user",req.user)
-    if (req.user.id === req.params.id || req.user.isAdmin) {
+    console.log("req.user---------------",req.params.id)
+    if (req.user.id || req.user.isAdmin) {
       next();
     } else {
       res.status(403).json("You're not allowed to do that!");
