@@ -9,7 +9,7 @@ const axios =require('axios')
 async function GetNameAdress(id,url) {
   const da = await axios.get(url)
               .then( async response => {
-              console.log('response',response)
+              // console.log('response',response)
               const listData = response.data.data
               const obj = await listData.find(item => item.id === id);
               return obj
@@ -56,26 +56,25 @@ const OrderController = {
 
   UpdateOrder: async(req,res)=>{
     try {
-    console.log('user-update',req.body)
     const id =req.body.id
     const status = req.body.state
-    await OrderModel.findOneAndUpdate({_id:id}, {$set: { status:status,StaffHandlingLsy:req.user.id}},  { upsert: true })
-    const OrderUpdate = await OrderModel.findOne({_id:id})
-    
-   
+      await OrderModel.findOneAndUpdate({_id:id}, {$set: { status:status,UpdateStatus:req.user.id}},  { upsert: true })
+      const OrderUpdate = await OrderModel.findOne({_id:id})
       res.status(200).json({order:OrderUpdate});
     } catch (err) {
-      console.log(err)
       res.status(500).json(err);
     }
   },
 
   GetAllOrder: async (req, res) => {
     try {
-        console.log("da nhan requed")
-      const ListOrder = await OrderModel.find().sort({ orderDate: -1 });
-      console.log(ListOrder)
-      res.status(200).json({data:ListOrder});
+      if(req.user.isAdmin){
+        const ListOrder = await OrderModel.find().sort({ orderDate: -1 });
+        res.status(200).json({data:ListOrder});
+      }else{
+        const ListOrder = await OrderModel.find({StaffHandlingLsy:req.user.id}).sort({ orderDate: -1 });
+        res.status(200).json({data:ListOrder});
+      }
     } catch (err) {
       res.status(500).json(err);
     }
@@ -83,6 +82,9 @@ const OrderController = {
 
   GetOrder: async(req,res)=>{
     try {
+
+ 
+
       const idorder = req.query.id
       const order = await OrderModel.findOne({_id:idorder})
       const province_id = order.province_id
@@ -95,7 +97,7 @@ const OrderController = {
       const fullAdress = order.address+ ' - ' + Communes.name+' - ' + Distris.name +' - '+ Provin.name
      const  {...Order} = order._doc
      Order.fullAdress = fullAdress
-
+    
       // https://pos.pages.fm/api/v1/geo/communes?district_id=22111
       // const dataProvin = await axios.get('https://pos.pages.fm/api/v1/geo/provinces')
       //       .then(response => {
@@ -118,16 +120,17 @@ const OrderController = {
 
       // const nameProvin = dataProvin.find(item => item.id === province_id);
       
-      console.log("---------nameProvin---------",{...order})
-      console.log("--------Order----------",Order)
-      console.log("---------Communes---------",order.fullAdress)
+      // console.log("---------nameProvin---------",{...order})
+      // console.log("--------Order----------",Order)
+      // console.log("---------Communes---------",order.fullAdress)
       const  itemorder = await ItemOrder.find({idOrder:idorder})
-
-
-
-
       const data ={orderInfo:Order,items:itemorder}
-      res.status(200).json(data)
+
+      if(req.user.isAdmin || req.user.id == order.StaffHandlingLsy ){
+        res.status(200).json(data)
+      }else{
+        res.status(500).json({mess:'loi'})
+      }
     } catch (error) {
       res.status(500).json({mess:'loi'})
     }
@@ -135,15 +138,28 @@ const OrderController = {
 
   GetDataWeek: async(req,res)=>{
     try {
-      console.log(req)
+      // console.log(req.query)
+      const timeEnd= req.query.timeEnd
       var datatest = [];
       const day = req.query.dayselect
+      const dateParts = timeEnd.split('/')
+      
       const sevenDaysAgo = new Date();
-      const timequery = sevenDaysAgo.setDate(sevenDaysAgo.getDate() - day);
-      const DateEnd = fomattime( new Date())
-      const DateStart =fomattime(new Date(timequery))
-      const ListDate = listDates(DateStart,DateEnd)
-      const Datagoc = ListDate.map((e)=>{
+      const DateEnd = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+      // console.log("--DateEnd---",new Date(DateEnd).getDate())
+
+      // console.log("--sevenDaysAgo---",sevenDaysAgo.getDate())
+
+
+
+      const timequery = sevenDaysAgo.setDate(new Date(DateEnd).getDate() - day);
+      // console.log("timequery",new Date(dateParts[2], dateParts[1], dateParts[0]))
+      
+    
+      const DateStart = fomattime(new Date(timequery))
+      const ListDate = await listDates(DateStart,DateEnd)
+      // console.log("--ListDate--",ListDate)
+      const Datagoc =await ListDate.map((e)=>{
         return(
           {
             name:e,
@@ -197,18 +213,10 @@ const OrderController = {
       }
       res.status(200).json({data:Datagoc});
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       res.status(500).json(err);
     }
   }
-
-
-
-
-
-
-
-
 
 }
 

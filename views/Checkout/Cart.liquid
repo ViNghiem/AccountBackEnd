@@ -60,7 +60,7 @@
                       </td>
                       <td class="price">{{ item.price | times: item.quantity | vnd }}</td>
                       <td class="remove">
-                        <a href="/cart/action?spec=delete&amp;id=3534312&amp;type=1" class="cart">
+                        <a href="/cart/action?spec=delete&amp;id={{ item._id   }}&amp;type=1" class="cart">
                           <i class="fas fa-trash-alt"></i>
                         </a>
                       </td>

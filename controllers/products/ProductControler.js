@@ -85,13 +85,6 @@ const ProductControler = {
       await Product.findByIdAndDelete(req.query.id);
       const productList = await Product.find();
       console.log(productList,"productList")
-    
-
-
-
-
-
-
       res.status(200).json(productList)
     } catch (err) {
       // console.log(err)
@@ -102,15 +95,15 @@ const ProductControler = {
 
   updateProduct: async (req, res) => {
     try {
-      console.log(req.query.id,"params")
-      // await Product.findByIdAndDelete(req.query.id);
-      // const productList = await Product.find();
-      // console.log(productList,"productList")
-      // const product= await Product.findOne({_id:req.query.product.id})
-      res.status(200).json("da nhan requed")
+      console.log(req.body,"params")
+      const filter = { _id: req.body.newProduct.id};
+      const update = { $set: { name:req.body.newProduct.name,slug: req.body.newProduct.slug, price:req.body.newProduct.price,images: req.body.newProduct.images,description:req.body.newProduct.description } };
+      const result = await Product.updateOne(filter, update);
+      const newProduct = await Product.findOne(filter)
+      res.status(200).json(newProduct)
     } catch (err) {
-      // console.log(err)
-      // res.status(500).json(err);
+      console.log("error",err)
+      res.status(500).json(err);
     }
   },
 

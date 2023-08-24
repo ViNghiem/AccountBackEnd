@@ -21,7 +21,7 @@ const { Liquid } = require('liquidjs')
 const {Setcookey} = require('./miderwhere/statistical')
 const MongoDBStore = require('connect-mongodb-session')(session);
 const WebSocket = require('ws');
-
+const socketServer = require('./socket/Seversocket')
 
 
 var http = require('http').createServer(app);
@@ -108,7 +108,7 @@ app.use(
 );
 
 const setheader =(req,res,next) =>{
-  res.setHeader("Access-Control-Allow-Origin","https://my-store-theta-lyart.vercel.app")
+  res.setHeader("Access-Control-Allow-Origin","http://localhost:3020")
   next()
 }
 
@@ -154,21 +154,4 @@ mongoose.connect(
 
 
 const server = http.listen(3020);
-
-const wss = new WebSocket.Server({ server });
-const connections = new Map();
-
-// Khi có kết nối mới từ client
-wss.on('connection', (ws,req) => {
-  console.log('Client connected',req);
-  ws.on('message', (message) => {
-    console.log('Client connected',req);
-    console.log('Received message:', message.toString('utf-8'));
-    const userId = 'user123'; 
-    connections.set(userId, ws)
-   
-  });
-  ws.on('close', () => {
-    console.log('Client disconnected');
-  });
-});
+socketServer(server);

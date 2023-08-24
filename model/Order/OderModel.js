@@ -68,9 +68,14 @@ const orderSchema = new Schema({
     ref:"User"
   },
 
+  UpdateStatus:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"User"
+  },
+
   status: {
     type: String,
-    enum: ['pending','Confirm','shipped','Cancel order','delivered'],
+    enum: ['pending','Confirm','shipped','Cancel order','delivered','Refund-form'],
     default: 'pending'
   },
 
