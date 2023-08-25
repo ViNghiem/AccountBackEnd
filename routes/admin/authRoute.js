@@ -15,7 +15,7 @@ router.get("/login/success",async (req, res) => {
     // res.status(200).json({mess:'sadjashdj'})
     if (req.user) {
       const user = req.user
-      console.log("ggewgrehgr wjqwjegyqweqwfetuwqyiuhejiwqjeqwgewqrfetgyhuwqjequwyeqwfyegqywhje")
+      
       const User_db = await User.findOne({email:user._json.email})
       if(User_db){
         const accessToken = await authController.generateAccessToken(User_db);
