@@ -56,10 +56,10 @@ const authController = {
         // refreshTokens.push(newRefreshToken);
         console.log("newAccessToken",newAccessToken)
         res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure:false,
-          path: "/",
-          sameSite: "strict",
+          // httpOnly: true,
+          // secure:false,
+          // path: "/",
+          // sameSite: "strict",
         });
         res.status(200).json({accessToken: newAccessToken});
       });

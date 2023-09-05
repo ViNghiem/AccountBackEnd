@@ -21,10 +21,10 @@ router.get("/login/success",async (req, res) => {
         const accessToken = await authController.generateAccessToken(User_db);
         const refreshToken = await authController.generateRefreshToken(User_db);
         res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure:true,
-          path: "/",
-          sameSite: "none"
+          // httpOnly: true,
+          // secure:true,
+          // path: "/",
+          // sameSite: "none"
         });
         res.status(200).json({accessToken:accessToken,role:User_db.role})
       }else{
