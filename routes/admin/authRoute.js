@@ -12,7 +12,7 @@ const CLIENT_URL = process.env.INDEX_URL
 router.get("/login/success",async (req, res) => {
   try {
     console.log("daskjdklasjkjaskdksjakhdjsah")
-    // res.status(200).json({mess:'sadjashdj'})
+   
     if (req.user) {
       const user = req.user
       
@@ -50,7 +50,7 @@ router.get("/login/success",async (req, res) => {
     }
   } catch (err) {
     console.log(err)
-    res.status(500).json(err);
+    res.status(500).json({err:err});
   }
 });
 
