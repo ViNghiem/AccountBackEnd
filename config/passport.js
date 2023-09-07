@@ -20,8 +20,6 @@ FACEBOOK_APP_SECRET = "d4b073ed4690fd2cc0a27e05f403040d";
       },
       function (accessToken, refreshToken, profile, done) {
         const email = profile.emails[0].value;
-        console.log('profile',profile)
-        console.log('accessToken', accessToken)
         done(null, profile);
       }
     )
@@ -37,7 +35,7 @@ passport.use(
       callbackURL: "/auth/facebook/callback",
     },
     function (accessToken, refreshToken, profile, done) {
-      console.log("sạhdjsahkjdhsjahdas",profile)
+     
       done(null, profile);
     }
   )

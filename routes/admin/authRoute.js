@@ -84,7 +84,7 @@ router.get("/refreshtoken", authController.requestRefreshToken);
 router.get("/google", passport.authenticate("google", { scope: ["profile","email"] }));
 router.get(
   "/google/callback",(req, res,next) => {
-    console.log("reqssssssssssssssssssssssssssssssssssss sao k thay co auth o truoc nhỉ",req)
+ 
     next();
   },
  

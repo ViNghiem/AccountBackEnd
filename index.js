@@ -111,7 +111,7 @@ app.use(
 
 const setheader =(req,res,next) =>{
   // https://my-store-theta-lyart.vercel.app
-  res.setHeader("Access-Control-Allow-Origin","*")
+  res.setHeader("Access-Control-Allow-Origin","https://my-store-theta-lyart.vercel.app")
   next()
 }
 
