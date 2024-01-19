@@ -7,7 +7,7 @@ const Checkout = require("../../controllers/PublicControler/OrderControler");
 const { setGlooBal } = require('../../controllers/PublicControler/Global')
 const {addOrder} = require('../../controllers/OderControler/Order')
 const createPayment =require('../../controllers/PublicControler/OrderControler')
-
+const Shipping = require('../../controllers/OderControler/Shipping')
 
 router.get("/customer/login",indexController.getLogin)
 router.get("/categories/:slug",setGlooBal,indexController.getCategory)
@@ -22,4 +22,10 @@ router.get("",setGlooBal, indexController.getIndex);
 router.post("/test",indexController.getTest)
 router.get('/ordersucces',setGlooBal,Checkout.ordersucces)
 router.get('/search',setGlooBal,indexController.search)
+router.get('/shippingfree',Shipping.getShipping)
+
+
+
+
+
 module.exports = router;  

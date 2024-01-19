@@ -10,8 +10,9 @@ const {
 
 
 router.post("/addWarehauseAddress", Shipping.AddWarehauseAddress);
+router.post("/udateaddress", Shipping.UpdateAddWarehauseAddress);
 // router.post("/uploadphoto",fileUploader.single('file'), fileController.upload);
-router.get('/anh', Shipping.tesst)
+router.get('/warehauseaddress', Shipping.getAddWarehauseAddress)
 // router.delete('/delete',verifyTokenAndAdmin,fileController.delete)
 // router.delete('/deletes',verifyTokenAndAdmin,fileController.deletes)
 

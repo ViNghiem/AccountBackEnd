@@ -20,6 +20,7 @@ FACEBOOK_APP_SECRET = "d4b073ed4690fd2cc0a27e05f403040d";
       },
       function (accessToken, refreshToken, profile, done) {
         const email = profile.emails[0].value;
+        console.log("emaill",email)
         done(null, profile);
       }
     )

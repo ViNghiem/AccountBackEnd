@@ -45,13 +45,8 @@ const CategoriController = {
       if (listProduct.includes(idproduct)) {
         res.status(200).json({mess:'sản phẩm đã có trong danh mục'});
       } else {
-        console.log(listProduct,"listProduct")
         listProduct.push(req.body.idproduct) 
         const newlist = [...listProduct];
-
-        console.log(listProduct,"listProduct")
-        console.log(idproduct,"idproduct")
-       
         Categori.updateOne(
           { _id: idcategory },
           { $set: { listProduct: newlist  } } 

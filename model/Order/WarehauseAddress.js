@@ -29,6 +29,19 @@ const WarehauseAddress = new mongoose.Schema({
       unique: false,
     }
   ],
+
+  Uban: {
+    type: Number,
+    require: false,
+    default: 0,
+  },
+
+  Sububan: {
+    type: Number,
+    require: false,
+    default: 0,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now

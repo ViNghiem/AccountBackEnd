@@ -17,6 +17,7 @@ var authRoute = require('./routes/admin/authRoute')
 var categori = require('./routes/admin/Categories')
 var Orders = require('./routes/admin/Order')
 var ShippingRoute = require('./routes/admin/Shipping')
+var Search = require('./routes/admin/SearchRouter')
 
 const passportSetup = require("./config/passport")
 const { Liquid } = require('liquidjs')
@@ -101,17 +102,17 @@ app.use(
     saveUninitialized: false,
     store: store,
     cookie: {
-      sameSite: "none",
-      secure: true, 
-      maxAge: 1000 * 60 * 60,
-      httpOnly: true,
+      // sameSite: "none",
+      // secure: true, 
+      // maxAge: 1000 * 60 * 60,
+      // httpOnly: true,
     }
   })
 );
 
 const setheader =(req,res,next) =>{
   // https://my-store-theta-lyart.vercel.app
-  res.setHeader("Access-Control-Allow-Origin","https://my-store-theta-lyart.vercel.app")
+  res.setHeader("Access-Control-Allow-Origin","http://localhost:3000")
   next()
 }
 
@@ -136,6 +137,7 @@ mongoose.connect(
 .then(()=>console.log('connected'))
 .then(()=>{
   app.use("/",Setcookey,public);
+
   app.use("/user",setheader, userRoute);
   app.use("/files",setheader, fileRoute)
   app.use("/address",setheader,address);
@@ -151,5 +153,7 @@ mongoose.connect(
   
 })
 .catch(e=>console.log(e));
-const server = http.listen(3020);
-socketServer(server);
+http.listen(3020);
+
+
+socketServer(http)

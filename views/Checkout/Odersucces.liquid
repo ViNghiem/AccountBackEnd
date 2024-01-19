@@ -79,12 +79,12 @@
                   Tổng giá trị sản phẩm
                 </td>
                 <td style="text-align: right;font-style: italic;background-color: #f2f2f2; border: 1px solid #fff;">
-                  {{ template.infoOrder.totalAmount | vnd }}
+                  {{ template.infoOrder.provisional | vnd }}
                 </td>
               </tr>
               <tr>
                 <td colspan="3" style="font-style: italic;background-color: #f2f2f2; text-align: left; border: 1px solid #fff;">Phí giao hàng</td>
-                <td style="text-align: right;font-style: italic;background-color: #f2f2f2; border: 1px solid #fff;">0 đ</td>
+                <td style="text-align: right;font-style: italic;background-color: #f2f2f2; border: 1px solid #fff;">{{ template.infoOrder.shippingfee | vnd }} đ</td>
               </tr>
               <tr>
                 <td

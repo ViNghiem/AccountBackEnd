@@ -13,14 +13,14 @@ const authController = {
 
   generateAccessToken:async (user) => {
     const userinDb = await UserDb.findOne({_id:user.id})
-    console.log(userinDb,"sajdkjsakjd")
+    // console.log(userinDb,"sajdkjsakjd")
     return jwt.sign(
       {
         id: user.id,
         isAdmin: userinDb.isAdmin,
       },
       process.env.JWT_ACCESS_KEY,
-      { expiresIn: "15s" }
+      { expiresIn: "5m" }
     );
 
   },
@@ -41,7 +41,7 @@ const authController = {
 
   requestRefreshToken: async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    console.log("teoken------------------------------------------------------", refreshToken)
+    // console.log("teoken------------------------------------------------------", refreshToken)
     if (!refreshToken){
        return res.status(401).json("You're not authenticated");
     }else{
@@ -54,7 +54,7 @@ const authController = {
         const newAccessToken = await authController.generateAccessToken(user);
         const newRefreshToken = await authController.generateRefreshToken(user);
         // refreshTokens.push(newRefreshToken);
-        console.log("newAccessToken",newAccessToken)
+        // console.log("newAccessToken",newAccessToken)
         res.cookie("refreshToken", refreshToken, {
           // httpOnly: true,
           // secure:false,

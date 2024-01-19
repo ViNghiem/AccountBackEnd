@@ -49,10 +49,27 @@ const orderSchema = new Schema({
     type: String
   },
 
+  provisional:{
+    type: Number,
+      required: true
+  },
+
   totalAmount: {
      type: Number,
       required: true
    },
+
+  shippingfee:{
+    type: Number,
+    required: false,
+    default: 0
+  },
+
+  discount:{
+    type: Number,
+    required: false,
+    default: 0
+  },
  
   orderDate: {
     type: Date,

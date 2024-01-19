@@ -244,7 +244,7 @@ const userController = {
     console.log(req.user)
       const user = await User.findOne({ _id:req.user.id }) 
       const toral = await user.getTotalBill()
-      console.log('user--------------',toral)
+      // console.log('user--------------',toral)
       res.status(200).json(user);
     } catch (err) {
       console.log(err)
@@ -292,7 +292,7 @@ const userController = {
         "code_challenge":code_challenge,
         "url":url
       }
-      console.log(obj)
+      // console.log(obj)
     res.send(obj) 
     } catch (err) {
       res.status(500).json(err);
