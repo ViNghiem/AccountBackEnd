@@ -9,22 +9,68 @@ dotenv.config();
 const CLIENT_URL = process.env.INDEX_URL
 
 
+// router.get("/login/success",async (req, res) => {
+//   try {
+   
+//     res.status(200).json({err:"sdasdassa"});
+//     // if (req.user) {
+//     //   console.log("djhasjhdjkashjkdashs")
+//     //   const user = req.user
+      
+//     //   const User_db = await User.findOne({email:user._json.email})
+//     //   if(User_db){
+//     //     const accessToken = await authController.generateAccessToken(User_db);
+//     //     const refreshToken = await authController.generateRefreshToken(User_db);
+//     //     res.cookie("refreshToken", refreshToken, {
+//     //       httpOnly: true,
+//     //       secure:true,
+//     //       path: "/",
+//     //       sameSite: "none"
+//     //     });
+//     //     res.status(200).json({accessToken:accessToken,role:User_db.role})
+//     //   }else{
+//     //     const newUser = await new User({
+//     //       username: req.user._json.name,
+//     //       email: req.user._json.email,
+//     //       avartar: req.user._json.picture
+//     //     });
+//     //     const user = await newUser.save();
+//     //     console.log("user",user)
+//     //     const accessToken = await authController.generateAccessToken(newUser);
+//     //     const refreshToken = await authController.generateRefreshToken(newUser);
+//     //     res.cookie("refreshToken", refreshToken, {
+//     //       httpOnly: true,
+//     //       secure:true,
+//     //       path: "/",
+//     //       sameSite: "none"
+//     //     });
+//     //     res.status(200).json({accessToken:accessToken,role:user.role})
+//     //   }
+//     // }else{
+//     //   res.status(500).json({err:"ndoeu"});
+//     // }
+//   } catch (err) {
+//     console.log("err",err)
+//     res.status(500).json({err:err});
+//   }
+// });
+
+
 router.get("/login/success",async (req, res) => {
   try {
-    console.log("daskjdklasjkjaskdksjakhdjsah")
-   
+    
     if (req.user) {
       const user = req.user
-      
+  
       const User_db = await User.findOne({email:user._json.email})
       if(User_db){
         const accessToken = await authController.generateAccessToken(User_db);
         const refreshToken = await authController.generateRefreshToken(User_db);
         res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure:true,
-          path: "/",
-          sameSite: "none"
+          // httpOnly: true,
+          // secure:true,
+          // path: "/",
+          // sameSite: "none"
         });
         res.status(200).json({accessToken:accessToken,role:User_db.role})
       }else{
@@ -38,22 +84,22 @@ router.get("/login/success",async (req, res) => {
         const accessToken = await authController.generateAccessToken(newUser);
         const refreshToken = await authController.generateRefreshToken(newUser);
         res.cookie("refreshToken", refreshToken, {
-          httpOnly: true,
-          secure:true,
-          path: "/",
-          sameSite: "none"
+          // httpOnly: true,
+          // secure:true,
+          // path: "/",
+          // sameSite: "none"
         });
         res.status(200).json({accessToken:accessToken,role:user.role})
+
       }
     }else{
       res.status(500).json({err:"ndoeu"});
     }
   } catch (err) {
     console.log(err)
-    res.status(500).json({err:err});
+    res.status(500).json(err);
   }
 });
-
 
 
 
@@ -84,7 +130,7 @@ router.get("/refreshtoken", authController.requestRefreshToken);
 router.get("/google", passport.authenticate("google", { scope: ["profile","email"] }));
 router.get(
   "/google/callback",(req, res,next) => {
- 
+    // console.log("reqssssssssssssssssssssssssssssssssssss",req)
     next();
   },
  

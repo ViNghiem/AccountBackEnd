@@ -8,7 +8,7 @@ const CryptoJS = require('crypto-js'); // npm install crypto-js
 const moment = require('moment');
 const OrderItem = require('../../model/Order/ItemOrder')
 const User = require('../../model/UserModel')
-
+const WarehauseAddress = require('../../model/Order/WarehauseAddress')
 
 var dotenv = require("dotenv");
 dotenv.config();
@@ -37,6 +37,26 @@ function createHmacSha256Signature(data) {
   hmac.update(data);
   return hmac.digest('hex');
 }
+
+async function getShipping(idProvince,idDistrict,idCommune){
+  const Warehouse =  await WarehauseAddress.findOne()
+  if(idProvince === Warehouse.idProvince){
+    let checkidDistrict = Warehouse.listIdDistrict.filter(e =>{
+      return e === idDistrict
+    })
+      if(checkidDistrict.length > 0){
+        return Warehouse.Uban
+      }else{
+        return Warehouse.Sububan
+      }
+  }else{
+    return Warehouse.Sububan
+  }
+}
+
+
+
+
 
 const OrderControler = {
   creatOrder: async (req, res) => {
@@ -77,14 +97,10 @@ const OrderControler = {
   
       const _Mystore_key = req.cookies._Mystore_key
       const id_incart = await Cart.findOne({ idPicel: _Mystore_key })
-
-      
-
-
-      console.log(Global)
+      // console.log(Global)
       // console.log('listUser---------------------------------')
       const listUser = await User.find({role:'approved',isAdmin:false})
-      console.log('listUser---------------------------------',listUser)
+      // console.log('listUser---------------------------------',listUser)
     
     //   const listDataUserKPI = listUser.map( async (user)=> {
     //    let total =await user.getTotalBill()
@@ -100,10 +116,13 @@ const OrderControler = {
 
     // listDataUserKPI.filter
 
-    console.log("listDataUserKPI",listDataUserKPI)
+    // console.log("listDataUserKPI",listDataUserKPI)
     const userStaffHandlingLsy = await getMinBill(listDataUserKPI)
+    const shippingValue = await getShipping(req.body.order.province_id,req.body.order.district_id,req.body.order.commune_id)
+    const totalAmount = req.cart.total_price + shippingValue
 
-     console.log('userStaffHandlingLsy---------------------------------',userStaffHandlingLsy )
+
+   
       const  Bill = await new Order({
         full_name:req.body.order.full_name,
         address:req.body.order.address,
@@ -113,8 +132,10 @@ const OrderControler = {
         phone_number:req.body.order.phone_number,
         email:req.body.order.email,
         note:req.body.order.note,
+        shippingfee:shippingValue,
+        provisional:req.cart.total_price,
         payment_method:req.body.payment_method,
-        totalAmount:req.cart.total_price,
+        totalAmount: totalAmount ,
         StaffHandlingLsy:userStaffHandlingLsy._id
       });
       const OrderBill = await Bill.save();
@@ -167,7 +188,7 @@ const OrderControler = {
       order.mac = CryptoJS.HmacSHA256(data, config.key1).toString();
       axios.post(config.endpoint, null, { params: order })
       .then(respo => {
-          console.log(respo.data);
+          // console.log(respo.data);
           res.redirect(respo.data.order_url) 
           // res.send('<script>window.location.href = "res.data.order_url}";</script>');
       })
@@ -177,7 +198,7 @@ const OrderControler = {
         const gia = OrderBill.totalAmount;
         const orderId = OrderBill._id.toString();
         const amount  = gia.toString()
-        console.log(typeof amount )
+        // console.log(typeof amount )
         const endpoint = 'https://test-payment.momo.vn/gw_payment/transactionProcessor';
         const returnUrl = `${Domain}/ordersucces`;
         const requestPayload = {
@@ -194,11 +215,11 @@ const OrderControler = {
       
       
         const row =`partnerCode=${requestPayload.partnerCode}&accessKey=${requestPayload.accessKey}&requestId=${requestPayload.requestId}&amount=${requestPayload.amount}&orderId=${requestPayload.orderId}&orderInfo=${requestPayload.orderInfo}&returnUrl=${requestPayload.returnUrl}&notifyUrl=${requestPayload.notifyUrl}&extraData=`
-        console.log('row',row)
+        // console.log('row',row)
         const datass = JSON.stringify(requestPayload);
-        console.log('Empty',datass)
+        // console.log('Empty',datass)
         const signature = createHmacSha256Signature(row);
-        console.log('signature',signature)
+        // console.log('signature',signature)
         const requestType= 'captureMoMoWallet'
         const headers = {
           'Content-Type': 'application/json',
@@ -214,7 +235,7 @@ const OrderControler = {
       
         try {
           const response = await axios.post(endpoint, requestData, { headers });
-          console.log('Momo response:', response.data);
+          // console.log('Momo response:', response.data);
       
           res.redirect(response.data.payUrl) 
         } catch (error) {
@@ -238,7 +259,7 @@ const OrderControler = {
       const _Mystore_key = req.cookies._Mystore_key
 
       const infoOrder = await Order.findOne({_id:orderId})
-      console.log('infoOrder',infoOrder)
+      // console.log('infoOrder',infoOrder)
       const {...infoOrders} = infoOrder._doc
 
       const orderItem = await OrderItem.find({idOrder:orderId })
@@ -251,11 +272,11 @@ const OrderControler = {
 
       await Cart.deleteOne({ idPicel: _Mystore_key })
       const Global = req.cart
-      console.log('orderItem',orderItem)  
+      // console.log('orderItem',orderItem)  
       // res.status(200).json({mess:req.query.message,orderItem:orderItem,infoOrder:infoOrder})
       res.render('Odersucces',{template:{title:'Mua hàng thành công',order_items:arr,infoOrder:infoOrders},global:{cart:Global}});
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       res.status(500).json({error:error})
     }
   }

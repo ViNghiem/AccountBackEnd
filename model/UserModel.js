@@ -21,9 +21,6 @@ const userSchema = new mongoose.Schema(
       sparse: true,
     },
 
-
-
-
     adress: [{
       type: mongoose.Schema.Types.ObjectId,
       ref:"Address"

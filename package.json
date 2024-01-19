@@ -10,7 +10,7 @@
     "author": "",
     "license": "ISC",
     "engines": {
-        "node": "16.x"
+        "node": "18.x"
     },
     "dependencies": {
         "@fortawesome/free-solid-svg-icons": "^6.4.0",

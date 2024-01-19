@@ -191,7 +191,26 @@
                   {% endfor %}
 
                 </div>
-
+                <div class="product-name-total cart_item">
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="total-left">
+                        <b>Phí vận chuyển</b>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="total-right">
+                        <b>
+                          <span
+                            class="is-float-right shipping_fee"
+                            id="shipping-fee"
+                            data-price=0
+                            style="text-transform: lowercase">0đ</span>
+                        </b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="product-name-total cart_item">
                   <div class="row">
                     <div class="col-6">
@@ -274,6 +293,7 @@
   <script>
 
     console.log("global", {{ global | json }})
+    const global = {{ global | json }}
 
     function getJSON(url) {
       var resp;
@@ -349,8 +369,7 @@
       } else {
         optCommune.innerHTML = ''
         optCommune.innerHTML = '<option disable value="">Chọn Phường/ Xã</option>'
-      }
-      calcFee()
+      } calcFee()
     }
 
     function formatMoney(num) {
@@ -359,87 +378,120 @@
 
 
 
-    const submit = document.getElementById('submit')
-    submit.addEventListener('click', () => {
-      let form = document.getElementById('quick-buy');
-      let check = enableButtonConfirm();
-      if (check) {
-        form.submit()
+    function calcFee() {
+      let province = document.getElementById('optCity')
+        let district = document.getElementById('optDistrict')
+          let proValue = province.value
+            let diValue = district.value
+              var xmlhttp = new XMLHttpRequest(),
+                method = 'GET',
+                url = `/shippingfree?idProvince=${proValue}&idDistrict=${diValue}`;
+              xmlhttp.open(method, url, true);
+              xmlhttp.addEventListener('load', function() {
+                let res = JSON.parse(this.response)
+                console.log(res)
+                let shippingFee = document.getElementById('shipping-fee')
+                let invoiceAmount = document.getElementById('invoice-amount')
+                if (shippingFee && invoiceAmount) {
+                  let formatter = new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                  });
+                  shippingFee.innerHTML = `${
+                    formatter.format(res.shippingFee)
+                  }`
+                  let tong = parseInt(global.cart.total_price) + parseInt(res.shippingFee)
+                  console.log(global.cart.total_price)
+                  invoiceAmount.innerHTML = `${
+                    formatter.format(tong)
+                  }`
+                }
+              })
+              xmlhttp.send()
+            }
 
-      }
-    })
 
-    function validatePhoneNumber(input_str) {
-      var re = /^(\+84|84|0)(5[5|8|9|6]|8[1|2|3|4|5|8|6|9|7]|3[2|3|4|5|6|7|8|9]|7[0|9|7|6|8]|9[0|2|1|4|3|6|7|8|9]|1[2|9])([0-9]{7})$/im;
-      return re.test(input_str);
-    }
+            const submit = document.getElementById('submit')
+            submit.addEventListener('click', () => {
+              let form = document.getElementById('quick-buy');
+              let check = enableButtonConfirm();
+              if (check) {
+                form.submit()
 
-    let regex = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
+              }
+            })
 
-    function enableButtonConfirm() {
-      var fullname = document.getElementById("fullname");
-      var address = document.getElementById("address");
-      var province = document.getElementById("optCity");
-      var district = document.getElementById("optDistrict");
-      var commune = document.getElementById("optCommunes");
-      var phone_number = document.getElementById("phone_number");
-      var email = document.getElementById("email");
+            function validatePhoneNumber(input_str) {
+              var re = /^(\+84|84|0)(5[5|8|9|6]|8[1|2|3|4|5|8|6|9|7]|3[2|3|4|5|6|7|8|9]|7[0|9|7|6|8]|9[0|2|1|4|3|6|7|8|9]|1[2|9])([0-9]{7})$/im;
+              return re.test(input_str);
+            }
 
-      if (fullname.value == "") {
-        fullname.focus();
-        alert('Vui lòng nhập đầy đủ họ tên');
-        return false;
-      }
+            let regex = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
 
-      if (address.value == "") {
-        address.focus();
-        alert('Địa chỉ không được để trống')
-        return false;
-      }
+            function enableButtonConfirm() {
+              var fullname = document.getElementById("fullname");
+              var address = document.getElementById("address");
+              var province = document.getElementById("optCity");
+              var district = document.getElementById("optDistrict");
+              var commune = document.getElementById("optCommunes");
+              var phone_number = document.getElementById("phone_number");
+              var email = document.getElementById("email");
 
-      if (province.value == "") {
-        province.focus();
-        alert('Bạn chưa chọn tỉnh thành')
-        return false;
-      }
+              if (fullname.value == "") {
+                fullname.focus();
+                alert('Vui lòng nhập đầy đủ họ tên');
+                return false;
+              }
 
-      if (district.value == "") {
-        district.focus();
-        alert('Bạn chưa chọn huyện')
-        return false;
-      }
+              if (address.value == "") {
+                address.focus();
+                alert('Địa chỉ không được để trống')
+                return false;
+              }
 
-      if (commune.value == "Chọn Phường/ Xã") {
-        commune.focus();
-        alert('Bạn chưa chọn phường xã')
-        return false;
-      }
+              if (province.value == "") {
+                province.focus();
+                alert('Bạn chưa chọn tỉnh thành')
+                return false;
+              }
 
-      if (phone_number.value == "") {
-        phone_number.focus();
-        alert('Số điện thoại không được để trống')
-        return false;
-      } else {
-        if (validatePhoneNumber(phone_number.value) == false) {
-          phone_number.focus();
-          alert('Số điện thoại không đúng định dạng')
-          return false;
-        }
-      }
+              if (district.value == "") {
+                district.focus();
+                alert('Bạn chưa chọn huyện')
+                return false;
+              }
 
-      if (email.value == "") {
-        email.focus();
-        alert('Email của bạn không được để trống')
-        return false;
-      } else {
-        if (regex.test(email.value) == false) {
-          email.focus();
-          alert('Email không đúng định dạng')
-          return false;
-        }
-      }
-      return true;
-    }
+              if (commune.value == "Chọn Phường/ Xã") {
+                commune.focus();
+                alert('Bạn chưa chọn phường xã')
+                return false;
+              }
+
+              if (phone_number.value == "") {
+                phone_number.focus();
+                alert('Số điện thoại không được để trống')
+                return false;
+              } else {
+                if (validatePhoneNumber(phone_number.value) == false) {
+                  phone_number.focus();
+                  alert('Số điện thoại không đúng định dạng')
+                  return false;
+                }
+              }
+
+              if (email.value == "") {
+                email.focus();
+                alert('Email của bạn không được để trống')
+                return false;
+              } else {
+                if (regex.test(email.value) == false) {
+                  email.focus();
+                  alert('Email không đúng định dạng')
+                  return false;
+                }
+              }
+              return true;
+            }
   </script>
 
 {% endblock %}
